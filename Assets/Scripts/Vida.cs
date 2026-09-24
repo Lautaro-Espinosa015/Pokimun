@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Vida : MonoBehaviour
 {
@@ -16,6 +17,23 @@ public class Vida : MonoBehaviour
         if (barraVida != null)
         {
             barraVida.InicializarBarra(maxVida);
+        }
+    }
+    
+    void Update()
+    {
+        if (Keyboard.current != null)
+        {
+            // Presiona Espacio para probar recibir 10 de daño
+            if (Keyboard.current.spaceKey.wasPressedThisFrame)
+            {
+                RecibirDanio(10);
+            }
+            // Presiona H para curar 10
+            if (Keyboard.current.hKey.wasPressedThisFrame)
+            {
+                Curar(10);
+            }
         }
     }
 

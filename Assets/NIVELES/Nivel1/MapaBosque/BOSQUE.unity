@@ -6824,6 +6824,75 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4179565050224946, guid: a2fbc4036fe0e9f40899ea784ee93073, type: 3}
   m_PrefabInstance: {fileID: 1166308034}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1167999424
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1167999427}
+  - component: {fileID: 1167999426}
+  - component: {fileID: 1167999425}
+  m_Layer: 0
+  m_Name: GestorNivel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1167999425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167999424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75866c8a01ec4fef96ebe20e7aabc878, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ControladorAtaqueJugador
+  jugadaSeleccionada: 0
+--- !u!114 &1167999426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167999424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7aca411cea77b14e97745d1a8f394fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GestorNivel
+  maxTurnos: 5
+  turnoActual: 1
+  danioBase: 25
+  factorReduccionDefensa: 0.5
+  tiempoPausaRival: 1.2
+  vidaJugador: {fileID: 657088344}
+  vidaEnemigo: {fileID: 1023636290}
+  controladorAtaqueJugador: {fileID: 1167999425}
+  estadoActual: 0
+  jugadorDefendiendo: 0
+  rivalDefendiendo: 0
+--- !u!4 &1167999427
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167999424}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 21.16768, y: 0, z: 9.98203}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1178556457
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10814,3 +10883,4 @@ SceneRoots:
   - {fileID: 510046698}
   - {fileID: 2023369570}
   - {fileID: 1704480498}
+  - {fileID: 1167999427}

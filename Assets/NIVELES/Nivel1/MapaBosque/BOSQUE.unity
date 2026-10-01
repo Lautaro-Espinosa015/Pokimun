@@ -2637,7 +2637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.94, g: 0.34, b: 0.36, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5671,7 +5671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.12, g: 0.18, b: 0.22, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6835,6 +6835,7 @@ GameObject:
   - component: {fileID: 1167999427}
   - component: {fileID: 1167999426}
   - component: {fileID: 1167999425}
+  - component: {fileID: 1167999428}
   m_Layer: 0
   m_Name: GestorNivel
   m_TagString: Untagged
@@ -6872,12 +6873,29 @@ MonoBehaviour:
   danioBase: 25
   factorReduccionDefensa: 0.5
   tiempoPausaRival: 1.2
+  multiplicadorDanioGrito: 1.5
   vidaJugador: {fileID: 657088344}
   vidaEnemigo: {fileID: 1023636290}
   controladorAtaqueJugador: {fileID: 1167999425}
   estadoActual: 0
   jugadorDefendiendo: 0
   rivalDefendiendo: 0
+--- !u!114 &1167999428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167999424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 126311f7a0525e44491439eaabde5d1a, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::DetectorCommandControl
+  gestorNivel: {fileID: 1167999426}
+  umbralGritoRms: 0.12
+  ventanaNivelVoz: 1
+  frecuenciaMuestreoMicrofono: 16000
 --- !u!4 &1167999427
 Transform:
   m_ObjectHideFlags: 0
@@ -8196,7 +8214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.12, g: 0.18, b: 0.22, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -10478,7 +10496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.24, g: 0.82, b: 0.50, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

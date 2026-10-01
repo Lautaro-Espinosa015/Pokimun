@@ -43,6 +43,8 @@ public class GestorNivel : MonoBehaviour
     [SerializeField] private float factorReduccionDefensa = 0.5f;
     [Tooltip("Tiempo de espera en segundos para simular el turno y respuesta de la CPU.")]
     [SerializeField] private float tiempoPausaRival = 1.2f;
+    [Tooltip("Multiplicador de daño cuando el jugador grita el nombre del ataque.")]
+    [SerializeField, Min(1f)] private float multiplicadorDanioGrito = 1.5f;
 
     [Header("Referencias de Vida")]
     [SerializeField] private Vida vidaJugador;
@@ -51,6 +53,13 @@ public class GestorNivel : MonoBehaviour
     [Header("Módulo de Ataque del Jugador")]
     [Tooltip("Script externo que determina la jugada del jugador. Puede ser implementado por otro compañero.")]
     [SerializeField] private ControladorAtaqueJugador controladorAtaqueJugador;
+
+    [Header("Presentación de Acciones")]
+    [Tooltip("Espera antes de resolver el daño de un ataque, para dejar espacio a animación o sonido.")]
+    [SerializeField, Min(0f)] private float tiempoFeedbackAtaque = 4f;
+    [Tooltip("Duración del aviso visual al activar ESCUDO.")]
+    [SerializeField, Min(0f)] private float tiempoFeedbackDefensa = 1.5f;
+    private FeedbackAtaqueUI feedbackAtaqueUI;
 
     [Header("Estado de la Partida")]
     [SerializeField] private EstadoJuego estadoActual = EstadoJuego.EsperandoInicio;
@@ -75,9 +84,25 @@ public class GestorNivel : MonoBehaviour
             }
         }
 
+        feedbackAtaqueUI = GetComponent<FeedbackAtaqueUI>();
+        if (feedbackAtaqueUI == null)
+        {
+            feedbackAtaqueUI = gameObject.AddComponent<FeedbackAtaqueUI>();
+        }
         IniciarPartida();
     }
 
+    private void AsegurarFeedbackAtaqueUI()
+    {
+        if (feedbackAtaqueUI == null)
+        {
+            feedbackAtaqueUI = GetComponent<FeedbackAtaqueUI>();
+            if (feedbackAtaqueUI == null)
+            {
+                feedbackAtaqueUI = gameObject.AddComponent<FeedbackAtaqueUI>();
+            }
+        }
+    }
     private void Update()
     {
         // Controles de prueba rápida para la Demo mediante teclado
@@ -107,26 +132,65 @@ public class GestorNivel : MonoBehaviour
     /// </summary>
     public void JugadorSeleccionarAtaque()
     {
+        EjecutarAtaqueJugador(false);
+    }
+
+    /// <summary>
+    /// Selecciona y ejecuta una jugada recibida por voz. El grito potencia el daño si el ataque acierta.
+    /// </summary>
+    public void JugadorSeleccionarAtaque(JugadaRPS jugada, bool ataqueGritado)
+    {
+        if (controladorAtaqueJugador != null)
+        {
+            controladorAtaqueJugador.EstablecerJugada(jugada);
+        }
+
+        EjecutarAtaqueJugador(ataqueGritado);
+    }
+
+    private void EjecutarAtaqueJugador(bool ataquePotenciado)
+    {
         if (estadoActual != EstadoJuego.TurnoJugador) return;
 
         estadoActual = EstadoJuego.ResolviendoAccion;
         jugadorDefendiendo = false;
+        StartCoroutine(RutinaAtaqueJugador(ataquePotenciado));
+    }
 
-        // Invocamos el método del script modular para obtener la jugada
+    private IEnumerator RutinaAtaqueJugador(bool ataquePotenciado)
+    {
+        // Se decide el choque antes de mostrarlo para saber si el aviso debe destacar un crítico.
         JugadaRPS jugadaJugador = ObtenerJugadaAtaqueJugador();
-
-        // La CPU escoge una jugada para competir en Piedra, Papel o Tijeras
         JugadaRPS jugadaRival = ObtenerJugadaAleatoriaCPU();
+        int resultado = CompararRPS(jugadaJugador, jugadaRival);
+        bool ataqueCritico = ataquePotenciado && resultado > 0;
+
+        if (feedbackAtaqueUI == null)
+        {
+            feedbackAtaqueUI = GetComponent<FeedbackAtaqueUI>();
+            if (feedbackAtaqueUI == null)
+            {
+                feedbackAtaqueUI = gameObject.AddComponent<FeedbackAtaqueUI>();
+            }
+        }
+
+        float duracionFeedback = Mathf.Max(0f, tiempoFeedbackAtaque);
+        feedbackAtaqueUI.MostrarAtaque(NombreAtaqueEnPantalla(jugadaJugador), ataqueCritico, duracionFeedback);
+        yield return new WaitForSecondsRealtime(duracionFeedback);
 
         NotificarMensaje($"Tú elegiste [{jugadaJugador}] vs CPU eligió [{jugadaRival}].");
-
-        // Comparación de Piedra, Papel o Tijeras
-        int resultado = CompararRPS(jugadaJugador, jugadaRival);
 
         if (resultado > 0)
         {
             // Jugador gana el RPS -> Daño al enemigo
-            int danio = CalcularDanio(danioBase, rivalDefendiendo);
+            int danioBaseAtaque = ataquePotenciado
+                ? Mathf.RoundToInt(danioBase * multiplicadorDanioGrito)
+                : danioBase;
+            int danio = CalcularDanio(danioBaseAtaque, rivalDefendiendo);
+            if (ataquePotenciado)
+            {
+                NotificarMensaje("¡Grito potente! El ataque recibió daño extra.");
+            }
             NotificarMensaje($"¡Ganaste el choque! Infliges {danio} de daño al rival.");
             if (vidaEnemigo != null)
             {
@@ -145,12 +209,26 @@ public class GestorNivel : MonoBehaviour
         }
 
         // Comprobamos si el enemigo cayó derrotado
-        if (VerificarFinDePartida()) return;
+        if (VerificarFinDePartida()) yield break;
 
         // Pasamos al turno del rival
         StartCoroutine(RutinaTurnoRival());
     }
 
+    private static string NombreAtaqueEnPantalla(JugadaRPS jugada)
+    {
+        switch (jugada)
+        {
+            case JugadaRPS.Piedra:
+                return "ROCA";
+            case JugadaRPS.Papel:
+                return "HOJA";
+            case JugadaRPS.Tijera:
+                return "TIJERA";
+            default:
+                return jugada.ToString().ToUpperInvariant();
+        }
+    }
     /// <summary>
     /// Ejecuta la acción de Defensa del jugador para reducir el daño en el turno del rival.
     /// Puede ser llamado desde botones de la UI (OnClick).
@@ -161,6 +239,9 @@ public class GestorNivel : MonoBehaviour
 
         estadoActual = EstadoJuego.ResolviendoAccion;
         jugadorDefendiendo = true;
+
+        AsegurarFeedbackAtaqueUI();
+        feedbackAtaqueUI.MostrarDefensa(tiempoFeedbackDefensa);
 
         NotificarMensaje("Te has puesto en guardia para defenderte del próximo ataque.");
 
@@ -207,6 +288,11 @@ public class GestorNivel : MonoBehaviour
             rivalDefendiendo = false;
             JugadaRPS ataqueRival = ObtenerJugadaAleatoriaCPU();
             NotificarMensaje($"El rival lanza un ataque con [{ataqueRival}].");
+
+            AsegurarFeedbackAtaqueUI();
+            float duracionFeedback = Mathf.Max(0f, tiempoFeedbackAtaque);
+            feedbackAtaqueUI.MostrarAtaque(NombreAtaqueEnPantalla(ataqueRival), false, duracionFeedback, true);
+            yield return new WaitForSecondsRealtime(duracionFeedback);
 
             // Si el jugador decidió defenderse en su turno, absorbe gran parte del daño
             if (jugadorDefendiendo)

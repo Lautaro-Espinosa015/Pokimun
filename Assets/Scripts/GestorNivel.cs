@@ -43,6 +43,8 @@ public class GestorNivel : MonoBehaviour
     [SerializeField] private float factorReduccionDefensa = 0.5f;
     [Tooltip("Tiempo de espera en segundos para simular el turno y respuesta de la CPU.")]
     [SerializeField] private float tiempoPausaRival = 1.2f;
+    [Tooltip("Multiplicador de daño cuando el jugador grita el nombre del ataque.")]
+    [SerializeField, Min(1f)] private float multiplicadorDanioGrito = 1.5f;
 
     [Header("Referencias de Vida")]
     [SerializeField] private Vida vidaJugador;
@@ -107,6 +109,24 @@ public class GestorNivel : MonoBehaviour
     /// </summary>
     public void JugadorSeleccionarAtaque()
     {
+        EjecutarAtaqueJugador(false);
+    }
+
+    /// <summary>
+    /// Selecciona y ejecuta una jugada recibida por voz. El grito potencia el daño si el ataque acierta.
+    /// </summary>
+    public void JugadorSeleccionarAtaque(JugadaRPS jugada, bool ataqueGritado)
+    {
+        if (controladorAtaqueJugador != null)
+        {
+            controladorAtaqueJugador.EstablecerJugada(jugada);
+        }
+
+        EjecutarAtaqueJugador(ataqueGritado);
+    }
+
+    private void EjecutarAtaqueJugador(bool ataquePotenciado)
+    {
         if (estadoActual != EstadoJuego.TurnoJugador) return;
 
         estadoActual = EstadoJuego.ResolviendoAccion;
@@ -126,7 +146,14 @@ public class GestorNivel : MonoBehaviour
         if (resultado > 0)
         {
             // Jugador gana el RPS -> Daño al enemigo
-            int danio = CalcularDanio(danioBase, rivalDefendiendo);
+            int danioBaseAtaque = ataquePotenciado
+                ? Mathf.RoundToInt(danioBase * multiplicadorDanioGrito)
+                : danioBase;
+            int danio = CalcularDanio(danioBaseAtaque, rivalDefendiendo);
+            if (ataquePotenciado)
+            {
+                NotificarMensaje("¡Grito potente! El ataque recibió daño extra.");
+            }
             NotificarMensaje($"¡Ganaste el choque! Infliges {danio} de daño al rival.");
             if (vidaEnemigo != null)
             {

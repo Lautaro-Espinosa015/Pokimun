@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Windows.Speech;
+using UnityEngine.InputSystem;
 
 /// <summary>
-/// Reconoce los comandos de voz del combate y los envía al GestorNivel.
-/// Comandos: Roca (ataque 1), Hoja (ataque 2), Tijera (ataque 3), Escudo (defensa).
+/// Reconoce los comandos de voz del combate y (temporalmente) dispara las animaciones directamente
+/// para la presentación. Comandos: Roca (ataque 1), Hoja (ataque 2), Tijera (ataque 3), Escudo (defensa).
+/// También soporta Numpad 1, 2, 3 y 0 para pruebas sin voz usando el Nuevo Input System.
 /// </summary>
 public class DetectorCommandControl : MonoBehaviour
 {
@@ -22,8 +24,9 @@ public class DetectorCommandControl : MonoBehaviour
         }
     }
 
-    [Header("Referencias")]
-    [SerializeField] private GestorNivel gestorNivel;
+    [Header("Referencias (Demo Animaciones)")]
+    [Tooltip("Arrastra aquí a tu personaje Ender_Hydros")]
+    [SerializeField] private ControladorAnimaciones controladorAnimaciones;
 
     [Header("Potencia por voz")]
     [Tooltip("Nivel RMS mínimo del micrófono para considerar que el comando fue gritado. Ajustar según el micrófono.")]
@@ -39,16 +42,13 @@ public class DetectorCommandControl : MonoBehaviour
     private readonly Queue<MedicionMicrofono> medicionesRecientes = new Queue<MedicionMicrofono>();
     private bool microfonoDisponible;
 
+    private bool defendiendoActualmente = false;
+
     private void Start()
     {
-        if (gestorNivel == null)
+        if (controladorAnimaciones == null)
         {
-            gestorNivel = GetComponent<GestorNivel>();
-        }
-
-        if (gestorNivel == null)
-        {
-            gestorNivel = FindFirstObjectByType<GestorNivel>();
+            controladorAnimaciones = FindFirstObjectByType<ControladorAnimaciones>();
         }
 
         PrepararComandos();
@@ -59,6 +59,26 @@ public class DetectorCommandControl : MonoBehaviour
     private void Update()
     {
         MedirNivelMicrofono();
+
+        // ======= CONTROLES POR TECLADO (NUEVO INPUT SYSTEM) =======
+        if (Keyboard.current != null)
+        {
+            if (Keyboard.current.numpad1Key.wasPressedThisFrame || Keyboard.current.digit1Key.wasPressedThisFrame)
+            {
+                Debug.Log("[Teclado] Ataque Básico 'Hidro Pulso' (Numpad 1)");
+                if (controladorAnimaciones != null) controladorAnimaciones.EjecutarAtaque(JugadaRPS.Tijera);
+            }
+            if (Keyboard.current.numpad2Key.wasPressedThisFrame || Keyboard.current.digit2Key.wasPressedThisFrame)
+            {
+                Debug.Log("[Teclado] Ataque Crítico 'Hidro Pulso' (Numpad 2)");
+                if (controladorAnimaciones != null) controladorAnimaciones.EjecutarAtaqueCritico(JugadaRPS.Tijera);
+            }
+            if (Keyboard.current.numpad3Key.wasPressedThisFrame || Keyboard.current.digit3Key.wasPressedThisFrame)
+            {
+                Debug.Log("[Teclado] Alternando Defensa (Numpad 3)");
+                EjecutarDefensa();
+            }
+        }
     }
 
     private void OnDisable()
@@ -84,10 +104,14 @@ public class DetectorCommandControl : MonoBehaviour
     private void PrepararComandos()
     {
         comandos.Clear();
-        comandos.Add("roca", () => EjecutarAtaque(JugadaRPS.Piedra));
-        comandos.Add("hoja", () => EjecutarAtaque(JugadaRPS.Papel));
+        // Comandos de Ataque (El nivel de voz decidirá si es normal o crítico)
+        comandos.Add("hidro pulso", () => EjecutarAtaque(JugadaRPS.Tijera));
         comandos.Add("tijera", () => EjecutarAtaque(JugadaRPS.Tijera));
-        comandos.Add("escudo", EjecutarDefensa);
+
+        // Comandos de Defensa
+        comandos.Add("bloqueo", EjecutarDefensa);
+        comandos.Add("defensa", EjecutarDefensa);
+        comandos.Add("piedra", EjecutarDefensa);
     }
 
     private void IniciarReconocedor()
@@ -97,7 +121,7 @@ public class DetectorCommandControl : MonoBehaviour
             reconocedor = new KeywordRecognizer(comandos.Keys.ToArray());
             reconocedor.OnPhraseRecognized += AlReconocerFrase;
             reconocedor.Start();
-            Debug.Log("[DetectorCommandControl] Escuchando: Roca, Hoja, Tijera y Escudo.");
+            Debug.Log("[DetectorCommandControl] Escuchando: Hidro pulso, Tijera, Bloqueo, Defensa, Piedra.");
         }
         catch (Exception excepcion)
         {
@@ -109,31 +133,21 @@ public class DetectorCommandControl : MonoBehaviour
     {
         if (Microphone.devices.Length == 0)
         {
-            Debug.LogWarning("[DetectorCommandControl] No se encontró un micrófono para medir el volumen; los ataques no podrán potenciarse por grito.");
+            Debug.LogWarning("[DetectorCommandControl] No se encontró un micrófono.");
             return;
         }
 
         clipMicrofono = Microphone.Start(null, true, 1, frecuenciaMuestreoMicrofono);
         microfonoDisponible = clipMicrofono != null;
-        if (!microfonoDisponible)
-        {
-            Debug.LogWarning("[DetectorCommandControl] No se pudo abrir el micrófono para medir el volumen.");
-        }
     }
 
     private void MedirNivelMicrofono()
     {
-        if (!microfonoDisponible || clipMicrofono == null)
-        {
-            return;
-        }
+        if (!microfonoDisponible || clipMicrofono == null) return;
 
         int posicion = Microphone.GetPosition(null);
         int inicio = posicion - muestrasMicrofono.Length;
-        if (posicion <= 0 || inicio < 0 || !clipMicrofono.GetData(muestrasMicrofono, inicio))
-        {
-            return;
-        }
+        if (posicion <= 0 || inicio < 0 || !clipMicrofono.GetData(muestrasMicrofono, inicio)) return;
 
         double sumaCuadrados = 0;
         for (int i = 0; i < muestrasMicrofono.Length; i++)
@@ -155,7 +169,7 @@ public class DetectorCommandControl : MonoBehaviour
     {
         string frase = args.text.Trim().ToLowerInvariant();
         float nivelVoz = ObtenerNivelMaximoReciente();
-        Debug.Log($"[DetectorCommandControl] Reconocido: '{args.text}' (confianza: {args.confidence}, volumen: {nivelVoz:F2}).");
+        Debug.Log($"[Voz] Dijo: '{frase}' | Volumen: {nivelVoz:F2}");
 
         if (comandos.TryGetValue(frase, out Action comando))
         {
@@ -165,26 +179,38 @@ public class DetectorCommandControl : MonoBehaviour
 
     private void EjecutarAtaque(JugadaRPS jugada)
     {
-        if (gestorNivel == null)
+        if (controladorAnimaciones == null)
         {
-            Debug.LogWarning("[DetectorCommandControl] No hay un GestorNivel asignado.");
+            Debug.LogWarning("[DetectorCommandControl] Faltan animaciones.");
             return;
         }
 
+        // Si el volumen del micrófono pasa el umbral de grito
         bool gritado = microfonoDisponible && ObtenerNivelMaximoReciente() >= umbralGritoRms;
-        gestorNivel.JugadorSeleccionarAtaque(jugada, gritado);
+        
+        if (gritado)
+        {
+            Debug.Log($"[Voz] ¡Se detectó un GRITO para {jugada}! Disparando Crítico.");
+            controladorAnimaciones.EjecutarAtaqueCritico(jugada);
+        }
+        else
+        {
+            Debug.Log($"[Voz] Ataque normal de {jugada}.");
+            controladorAnimaciones.EjecutarAtaque(jugada);
+        }
+
         medicionesRecientes.Clear();
     }
 
     private void EjecutarDefensa()
     {
-        if (gestorNivel == null)
-        {
-            Debug.LogWarning("[DetectorCommandControl] No hay un GestorNivel asignado.");
-            return;
-        }
+        if (controladorAnimaciones == null) return;
 
-        gestorNivel.JugadorSeleccionarDefensa();
+        // Alterna entre encender y apagar el escudo
+        defendiendoActualmente = !defendiendoActualmente;
+        controladorAnimaciones.EjecutarDefensa(defendiendoActualmente);
+        Debug.Log($"[Voz/Teclado] Defensa cambiada a: {defendiendoActualmente}");
+        
         medicionesRecientes.Clear();
     }
 
@@ -195,7 +221,6 @@ public class DetectorCommandControl : MonoBehaviour
         {
             nivelMaximo = Mathf.Max(nivelMaximo, medicion.rms);
         }
-
         return nivelMaximo;
     }
 }

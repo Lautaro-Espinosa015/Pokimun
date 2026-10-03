@@ -91,9 +91,15 @@ public class GestorRedRelay : MonoBehaviour
 
     public async Task UnirseComoCliente(string codigoUnion)
     {
+        if (string.IsNullOrWhiteSpace(codigoUnion))
+        {
+            Debug.LogError("[GestorRedRelay] ¡No puedes unirte! El código de sala está vacío. Escribe el código que te dio el Host.");
+            return;
+        }
+
         try
         {
-            JoinAllocation asignacion = await RelayService.Instance.JoinAllocationAsync(codigoUnion);
+            JoinAllocation asignacion = await RelayService.Instance.JoinAllocationAsync(codigoUnion.Trim());
             
             RelayServerData relayServerData = new RelayServerData(asignacion, "dtls");
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);

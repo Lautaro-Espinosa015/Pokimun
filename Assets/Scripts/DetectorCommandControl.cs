@@ -25,8 +25,8 @@ public class DetectorCommandControl : MonoBehaviour
     }
 
     [Header("Referencias (Demo Animaciones)")]
-    [Tooltip("Arrastra aquí a tu personaje Ender_Hydros")]
-    [SerializeField] private ControladorAnimaciones controladorAnimaciones;
+    [Tooltip("Controladores de animaciones de todos los personajes en escena")]
+    [SerializeField] private ControladorAnimaciones[] controladoresAnimaciones;
 
     [Header("Potencia por voz")]
     [Tooltip("Nivel RMS mínimo del micrófono para considerar que el comando fue gritado. Ajustar según el micrófono.")]
@@ -46,9 +46,9 @@ public class DetectorCommandControl : MonoBehaviour
 
     private void Start()
     {
-        if (controladorAnimaciones == null)
+        if (controladoresAnimaciones == null || controladoresAnimaciones.Length == 0)
         {
-            controladorAnimaciones = FindFirstObjectByType<ControladorAnimaciones>();
+            controladoresAnimaciones = FindObjectsByType<ControladorAnimaciones>(FindObjectsSortMode.None);
         }
 
         PrepararComandos();
@@ -66,12 +66,12 @@ public class DetectorCommandControl : MonoBehaviour
             if (Keyboard.current.numpad1Key.wasPressedThisFrame || Keyboard.current.digit1Key.wasPressedThisFrame)
             {
                 Debug.Log("[Teclado] Ataque Básico 'Hidro Pulso' (Numpad 1)");
-                if (controladorAnimaciones != null) controladorAnimaciones.EjecutarAtaque(JugadaRPS.Tijera);
+                EjecutarAtaqueParaTodos(JugadaRPS.Tijera, false);
             }
             if (Keyboard.current.numpad2Key.wasPressedThisFrame || Keyboard.current.digit2Key.wasPressedThisFrame)
             {
                 Debug.Log("[Teclado] Ataque Crítico 'Hidro Pulso' (Numpad 2)");
-                if (controladorAnimaciones != null) controladorAnimaciones.EjecutarAtaqueCritico(JugadaRPS.Tijera);
+                EjecutarAtaqueParaTodos(JugadaRPS.Tijera, true);
             }
             if (Keyboard.current.numpad3Key.wasPressedThisFrame || Keyboard.current.digit3Key.wasPressedThisFrame)
             {
@@ -179,38 +179,49 @@ public class DetectorCommandControl : MonoBehaviour
 
     private void EjecutarAtaque(JugadaRPS jugada)
     {
-        if (controladorAnimaciones == null)
-        {
-            Debug.LogWarning("[DetectorCommandControl] Faltan animaciones.");
-            return;
-        }
-
-        // Si el volumen del micrófono pasa el umbral de grito
         bool gritado = microfonoDisponible && ObtenerNivelMaximoReciente() >= umbralGritoRms;
         
         if (gritado)
         {
             Debug.Log($"[Voz] ¡Se detectó un GRITO para {jugada}! Disparando Crítico.");
-            controladorAnimaciones.EjecutarAtaqueCritico(jugada);
         }
         else
         {
             Debug.Log($"[Voz] Ataque normal de {jugada}.");
-            controladorAnimaciones.EjecutarAtaque(jugada);
         }
 
+        EjecutarAtaqueParaTodos(jugada, gritado);
         medicionesRecientes.Clear();
+    }
+
+    private void EjecutarAtaqueParaTodos(JugadaRPS jugada, bool critico)
+    {
+        if (controladoresAnimaciones == null) return;
+        foreach (var animador in controladoresAnimaciones)
+        {
+            if (animador != null)
+            {
+                if (critico) animador.EjecutarAtaqueCritico(jugada);
+                else animador.EjecutarAtaque(jugada);
+            }
+        }
     }
 
     private void EjecutarDefensa()
     {
-        if (controladorAnimaciones == null) return;
+        if (controladoresAnimaciones == null) return;
 
-        // Alterna entre encender y apagar el escudo
         defendiendoActualmente = !defendiendoActualmente;
-        controladorAnimaciones.EjecutarDefensa(defendiendoActualmente);
-        Debug.Log($"[Voz/Teclado] Defensa cambiada a: {defendiendoActualmente}");
         
+        foreach (var animador in controladoresAnimaciones)
+        {
+            if (animador != null)
+            {
+                animador.EjecutarDefensa(defendiendoActualmente);
+            }
+        }
+        
+        Debug.Log($"[Voz/Teclado] Defensa cambiada a: {defendiendoActualmente}");
         medicionesRecientes.Clear();
     }
 

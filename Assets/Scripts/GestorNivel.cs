@@ -109,7 +109,7 @@ public class GestorNivel : MonoBehaviour
         {
             Debug.LogError("[Combate] Asigna dos componentes Vida activos y una barra distinta a cada personaje en GestorNivel.", this);
             estadoActual = EstadoJuego.FinDePartida;
-            feedback.MostrarFin("FALTA CONFIGURACIÓN", "Cada personaje necesita su Vida y su propia barra de PS.", null, VolverAlMenu);
+            feedback.MostrarFin("FALTA CONFIGURACIÓN", "Cada personaje necesita su Vida y su propia barra de PS.", null, VolverAlMenu, SalirDelJuego, false, false);
             return false;
         }
         if (controladorAnimacionesJugador == null || controladorAnimacionesEnemigo == null)
@@ -306,6 +306,9 @@ public class GestorNivel : MonoBehaviour
             vidaA.EstablecerVida(r.vidaAtacanteDespues);
             vidaD.EstablecerVida(r.vidaDefensorDespues);
             
+            // Actualizar la velocidad de la música si hay un jugador crítico (<=30%)
+            feedback?.ActualizarMusicaBatalla(vidaJugador.vidaActual, vidaJugador.maxVida, vidaEnemigo.vidaActual, vidaEnemigo.maxVida);
+            
             if (r.danioAplicado > 0) animD?.RecibirDano();
 
             // Si el escudo del defensor se agotó en esta acción, quitar el efecto visual
@@ -440,10 +443,23 @@ public class GestorNivel : MonoBehaviour
         if (resultado == ResultadoPartida.GanaJugador) { controladorAnimacionesJugador?.CelebrarVictoria(); controladorAnimacionesEnemigo?.CaerDerrotado(); }
         if (resultado == ResultadoPartida.GanaRival) { controladorAnimacionesEnemigo?.CelebrarVictoria(); controladorAnimacionesJugador?.CaerDerrotado(); }
         string detalle = $"{motivo}\nHydros: {vidaJugador?.vidaActual ?? 0} PS  ·  Ignis: {vidaEnemigo?.vidaActual ?? 0} PS\nRondas: {turnoActual}/{maxTurnos}";
-        feedback.MostrarFin(titulo, detalle, enLinea ? null : (Action)IniciarPartida, VolverAlMenu);
+        feedback.MostrarFin(titulo, detalle, enLinea ? null : (Action)IniciarPartida, VolverAlMenu, SalirDelJuego, victoria, resultado == ResultadoPartida.Empate);
         OnFinPartida?.Invoke(victoria);
         OnResultadoPartida?.Invoke(resultado);
         Log($"FIN resultado={resultado} motivo={motivo}");
+    }
+
+    private void SalirDelJuego()
+    {
+        var pm = FindFirstObjectByType<PauseManager>();
+        if (pm != null) pm.SalirJuego();
+        else
+        {
+            Application.Quit();
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        }
     }
 
     private void ActualizarEstado(string mensaje)

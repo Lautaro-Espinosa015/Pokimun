@@ -140,7 +140,7 @@ public class EfectoVisualPersonaje : MonoBehaviour
         if (!defensaActiva) return;
         defensaActiva = false;
         if (corrutinaDefensa != null) { StopCoroutine(corrutinaDefensa); corrutinaDefensa = null; }
-        StartCoroutine(FadeGlow(matDefensa, matDefensa.GetFloat(PropIntensidad), 0f, 0.7f,
+        corrutinaDefensa = StartCoroutine(FadeGlow(matDefensa, matDefensa.GetFloat(PropIntensidad), 0f, 0.7f,
             () => SetClonesState(glowRenderersDefensa, false)));
         Debug.Log($"[EfectoVisual] Escudo quitado → '{gameObject.name}'");
     }

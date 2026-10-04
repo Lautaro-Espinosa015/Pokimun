@@ -11,12 +11,35 @@ public class MenuManager : MonoBehaviour
     public GameObject menuCreditos;
     #endregion
 
+    private AudioSource[] audiosEnLoop;
+
     private void Start()
     {
         Time.timeScale = 1f;
-        AudioListener.volume = Mathf.Clamp01(PlayerPrefs.GetFloat("Volumen", 0.5f));
+        AudioListener.volume = 1f; // Siempre 1 para no afectar a los efectos
+        
+        // Cachear los audios en loop (música)
+        var todosLosAudios = FindObjectsByType<AudioSource>(FindObjectsSortMode.None);
+        System.Collections.Generic.List<AudioSource> loops = new System.Collections.Generic.List<AudioSource>();
+        foreach (var a in todosLosAudios) { if (a.loop) loops.Add(a); }
+        audiosEnLoop = loops.ToArray();
+
+        ActualizarVolumenMusica();
+
         // Buena práctica: Forzar que al arrancar solo el principal esté encendido
         Volver();
+    }
+
+    public void ActualizarVolumenMusica()
+    {
+        float volumenMusica = Mathf.Clamp01(PlayerPrefs.GetFloat("VolumenMusica", 0.5f));
+        if (audiosEnLoop != null)
+        {
+            foreach (var audio in audiosEnLoop)
+            {
+                if (audio != null) audio.volume = volumenMusica;
+            }
+        }
     }
 
     #region Botones Menu

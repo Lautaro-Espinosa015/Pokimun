@@ -4,8 +4,10 @@ using UnityEngine.UI;
 public class Options : MonoBehaviour
 {
     #region Variables volumen
-    public Slider volumen;
-    public float value;
+    public Slider volumenMusica;
+    public Slider volumenEfectos;
+    public float valueMusica;
+    public float valueEfectos;
     public Image mute;
     #endregion
     #region Variables PC
@@ -15,34 +17,41 @@ public class Options : MonoBehaviour
     void Start()
     {
         #region Start Volumen
-        value = Mathf.Clamp01(PlayerPrefs.GetFloat("Volumen", 0.5f));
-        if (volumen != null) volumen.SetValueWithoutNotify(value);
-        AudioListener.volume = value;
+        AudioListener.volume = 1f; // Forzar maestro al 100%
+        valueMusica = Mathf.Clamp01(PlayerPrefs.GetFloat("VolumenMusica", 0.5f));
+        valueEfectos = Mathf.Clamp01(PlayerPrefs.GetFloat("VolumenEfectos", 0.5f));
+        
+        if (volumenMusica != null) volumenMusica.SetValueWithoutNotify(valueMusica);
+        if (volumenEfectos != null) volumenEfectos.SetValueWithoutNotify(valueEfectos);
+        
         checkMute();
         #endregion
         #region Start PC
         if (fullscreen != null) fullscreen.SetIsOnWithoutNotify(Screen.fullScreen);
         #endregion
     }
+
     #region Volumen
-    public void changeVolumen(float valor)
+    public void changeVolumenMusica(float valor)
     {
-        value = Mathf.Clamp01(valor);
-        AudioListener.volume = value;
-        PlayerPrefs.SetFloat("Volumen", value);
+        valueMusica = Mathf.Clamp01(valor);
+        PlayerPrefs.SetFloat("VolumenMusica", valueMusica);
+        checkMute();
+        MenuManager menuManager = FindFirstObjectByType<MenuManager>();
+        if (menuManager != null) menuManager.ActualizarVolumenMusica();
+    }
+
+    public void changeVolumenEfectos(float valor)
+    {
+        valueEfectos = Mathf.Clamp01(valor);
+        PlayerPrefs.SetFloat("VolumenEfectos", valueEfectos);
         checkMute();
     }
+
     public void checkMute()
     {
         if (mute == null) return;
-        if (value == 0)
-        {
-            mute.enabled = true;
-        }
-        else
-        {
-            mute.enabled = false;
-        }
+        mute.enabled = (valueMusica == 0 && valueEfectos == 0);
     }
     #endregion
 

@@ -22,6 +22,7 @@ public class FeedbackAtaqueUI : MonoBehaviour
     private static readonly Color Verde = new Color(.4f, .9f, .75f);
     private static readonly Color Oro = new Color(1f, .78f, .3f);
     private static readonly Color Rojo = new Color(1f, .55f, .48f);
+    private static readonly Color Morado = new Color(.6f, .3f, 1f);
 
     public void ActualizarEstado(int ronda, int maxRondas, string personaje, string mensaje, string plan)
     {
@@ -33,32 +34,44 @@ public class FeedbackAtaqueUI : MonoBehaviour
 
     public void MostrarAccion(AccionTurno accion, string personaje, int numero, float duracion, bool rival)
     {
-        string detalle = accion.tipo == AccionCombate.Defender ? "Protege esta pareja de acciones" :
-            $"{accion.jugada}" + (accion.critico ? "  ·  POTENCIA CRÍTICA" : "");
-        Mostrar($"{personaje}  ·  ACCIÓN {numero}/2", ReglasCombate.Nombre(accion), detalle, duracion,
-            accion.critico ? Oro : accion.tipo == AccionCombate.Defender ? Color.cyan : rival ? Rojo : Verde, accion.critico);
+        string detalle = accion.tipo == AccionCombate.Defender ? "Protege esta pareja de acciones" : $"{accion.jugada}";
+        string nombreAtaque = ReglasCombate.Nombre(accion, rival) + (accion.critico ? " CRÍTICO" : "");
+        
+        Color critColor = personaje.ToLower().Contains("ignis") ? Oro : Morado;
+        Color baseColor = accion.critico ? critColor : accion.tipo == AccionCombate.Defender ? Color.cyan : accion.tipo == AccionCombate.Curar ? Verde : (rival ? Rojo : Verde);
+        
+        Mostrar($"{personaje}  ·  ACCIÓN {numero}/2", nombreAtaque, detalle, duracion, baseColor, accion.critico);
     }
 
-    public void MostrarResultado(ResultadoIntercambio r, string nombreJugador, string nombreRival, float duracion)
+    public void MostrarResultado(ResultadoIntercambio r, string atacante, string objetivo, float duracion, bool rival)
     {
-        string titulo = $"INTERCAMBIO {r.pareja}/2  ·  {ReglasCombate.Nombre(r.jugador)} / {ReglasCombate.Nombre(r.rival)}";
-        string principal, detalle;
-        if (r.ganador == 0)
+        string titulo = $"ACCIÓN {r.numero}/2  ·  {atacante}";
+        string principal = "", detalle = "";
+        
+        Color critColor = atacante.ToLower().Contains("ignis") ? Oro : Morado;
+        Color color = r.accion.critico ? critColor : r.bloqueoAplicado ? Color.cyan : r.accion.tipo == AccionCombate.Curar ? Verde : r.accion.tipo == AccionCombate.Defender ? Color.cyan : (rival ? Rojo : Verde);
+
+        if (r.accion.tipo == AccionCombate.Atacar)
         {
-            principal = r.jugador.tipo == AccionCombate.Defender ? "AMBOS SE PROTEGEN" : "EMPATE";
-            detalle = "Sin daño en este intercambio";
+            principal = r.bloqueoAplicado ? "ESCUDO · DAÑO REDUCIDO" : r.accion.critico ? "¡GOLPE CRÍTICO!" : $"{atacante} ATACA";
+            detalle = $"{objetivo}: −{r.danioAplicado} PS";
+            if (r.bloqueoAplicado && r.accion.critico) detalle += "  ·  Crítico";
+            if (r.bloqueoAplicado) detalle += "  ·  (Escudo)";
         }
-        else
+        else if (r.accion.tipo == AccionCombate.Curar)
         {
-            string atacante = r.ganador == 1 ? nombreJugador : nombreRival;
-            string objetivo = r.ganador == 1 ? nombreRival : nombreJugador;
-            principal = r.bloqueo ? "ESCUDO · DAÑO REDUCIDO" : r.critico ? "¡GOLPE CRÍTICO!" : $"{atacante} GANA";
-            detalle = r.bloqueo
-                ? $"{objetivo}: −{r.danioAplicado} PS  ·  Escudo: {r.danioSinDefensa} → {r.danioCalculado}"
-                : $"{(r.ganador == 1 ? r.jugador.jugada : r.rival.jugada)} vence a {(r.ganador == 1 ? r.rival.jugada : r.jugador.jugada)}  ·  {objetivo}: −{r.danioAplicado} PS";
-            if (r.bloqueo && r.critico) detalle += "  ·  Crítico";
+            principal = "SANACIÓN";
+            detalle = $"{atacante}: +{r.curaAplicada} PS";
+            color = Verde;
         }
-        Mostrar(titulo, principal, detalle, duracion, r.critico ? Oro : r.bloqueo ? Color.cyan : Verde, r.critico);
+        else if (r.accion.tipo == AccionCombate.Defender)
+        {
+            principal = "DEFENSA ACTIVADA";
+            detalle = $"{atacante} bloquea los ataques del próximo turno.";
+            color = Color.cyan;
+        }
+
+        Mostrar(titulo, principal, detalle, duracion, color, r.accion.critico);
     }
 
     // Compatibilidad con eventos existentes en otras escenas.

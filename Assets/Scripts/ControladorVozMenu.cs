@@ -13,7 +13,7 @@ public class ControladorVozMenu : MonoBehaviour
     private KeywordRecognizer reconocedorVoz;
     private Dictionary<string, Action> comandosMenu = new Dictionary<string, Action>();
 
-    private void Start()
+    private void OnEnable()
     {
         // Si no se asignó en el inspector, intenta buscarlo automáticamente
         if (menuManager == null)
@@ -21,6 +21,7 @@ public class ControladorVozMenu : MonoBehaviour
             menuManager = FindFirstObjectByType<MenuManager>();
         }
 
+        if (menuManager == null) return;
         ConfigurarComandos();
         IniciarReconocedor();
     }

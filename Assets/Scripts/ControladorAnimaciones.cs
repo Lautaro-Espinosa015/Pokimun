@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections; // Necesario para las Corrutinas
+using System.Collections.Generic;
 
 public class ControladorAnimaciones : MonoBehaviour
 {
@@ -27,20 +28,20 @@ public class ControladorAnimaciones : MonoBehaviour
     [Tooltip("Mueve el disparo X metros hacia adelante para que no salga desde dentro del cuerpo")]
     public float desplazamientoAdelante = 1.0f;
 
+    private readonly HashSet<string> avisosParametrosAusentes = new HashSet<string>();
+    private readonly List<GameObject> efectosActivos = new List<GameObject>();
+
     private void Start()
     {
-        if (animator == null)
-        {
-            animator = GetComponent<Animator>();
-        }
+        AsegurarAnimator();
     }
 
     // --- MÉTODOS PARA LLAMAR DESDE GESTORNIVEL O BOTONES DE PRUEBA ---
 
     public void EjecutarAtaque(JugadaRPS tipoAtaque)
     {
-        animator.SetTrigger("Atacar");
-        Debug.Log($"[Animador] Ejecutando ataque normal de {tipoAtaque}");
+        PrepararAccion();
+        IntentarActivarTrigger("Atacar");
         
         if (prefabAtaqueAgua != null)
         {
@@ -50,8 +51,8 @@ public class ControladorAnimaciones : MonoBehaviour
 
     public void EjecutarAtaqueCritico(JugadaRPS tipoAtaque)
     {
-        animator.SetTrigger("AtacarCritico");
-        Debug.Log($"[Animador] ¡CRÍTICO! Ejecutando ataque mágico de área por {tipoAtaque}");
+        PrepararAccion();
+        IntentarActivarTrigger("AtacarCritico");
 
         if (prefabAtaqueAgua != null)
         {
@@ -78,30 +79,117 @@ public class ControladorAnimaciones : MonoBehaviour
         // Empujamos el agua hacia adelante para que salga de las palmas y no del pecho/atrás
         posicionDisparo += transform.forward * desplazamientoAdelante;
 
-        Instantiate(prefabAtaqueAgua, posicionDisparo, rotacionDisparo);
+        efectosActivos.Add(Instantiate(prefabAtaqueAgua, posicionDisparo, rotacionDisparo));
     }
 
     public void EjecutarDefensa(bool estaDefendiendo)
     {
-        // La defensa suele ser una postura que se mantiene, así que usamos un Booleano
-        animator.SetBool("Defendiendo", estaDefendiendo);
-        if (estaDefendiendo) Debug.Log("[Animador] Cubriéndose...");
+        if (estaDefendiendo) PrepararAccion();
+        if (TieneParametro("Defendiendo", AnimatorControllerParameterType.Bool))
+        {
+            animator.SetBool("Defendiendo", estaDefendiendo);
+        }
+        else if (TieneParametro("Defendiendo", AnimatorControllerParameterType.Trigger))
+        {
+            if (estaDefendiendo) animator.SetTrigger("Defendiendo");
+            else animator.ResetTrigger("Defendiendo");
+        }
+        else
+        {
+            AdvertirParametroAusente("Defendiendo", "Bool o Trigger");
+        }
+
     }
+
+    private void PrepararAccion()
+    {
+        FinalizarAccion();
+        if (AsegurarAnimator() && animator.HasState(0, Animator.StringToHash("Base Layer.Reposo")))
+            animator.Play("Base Layer.Reposo", 0, 0f);
+    }
+
+    public void FinalizarAccion()
+    {
+        StopAllCoroutines();
+        foreach (GameObject efecto in efectosActivos) if (efecto != null) Destroy(efecto);
+        efectosActivos.Clear();
+        if (!AsegurarAnimator()) return;
+        if (TieneParametro("Defendiendo", AnimatorControllerParameterType.Bool)) animator.SetBool("Defendiendo", false);
+        foreach (string trigger in new[] { "Atacar", "AtacarCritico", "Defendiendo" })
+            if (TieneParametro(trigger, AnimatorControllerParameterType.Trigger)) animator.ResetTrigger(trigger);
+        if (animator.isActiveAndEnabled && animator.HasState(0, Animator.StringToHash("Base Layer.Reposo")))
+            animator.CrossFade("Base Layer.Reposo", .12f, 0);
+    }
+
+    private void OnDisable() { FinalizarAccion(); }
 
     public void RecibirDano()
     {
-        // Reacción a recibir un golpe
-        animator.SetTrigger("RecibirDano");
+        // La animación de daño es opcional y no existe en los controllers actuales.
+        if (TieneParametro("RecibirDano", AnimatorControllerParameterType.Trigger))
+        {
+            animator.SetTrigger("RecibirDano");
+        }
     }
 
     public void CelebrarVictoria()
     {
-        animator.SetTrigger("Victoria");
+        if (TieneParametro("Victoria", AnimatorControllerParameterType.Trigger)) animator.SetTrigger("Victoria");
     }
 
     public void CaerDerrotado()
     {
         // Animación de muerte/desmayo
-        animator.SetTrigger("Derrota");
+        if (TieneParametro("Derrota", AnimatorControllerParameterType.Trigger)) animator.SetTrigger("Derrota");
+    }
+
+    private bool AsegurarAnimator()
+    {
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+
+        return animator != null;
+    }
+
+    private bool TieneParametro(string nombre, AnimatorControllerParameterType tipo)
+    {
+        if (!AsegurarAnimator()) return false;
+
+        foreach (AnimatorControllerParameter parametro in animator.parameters)
+        {
+            if (parametro.name == nombre && parametro.type == tipo)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void IntentarActivarTrigger(string nombre)
+    {
+        if (TieneParametro(nombre, AnimatorControllerParameterType.Trigger))
+        {
+            animator.SetTrigger(nombre);
+        }
+        else
+        {
+            AdvertirParametroAusente(nombre, "Trigger");
+        }
+    }
+
+    private void AdvertirParametroAusente(string nombre, string tipo)
+    {
+        if (animator == null) return;
+
+        string clave = nombre + ":" + tipo;
+        if (avisosParametrosAusentes.Add(clave))
+        {
+            Debug.LogWarning(
+                $"[ControladorAnimaciones] El Animator de '{gameObject.name}' no tiene el parámetro {tipo} '{nombre}'. Se omite esa animación.",
+                this);
+        }
     }
 }

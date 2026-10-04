@@ -40,7 +40,6 @@ public class ControladorAtaqueManos : ControladorAtaqueJugador
     /// </summary>
     public override JugadaRPS ObtenerJugadaAtaque()
     {
-        Debug.Log($"[ControladorAtaqueManos] El GestorNivel pidió la jugada. Retornando la detectada por la cámara: {jugadaDetectadaActualmente}");
         return jugadaDetectadaActualmente;
     }
 
@@ -58,6 +57,7 @@ public class ControladorAtaqueManos : ControladorAtaqueJugador
 
         // Tomamos los puntos (landmarks) de la primera mano que vea
         var mano = resultado.handLandmarks[0].landmarks;
+        if (mano == null || mano.Count < 21) return;
 
         // MediaPipe tiene 21 puntos. 
         // 8 = Punta del Índice, 6 = Nudillo del Índice

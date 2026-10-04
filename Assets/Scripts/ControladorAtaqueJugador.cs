@@ -1,16 +1,6 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Opciones de jugada para el combate estilo Piedra, Papel o Tijeras.
-/// </summary>
-public enum JugadaRPS
-{
-    Piedra,
-    Papel,
-    Tijera
-}
-
-/// <summary>
 /// Módulo encargado de obtener la jugada o ataque del jugador.
 /// Diseñado para ser modular: otro desarrollador puede modificar este script,
 /// heredar de él, o conectar un sistema de detección de gestos por cámara / UI.
@@ -29,7 +19,6 @@ public class ControladorAtaqueJugador : MonoBehaviour
     /// <returns>La jugada seleccionada (Piedra, Papel o Tijera).</returns>
     public virtual JugadaRPS ObtenerJugadaAtaque()
     {
-        Debug.Log($"[ControladorAtaqueJugador] Jugada ejecutada: {jugadaSeleccionada}");
         return jugadaSeleccionada;
     }
 
@@ -39,6 +28,5 @@ public class ControladorAtaqueJugador : MonoBehaviour
     public void EstablecerJugada(JugadaRPS nuevaJugada)
     {
         jugadaSeleccionada = nuevaJugada;
-        Debug.Log($"[ControladorAtaqueJugador] Jugada preparada: {jugadaSeleccionada}");
     }
 }

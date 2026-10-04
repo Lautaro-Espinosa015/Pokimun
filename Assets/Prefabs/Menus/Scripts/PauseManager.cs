@@ -1,54 +1,56 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PauseManager : MonoBehaviour
 {
-    #region Variables
     public GameObject pauseMenu;
     public GameObject options;
-    public bool isPaused = false;
-    #endregion
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (isPaused)
-            {
-                Reanudar();
-            }
-            else
-            {
-                Pausar();
-            }
-        }
-    }
+    public bool isPaused;
+    private GestorNivel gestor;
 
+    private void Start()
+    {
+        gestor = FindFirstObjectByType<GestorNivel>();
+        Reanudar();
+    }
+    private void Update()
+    {
+        if (Keyboard.current == null || !Keyboard.current.escapeKey.wasPressedThisFrame) return;
+        if (isPaused) Reanudar(); else Pausar();
+    }
     public void Pausar()
     {
-        pauseMenu.SetActive(true);
+        if (pauseMenu == null || (gestor != null && !gestor.EnBatalla)) return;
         isPaused = true;
-        Time.timeScale = 0f;
+        pauseMenu.SetActive(true);
+        if (options != null) options.SetActive(false);
+        gestor?.EstablecerPausa(true);
+        // Una pausa local no debe congelar al otro equipo. En solitario sí detiene animación y resolución.
+        Time.timeScale = gestor != null && gestor.EnLinea ? 1 : 0;
     }
-
     public void Reanudar()
     {
-        pauseMenu.SetActive(false);
+        if (pauseMenu != null) pauseMenu.SetActive(false);
+        if (options != null) options.SetActive(false);
         isPaused = false;
-        Time.timeScale = 1f;
+        Time.timeScale = 1;
+        gestor?.EstablecerPausa(false);
     }
-
     public void Menu()
     {
-        Time.timeScale = 1f;
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Menus");
+        Reanudar();
+        if (gestor != null) gestor.VolverAlMenu();
+        else UnityEngine.SceneManagement.SceneManager.LoadScene("Menus");
     }
     public void Opciones()
     {
-        if (pauseMenu) pauseMenu.SetActive(false);
-        if (options) options.SetActive(true);
+        if (pauseMenu != null) pauseMenu.SetActive(false);
+        if (options != null) options.SetActive(true);
     }
     public void Regresar()
     {
-        if (options) options.SetActive(false);
-        if (pauseMenu) pauseMenu.SetActive(true);
+        if (options != null) options.SetActive(false);
+        if (pauseMenu != null) pauseMenu.SetActive(true);
     }
+    private void OnDestroy() { Time.timeScale = 1; }
 }

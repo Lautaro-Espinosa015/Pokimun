@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+    private bool cargandoPartida;
     #region Variables
     public GameObject menuPrincipal;
     public GameObject menuOpciones;
@@ -12,6 +13,8 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1f;
+        AudioListener.volume = Mathf.Clamp01(PlayerPrefs.GetFloat("Volumen", 0.5f));
         // Buena práctica: Forzar que al arrancar solo el principal esté encendido
         Volver();
     }
@@ -19,6 +22,9 @@ public class MenuManager : MonoBehaviour
     #region Botones Menu
     public void Jugar()
     {
+        if (cargandoPartida) return;
+        cargandoPartida = true;
+        Time.timeScale = 1f;
         SceneManager.LoadScene("Escenario");
     }
 

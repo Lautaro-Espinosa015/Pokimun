@@ -1,237 +1,171 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Windows.Speech;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+using UnityEngine.Windows.Speech;
+#endif
 
-/// <summary>
-/// Reconoce los comandos de voz del combate y (temporalmente) dispara las animaciones directamente
-/// para la presentación. Comandos: Roca (ataque 1), Hoja (ataque 2), Tijera (ataque 3), Escudo (defensa).
-/// También soporta Numpad 1, 2, 3 y 0 para pruebas sin voz usando el Nuevo Input System.
-/// </summary>
+/// <summary>Voz y teclado pasan por la misma validación del gestor. Este componente nunca anima ni aplica daño.</summary>
 public class DetectorCommandControl : MonoBehaviour
 {
-    private struct MedicionMicrofono
-    {
-        public float tiempo;
-        public float rms;
-
-        public MedicionMicrofono(float tiempo, float rms)
-        {
-            this.tiempo = tiempo;
-            this.rms = rms;
-        }
-    }
-
-    [Header("Referencias (Demo Animaciones)")]
-    [Tooltip("Controladores de animaciones de todos los personajes en escena")]
-    [SerializeField] private ControladorAnimaciones[] controladoresAnimaciones;
-
+    [Header("Referencias del combate")]
+    [SerializeField] private GestorNivel gestorNivel;
     [Header("Potencia por voz")]
-    [Tooltip("Nivel RMS mínimo del micrófono para considerar que el comando fue gritado. Ajustar según el micrófono.")]
-    [SerializeField, Range(0.01f, 1f)] private float umbralGritoRms = 0.12f;
-    [Tooltip("Cuánto tiempo se conserva el nivel máximo de voz antes de reconocer el comando.")]
-    [SerializeField, Min(0.1f)] private float ventanaNivelVoz = 1f;
+    [SerializeField, Range(.01f, 1)] private float umbralGritoRms = .12f;
+    [SerializeField, Min(.1f)] private float ventanaNivelVoz = 1f;
     [SerializeField, Min(8000)] private int frecuenciaMuestreoMicrofono = 16000;
-
-    private KeywordRecognizer reconocedor;
-    private readonly Dictionary<string, Action> comandos = new Dictionary<string, Action>();
+    private readonly Dictionary<string, AccionTurno> comandos = new Dictionary<string, AccionTurno>();
+    private readonly Queue<Frase> frases = new Queue<Frase>();
+    private readonly Queue<Medicion> mediciones = new Queue<Medicion>();
+    private struct Frase { public string texto; public DateTime inicioUtc; }
+    private struct Medicion { public float tiempo, rms; }
     private AudioClip clipMicrofono;
-    private float[] muestrasMicrofono = new float[1024];
-    private readonly Queue<MedicionMicrofono> medicionesRecientes = new Queue<MedicionMicrofono>();
-    private bool microfonoDisponible;
+    private float[] muestras;
+    private bool falloMicrofono;
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+    private KeywordRecognizer reconocedor;
+#endif
 
-    private bool defendiendoActualmente = false;
-
-    private void Start()
+    private void OnEnable()
     {
-        if (controladoresAnimaciones == null || controladoresAnimaciones.Length == 0)
-        {
-            controladoresAnimaciones = FindObjectsByType<ControladorAnimaciones>(FindObjectsSortMode.None);
-        }
-
-        PrepararComandos();
-        IniciarMedicionMicrofono();
-        IniciarReconocedor();
-    }
-
-    private void Update()
-    {
-        MedirNivelMicrofono();
-
-        // ======= CONTROLES POR TECLADO (NUEVO INPUT SYSTEM) =======
-        if (Keyboard.current != null)
-        {
-            if (Keyboard.current.numpad1Key.wasPressedThisFrame || Keyboard.current.digit1Key.wasPressedThisFrame)
-            {
-                Debug.Log("[Teclado] Ataque Básico 'Hidro Pulso' (Numpad 1)");
-                EjecutarAtaqueParaTodos(JugadaRPS.Tijera, false);
-            }
-            if (Keyboard.current.numpad2Key.wasPressedThisFrame || Keyboard.current.digit2Key.wasPressedThisFrame)
-            {
-                Debug.Log("[Teclado] Ataque Crítico 'Hidro Pulso' (Numpad 2)");
-                EjecutarAtaqueParaTodos(JugadaRPS.Tijera, true);
-            }
-            if (Keyboard.current.numpad3Key.wasPressedThisFrame || Keyboard.current.digit3Key.wasPressedThisFrame)
-            {
-                Debug.Log("[Teclado] Alternando Defensa (Numpad 3)");
-                EjecutarDefensa();
-            }
-        }
-    }
-
-    private void OnDisable()
-    {
-        if (reconocedor != null)
-        {
-            reconocedor.OnPhraseRecognized -= AlReconocerFrase;
-            if (reconocedor.IsRunning)
-            {
-                reconocedor.Stop();
-            }
-            reconocedor.Dispose();
-            reconocedor = null;
-        }
-
-        if (microfonoDisponible)
-        {
-            Microphone.End(null);
-            microfonoDisponible = false;
-        }
-    }
-
-    private void PrepararComandos()
-    {
+        if (gestorNivel == null) gestorNivel = GetComponent<GestorNivel>();
+        if (gestorNivel == null) gestorNivel = FindFirstObjectByType<GestorNivel>();
         comandos.Clear();
-        // Comandos de Ataque (El nivel de voz decidirá si es normal o crítico)
-        comandos.Add("hidro pulso", () => EjecutarAtaque(JugadaRPS.Tijera));
-        comandos.Add("tijera", () => EjecutarAtaque(JugadaRPS.Tijera));
-
-        // Comandos de Defensa
-        comandos.Add("bloqueo", EjecutarDefensa);
-        comandos.Add("defensa", EjecutarDefensa);
-        comandos.Add("piedra", EjecutarDefensa);
-    }
-
-    private void IniciarReconocedor()
-    {
+        foreach (string palabra in new[] { "roca", "piedra" }) comandos[palabra] = AccionTurno.Ataque(JugadaRPS.Piedra);
+        foreach (string palabra in new[] { "hoja", "papel" }) comandos[palabra] = AccionTurno.Ataque(JugadaRPS.Papel);
+        foreach (string palabra in new[] { "tijera", "tijeras", "hidro pulso" }) comandos[palabra] = AccionTurno.Ataque(JugadaRPS.Tijera);
+        foreach (string palabra in new[] { "escudo", "defensa", "bloqueo" }) comandos[palabra] = AccionTurno.Defensa();
+        falloMicrofono = false;
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
         try
         {
             reconocedor = new KeywordRecognizer(comandos.Keys.ToArray());
             reconocedor.OnPhraseRecognized += AlReconocerFrase;
             reconocedor.Start();
-            Debug.Log("[DetectorCommandControl] Escuchando: Hidro pulso, Tijera, Bloqueo, Defensa, Piedra.");
+            Debug.Log("[Voz] Comandos: roca/piedra, hoja/papel, tijera/hidro pulso y escudo. Volumen alto potencia el ataque.", this);
         }
-        catch (Exception excepcion)
-        {
-            Debug.LogError($"[DetectorCommandControl] No se pudo iniciar el reconocimiento de voz: {excepcion.Message}");
-        }
+        catch (Exception ex) { Debug.LogWarning("[Voz] No se pudo iniciar el reconocimiento. El teclado sigue disponible. " + ex.Message, this); }
+#else
+        Debug.LogWarning("[Voz] El reconocimiento configurado requiere Windows. Usa el teclado en esta plataforma.", this);
+#endif
     }
 
-    private void IniciarMedicionMicrofono()
+    private void Update()
     {
-        if (Microphone.devices.Length == 0)
+        bool disponible = gestorNivel != null && gestorNivel.PuedeRecibirAcciones && Application.isFocused && !Escribiendo();
+        if (disponible) MedirMicrofono();
+        else mediciones.Clear();
+        // Los callbacks se drenan en el hilo principal. No se guardan órdenes para la siguiente ronda.
+        while (true)
         {
-            Debug.LogWarning("[DetectorCommandControl] No se encontró un micrófono.");
-            return;
+            Frase frase;
+            lock (frases)
+            {
+                if (frases.Count == 0) break;
+                frase = frases.Dequeue();
+            }
+            if (!disponible || !gestorNivel.PuedeRecibirAcciones || frase.inicioUtc < gestorNivel.InicioVentanaEntradaUtc)
+            {
+                Debug.Log($"[Voz] Descartado '{frase.texto}': selección cerrada, pausada o comando de una ventana anterior.", this);
+                continue;
+            }
+            if (!comandos.TryGetValue(frase.texto, out AccionTurno accion)) continue;
+            float rms = NivelReciente();
+            accion.critico = accion.tipo == AccionCombate.Atacar && clipMicrofono != null && rms >= umbralGritoRms;
+            bool aceptado = gestorNivel.IntentarRegistrarAccion(accion, "voz: " + frase.texto);
+            Debug.Log($"[Voz] frase='{frase.texto}' RMS={rms:F3} umbral={umbralGritoRms:F3} crítico={accion.critico} aceptado={aceptado}", this);
+            mediciones.Clear();
         }
-
-        clipMicrofono = Microphone.Start(null, true, 1, frecuenciaMuestreoMicrofono);
-        microfonoDisponible = clipMicrofono != null;
+        if (!disponible || !gestorNivel.PuedeRecibirAcciones || Keyboard.current == null) return;
+        Keyboard k = Keyboard.current;
+        bool critico = k.leftShiftKey.isPressed || k.rightShiftKey.isPressed;
+        if (k.digit1Key.wasPressedThisFrame || k.numpad1Key.wasPressedThisFrame)
+            gestorNivel.IntentarRegistrarAccion(AccionTurno.Ataque(JugadaRPS.Piedra, critico), "teclado 1");
+        else if (k.digit2Key.wasPressedThisFrame || k.numpad2Key.wasPressedThisFrame)
+            gestorNivel.IntentarRegistrarAccion(AccionTurno.Ataque(JugadaRPS.Papel, critico), "teclado 2");
+        else if (k.digit3Key.wasPressedThisFrame || k.numpad3Key.wasPressedThisFrame)
+            gestorNivel.IntentarRegistrarAccion(AccionTurno.Ataque(JugadaRPS.Tijera, critico), "teclado 3");
+        else if (k.dKey.wasPressedThisFrame || k.digit0Key.wasPressedThisFrame || k.numpad0Key.wasPressedThisFrame)
+            gestorNivel.IntentarRegistrarAccion(AccionTurno.Defensa(), "teclado D/0");
+        else if (k.aKey.wasPressedThisFrame)
+            gestorNivel.IntentarRegistrarAccion(AccionTurno.Ataque(gestorNivel.ObtenerJugadaAtaqueJugador(), critico), "teclado A / gesto preparado");
     }
 
-    private void MedirNivelMicrofono()
+    private static bool Escribiendo()
     {
-        if (!microfonoDisponible || clipMicrofono == null) return;
-
-        int posicion = Microphone.GetPosition(null);
-        int inicio = posicion - muestrasMicrofono.Length;
-        if (posicion <= 0 || inicio < 0 || !clipMicrofono.GetData(muestrasMicrofono, inicio)) return;
-
-        double sumaCuadrados = 0;
-        for (int i = 0; i < muestrasMicrofono.Length; i++)
-        {
-            sumaCuadrados += muestrasMicrofono[i] * muestrasMicrofono[i];
-        }
-
-        float rms = Mathf.Sqrt((float)(sumaCuadrados / muestrasMicrofono.Length));
-        float tiempoActual = Time.unscaledTime;
-        while (medicionesRecientes.Count > 0 && tiempoActual - medicionesRecientes.Peek().tiempo > ventanaNivelVoz)
-        {
-            medicionesRecientes.Dequeue();
-        }
-
-        medicionesRecientes.Enqueue(new MedicionMicrofono(tiempoActual, rms));
+        if (EventSystem.current == null || EventSystem.current.currentSelectedGameObject == null) return false;
+        var campo = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
+        return campo != null && campo.isFocused;
     }
 
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
     private void AlReconocerFrase(PhraseRecognizedEventArgs args)
     {
-        string frase = args.text.Trim().ToLowerInvariant();
-        float nivelVoz = ObtenerNivelMaximoReciente();
-        Debug.Log($"[Voz] Dijo: '{frase}' | Volumen: {nivelVoz:F2}");
-
-        if (comandos.TryGetValue(frase, out Action comando))
+        lock (frases)
         {
-            comando.Invoke();
+            if (frases.Count >= 8) frases.Dequeue();
+            frases.Enqueue(new Frase { texto = args.text.Trim().ToLowerInvariant(), inicioUtc = args.phraseStartTime.ToUniversalTime() });
         }
     }
+#endif
 
-    private void EjecutarAtaque(JugadaRPS jugada)
+    private void MedirMicrofono()
     {
-        bool gritado = microfonoDisponible && ObtenerNivelMaximoReciente() >= umbralGritoRms;
-        
-        if (gritado)
+        if (falloMicrofono) return;
+        try
         {
-            Debug.Log($"[Voz] ¡Se detectó un GRITO para {jugada}! Disparando Crítico.");
-        }
-        else
-        {
-            Debug.Log($"[Voz] Ataque normal de {jugada}.");
-        }
-
-        EjecutarAtaqueParaTodos(jugada, gritado);
-        medicionesRecientes.Clear();
-    }
-
-    private void EjecutarAtaqueParaTodos(JugadaRPS jugada, bool critico)
-    {
-        if (controladoresAnimaciones == null) return;
-        foreach (var animador in controladoresAnimaciones)
-        {
-            if (animador != null)
+            if (clipMicrofono == null)
             {
-                if (critico) animador.EjecutarAtaqueCritico(jugada);
-                else animador.EjecutarAtaque(jugada);
+                if (Microphone.devices.Length == 0) throw new InvalidOperationException("No se encontró un micrófono.");
+                clipMicrofono = Microphone.Start(null, true, 2, frecuenciaMuestreoMicrofono);
+                if (clipMicrofono == null) throw new InvalidOperationException("No se pudo abrir el micrófono.");
+                muestras = new float[1024 * clipMicrofono.channels];
             }
+            int posicion = Microphone.GetPosition(null);
+            if (posicion <= 0) return;
+            int inicio = (posicion - 1024 + clipMicrofono.samples) % clipMicrofono.samples;
+            if (!clipMicrofono.GetData(muestras, inicio)) return;
+            double cuadrados = 0;
+            foreach (float muestra in muestras) cuadrados += muestra * muestra;
+            mediciones.Enqueue(new Medicion { tiempo = Time.unscaledTime, rms = Mathf.Sqrt((float)(cuadrados / muestras.Length)) });
+            ExpirarMediciones();
+        }
+        catch (Exception ex)
+        {
+            falloMicrofono = true;
+            Debug.LogWarning("[Voz] Medición de potencia no disponible: " + ex.Message, this);
         }
     }
 
-    private void EjecutarDefensa()
+    private void ExpirarMediciones()
     {
-        if (controladoresAnimaciones == null) return;
-
-        defendiendoActualmente = !defendiendoActualmente;
-        
-        foreach (var animador in controladoresAnimaciones)
-        {
-            if (animador != null)
-            {
-                animador.EjecutarDefensa(defendiendoActualmente);
-            }
-        }
-        
-        Debug.Log($"[Voz/Teclado] Defensa cambiada a: {defendiendoActualmente}");
-        medicionesRecientes.Clear();
+        while (mediciones.Count > 0 && Time.unscaledTime - mediciones.Peek().tiempo > ventanaNivelVoz) mediciones.Dequeue();
+    }
+    private float NivelReciente()
+    {
+        ExpirarMediciones();
+        float maximo = 0;
+        foreach (Medicion medicion in mediciones) maximo = Mathf.Max(maximo, medicion.rms);
+        return maximo;
     }
 
-    private float ObtenerNivelMaximoReciente()
+    private void OnDisable()
     {
-        float nivelMaximo = 0f;
-        foreach (MedicionMicrofono medicion in medicionesRecientes)
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+        if (reconocedor != null)
         {
-            nivelMaximo = Mathf.Max(nivelMaximo, medicion.rms);
+            reconocedor.OnPhraseRecognized -= AlReconocerFrase;
+            if (reconocedor.IsRunning) reconocedor.Stop();
+            reconocedor.Dispose();
+            reconocedor = null;
         }
-        return nivelMaximo;
+#endif
+        if (clipMicrofono != null) { Microphone.End(null); Destroy(clipMicrofono); clipMicrofono = null; }
+        mediciones.Clear();
+        lock (frases) frases.Clear();
     }
 }

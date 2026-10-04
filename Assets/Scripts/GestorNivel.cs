@@ -1,514 +1,468 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+
+public enum EstadoJuego { EsperandoInicio, TurnoJugador, TurnoRival, ResolviendoAccion, FinDePartida }
 
 /// <summary>
-/// Estados posibles durante el flujo de la partida por turnos.
-/// </summary>
-public enum EstadoJuego
-{
-    EsperandoInicio,
-    TurnoJugador,
-    TurnoRival,
-    ResolviendoAccion,
-    FinDePartida
-}
-
-/// <summary>
-/// Acciones principales que puede tomar cualquier participante en su turno.
-/// </summary>
-public enum AccionCombate
-{
-    Atacar,
-    Defender
-}
-
-/// <summary>
-/// Gestor principal del nivel para el juego por turnos.
-/// Administra el flujo de turnos, el límite de 5 rondas, la resolución de combate con Piedra/Papel/Tijeras,
-/// y la condición de victoria/derrota según la vida del rival o del jugador.
+/// Único punto de entrada al combate. Congela los dos planes, resuelve cada pareja una vez
+/// y coordina su presentación. Hydros es el participante 0; Ignis es el 1 (CPU o cliente).
 /// </summary>
 public class GestorNivel : MonoBehaviour
 {
     [Header("Configuración de Turnos")]
-    [Tooltip("Número máximo de turnos o rondas permitidas antes de finalizar la partida.")]
-    [SerializeField] private int maxTurnos = 5;
+    [SerializeField, Min(1)] private int maxTurnos = 5;
     [SerializeField] private int turnoActual = 1;
-
     [Header("Parámetros de Combate")]
-    [Tooltip("Cantidad base de daño infligido al acertar un ataque.")]
-    [SerializeField] private int danioBase = 25;
-    [Tooltip("Porcentaje de reducción de daño cuando el objetivo está en postura defensiva (0.5 = 50%).")]
-    [Range(0f, 1f)]
-    [SerializeField] private float factorReduccionDefensa = 0.5f;
-    [Tooltip("Tiempo de espera en segundos para simular el turno y respuesta de la CPU.")]
-    [SerializeField] private float tiempoPausaRival = 1.2f;
-    [Tooltip("Multiplicador de daño cuando el jugador grita el nombre del ataque.")]
-    [SerializeField, Min(1f)] private float multiplicadorDanioGrito = 1.5f;
-
+    [SerializeField, Min(0)] private int danioBase = 25;
+    [SerializeField, Range(0, 1)] private float factorReduccionDefensa = .5f;
+    [SerializeField, Min(0)] private float tiempoPausaRival = 1.2f;
+    [SerializeField, Min(1)] private float multiplicadorDanioGrito = 1.5f;
+    [SerializeField, Range(0, 1)] private float probabilidadDefensaCPU = .35f;
+    [SerializeField, Range(0, 1)] private float probabilidadCriticoCPU = .2f;
     [Header("Referencias de Vida")]
     [SerializeField] private Vida vidaJugador;
     [SerializeField] private Vida vidaEnemigo;
-
     [Header("Módulo de Ataque del Jugador")]
-    [Tooltip("Script externo que determina la jugada del jugador. Puede ser implementado por otro compañero.")]
     [SerializeField] private ControladorAtaqueJugador controladorAtaqueJugador;
-
+    [Header("Animación de Personajes")]
+    [SerializeField] private ControladorAnimaciones controladorAnimacionesJugador;
+    [SerializeField] private ControladorAnimaciones controladorAnimacionesEnemigo;
     [Header("Presentación de Acciones")]
-    [Tooltip("Espera antes de resolver el daño de un ataque, para dejar espacio a animación o sonido.")]
-    [SerializeField, Min(0f)] private float tiempoFeedbackAtaque = 4f;
-    [Tooltip("Duración del aviso visual al activar ESCUDO.")]
-    [SerializeField, Min(0f)] private float tiempoFeedbackDefensa = 1.5f;
-    private FeedbackAtaqueUI feedbackAtaqueUI;
-
-    [Header("Estado de la Partida")]
+    [SerializeField, Min(4)] private float tiempoFeedbackAtaque = 4f;
+    [SerializeField, Min(.5f)] private float tiempoFeedbackDefensa = 1.5f;
+    [SerializeField, Min(1)] private float tiempoResultado = 2.5f;
+    [Header("Supervisión")]
+    [SerializeField] private bool logsDetallados = true;
     [SerializeField] private EstadoJuego estadoActual = EstadoJuego.EsperandoInicio;
-    [SerializeField] private bool jugadorDefendiendo = false;
-    [SerializeField] private bool rivalDefendiendo = false;
 
-    // Eventos opcionales para conectar con la UI u otros sistemas
-    public System.Action<int, int> OnTurnoActualizado; // (turnoActual, maxTurnos)
-    public System.Action<string> OnMensajeEstado;     // Notificación de texto para la pantalla
-    public System.Action<bool> OnFinPartida;          // true = Victoria, false = Derrota
+    public Action<int, int> OnTurnoActualizado;
+    public Action<string> OnMensajeEstado;
+    // Compatibilidad: false incluye derrota/empate/cancelación. Para distinguirlos usar OnResultadoPartida.
+    public Action<bool> OnFinPartida;
+    public Action<ResultadoPartida> OnResultadoPartida;
+
+    private FeedbackAtaqueUI feedback;
+    private GestorRedRelay relay;
+    private readonly List<AccionTurno> planLocal = new List<AccionTurno>(2);
+    private AccionTurno[] planRemoto;
+    private ResultadoRonda resolucion;
+    private bool enLinea, pausado, presentacionLocalLista, presentacionRemotaLista;
+    private int participanteLocal;
+    private float inicioEsperaPresentacion;
+    private string idPartida;
+
+    public bool EnLinea => enLinea;
+    public bool EnBatalla => estadoActual != EstadoJuego.EsperandoInicio && estadoActual != EstadoJuego.FinDePartida;
+    public bool PuedeRecibirAcciones => estadoActual == EstadoJuego.TurnoJugador && !pausado &&
+        Time.timeScale > 0 && planLocal.Count < ReglasCombate.AccionesPorRonda;
+    public DateTime InicioVentanaEntradaUtc { get; private set; }
+    public int RondaActual => turnoActual;
 
     private void Start()
     {
-        // Si no se asignó en el Inspector, intentamos encontrarlo en el mismo GameObject
-        if (controladorAtaqueJugador == null)
+        Time.timeScale = 1;
+        if (controladorAtaqueJugador == null) controladorAtaqueJugador = GetComponent<ControladorAtaqueJugador>();
+        feedback = GetComponent<FeedbackAtaqueUI>();
+        if (feedback == null) feedback = gameObject.AddComponent<FeedbackAtaqueUI>();
+        // Las animaciones se buscan solamente en el dueño de cada Vida, nunca en un personaje arbitrario.
+        if (controladorAnimacionesJugador == null && vidaJugador != null)
+            controladorAnimacionesJugador = vidaJugador.GetComponent<ControladorAnimaciones>();
+        if (controladorAnimacionesEnemigo == null && vidaEnemigo != null)
+            controladorAnimacionesEnemigo = vidaEnemigo.GetComponent<ControladorAnimaciones>();
+        relay = FindFirstObjectByType<GestorRedRelay>();
+        if (relay != null)
         {
-            controladorAtaqueJugador = GetComponent<ControladorAtaqueJugador>();
-            if (controladorAtaqueJugador == null)
-            {
-                // Agregamos un componente por defecto para que funcione de forma autónoma
-                controladorAtaqueJugador = gameObject.AddComponent<ControladorAtaqueJugador>();
-            }
+            relay.OnEstadoSala += EstadoSala;
+            relay.OnRivalListo += IniciarComoHost;
+            relay.OnMensaje += RecibirMensaje;
+            relay.OnConexionPerdida += ConexionPerdida;
         }
-
-        feedbackAtaqueUI = GetComponent<FeedbackAtaqueUI>();
-        if (feedbackAtaqueUI == null)
-        {
-            feedbackAtaqueUI = gameObject.AddComponent<FeedbackAtaqueUI>();
-        }
-        IniciarPartida();
+        if (!ReferenciasValidas()) return;
+        MostrarSelector();
     }
 
-    private void AsegurarFeedbackAtaqueUI()
+    private bool ReferenciasValidas()
     {
-        if (feedbackAtaqueUI == null)
+        if (vidaJugador == null || vidaEnemigo == null || vidaJugador == vidaEnemigo ||
+            !vidaJugador.isActiveAndEnabled || !vidaEnemigo.isActiveAndEnabled ||
+            vidaJugador.barraVida == null || vidaEnemigo.barraVida == null || vidaJugador.barraVida == vidaEnemigo.barraVida)
         {
-            feedbackAtaqueUI = GetComponent<FeedbackAtaqueUI>();
-            if (feedbackAtaqueUI == null)
-            {
-                feedbackAtaqueUI = gameObject.AddComponent<FeedbackAtaqueUI>();
-            }
+            Debug.LogError("[Combate] Asigna dos componentes Vida activos y una barra distinta a cada personaje en GestorNivel.", this);
+            estadoActual = EstadoJuego.FinDePartida;
+            feedback.MostrarFin("FALTA CONFIGURACIÓN", "Cada personaje necesita su Vida y su propia barra de PS.", null, VolverAlMenu);
+            return false;
         }
-    }
-    private void Update()
-    {
-        // Controles de prueba rápida para la Demo mediante teclado
-        ManejarInputsDebug();
+        if (controladorAnimacionesJugador == null || controladorAnimacionesEnemigo == null)
+            Debug.LogWarning("[Combate] Falta un ControladorAnimaciones. Se mantendrá la duración de presentación.", this);
+        return true;
     }
 
-    /// <summary>
-    /// Configura e inicia la partida en el turno 1.
-    /// </summary>
+    private void MostrarSelector()
+    {
+        estadoActual = EstadoJuego.EsperandoInicio;
+        feedback.MostrarSala(IniciarPartida, CrearSala, UnirseSala, CancelarSala, VolverAlMenu);
+    }
+
+    private void CrearSala()
+    {
+        if (relay == null) { EstadoSala("La escena no tiene GestorRedRelay.", false); return; }
+        _ = relay.CrearPartidaHost();
+    }
+    private void UnirseSala(string codigo)
+    {
+        if (relay == null) { EstadoSala("La escena no tiene GestorRedRelay.", false); return; }
+        _ = relay.UnirseComoCliente(codigo);
+    }
+    private void CancelarSala()
+    {
+        relay?.CancelarConexion();
+        feedback.ActualizarSala("Conexión cancelada. Puedes jugar en solitario o crear otra sala.", false);
+    }
+    private void EstadoSala(string mensaje, bool ocupada)
+    {
+        if (estadoActual == EstadoJuego.EsperandoInicio) feedback.ActualizarSala(mensaje, ocupada);
+    }
+
     public void IniciarPartida()
     {
-        turnoActual = 1;
-        jugadorDefendiendo = false;
-        rivalDefendiendo = false;
+        if (feedback == null || (EnBatalla && enLinea)) return;
+        relay?.CancelarConexion();
+        if (!ReferenciasValidas()) return;
+        PrepararPartida(false, 0);
+        AbrirRonda(1);
+    }
+
+    private void PrepararPartida(bool online, int local)
+    {
+        StopAllCoroutines();
+        enLinea = online;
+        participanteLocal = local;
+        pausado = false;
+        Time.timeScale = 1;
+        string identificador = online ? relay.IdPartida : Guid.NewGuid().ToString("N");
+        idPartida = identificador.Substring(0, Mathf.Min(8, identificador.Length));
+        maxTurnos = Mathf.Max(1, maxTurnos);
+        danioBase = Mathf.Max(0, danioBase);
+        multiplicadorDanioGrito = Mathf.Max(1, multiplicadorDanioGrito);
+        factorReduccionDefensa = Mathf.Clamp01(factorReduccionDefensa);
+        tiempoFeedbackAtaque = Mathf.Max(4, tiempoFeedbackAtaque);
+        tiempoFeedbackDefensa = Mathf.Max(.5f, tiempoFeedbackDefensa);
+        tiempoResultado = Mathf.Max(1, tiempoResultado);
+        vidaJugador.ReiniciarVida();
+        vidaEnemigo.ReiniciarVida();
+        vidaJugador.barraVida.AsignarNombre(participanteLocal == 0 ? "HYDROS · TÚ" : "HYDROS · RIVAL");
+        vidaEnemigo.barraVida.AsignarNombre(participanteLocal == 1 ? "IGNIS · TÚ" : online ? "IGNIS · RIVAL" : "IGNIS · CPU");
+        FinalizarAnimaciones();
+        feedback.Limpiar();
+        feedback.OcultarSala();
+        Log($"INICIO modo={(online ? "multijugador" : "solo")} local={NombreLocal} rondas={maxTurnos} " +
+            $"PS=Hydros:{vidaJugador.vidaActual}/{vidaJugador.maxVida},Ignis:{vidaEnemigo.vidaActual}/{vidaEnemigo.maxVida} " +
+            $"dañoBase={danioBase} crítico=x{multiplicadorDanioGrito} reducciónEscudo={factorReduccionDefensa:P0}");
+    }
+
+    private string NombreLocal => participanteLocal == 0 ? "HYDROS" : "IGNIS";
+
+    private void AbrirRonda(int ronda)
+    {
+        turnoActual = ronda;
+        planLocal.Clear();
+        planRemoto = enLinea ? null : ElegirPlanCPU();
+        resolucion = null;
+        presentacionLocalLista = presentacionRemotaLista = false;
+        inicioEsperaPresentacion = 0;
         estadoActual = EstadoJuego.TurnoJugador;
-
-        NotificarMensaje($"¡Comienza la partida! Turno {turnoActual}/{maxTurnos}. Es tu turno.");
+        InicioVentanaEntradaUtc = DateTime.UtcNow;
         OnTurnoActualizado?.Invoke(turnoActual, maxTurnos);
+        ActualizarEstado("Elige dos acciones: dos ataques o un ataque y un escudo.");
+        Log("RONDA ABIERTA · entrada habilitada · acciones=0/2");
     }
 
-    #region Turno del Jugador
-
-    /// <summary>
-    /// Ejecuta la acción de Ataque del jugador.
-    /// Llama al método del script modular ControladorAtaqueJugador para obtener su jugada (Piedra, Papel o Tijera).
-    /// Puede ser llamado desde botones de la UI (OnClick).
-    /// </summary>
-    public void JugadorSeleccionarAtaque()
+    private AccionTurno[] ElegirPlanCPU()
     {
-        EjecutarAtaqueJugador(false);
+        var plan = new AccionTurno[2];
+        int defensa = UnityEngine.Random.value < probabilidadDefensaCPU ? UnityEngine.Random.Range(0, 2) : -1;
+        for (int i = 0; i < plan.Length; i++)
+            plan[i] = i == defensa ? AccionTurno.Defensa() :
+                AccionTurno.Ataque((JugadaRPS)UnityEngine.Random.Range(0, 3), UnityEngine.Random.value < probabilidadCriticoCPU);
+        return plan;
     }
 
-    /// <summary>
-    /// Selecciona y ejecuta una jugada recibida por voz. El grito potencia el daño si el ataque acierta.
-    /// </summary>
-    public void JugadorSeleccionarAtaque(JugadaRPS jugada, bool ataqueGritado)
+    public void JugadorSeleccionarAtaque() => JugadorSeleccionarAtaque(ObtenerJugadaAtaqueJugador(), false);
+    public void JugadorSeleccionarAtaque(JugadaRPS jugada, bool ataqueGritado) =>
+        IntentarRegistrarAccion(AccionTurno.Ataque(jugada, ataqueGritado), "API");
+    public void JugadorSeleccionarDefensa() => IntentarRegistrarAccion(AccionTurno.Defensa(), "API");
+    public JugadaRPS ObtenerJugadaAtaqueJugador() => controladorAtaqueJugador != null ? controladorAtaqueJugador.ObtenerJugadaAtaque() : JugadaRPS.Piedra;
+
+    public bool IntentarRegistrarAccion(AccionTurno accion, string origen)
     {
-        if (controladorAtaqueJugador != null)
+        if (!PuedeRecibirAcciones)
         {
-            controladorAtaqueJugador.EstablecerJugada(jugada);
+            Log($"ENTRADA RECHAZADA origen={origen} estado={estadoActual} pausa={pausado} acciones={planLocal.Count}/2");
+            return false;
         }
-
-        EjecutarAtaqueJugador(ataqueGritado);
+        if (!ReglasCombate.PuedeAgregar(planLocal, accion, out string motivo))
+        {
+            ActualizarEstado(motivo);
+            Log($"ENTRADA RECHAZADA origen={origen} motivo={motivo}");
+            return false;
+        }
+        planLocal.Add(accion); // Copia por valor: un gesto/voz posterior no altera esta elección.
+        Log($"ACCIÓN ACEPTADA actor={NombreLocal} posición={planLocal.Count}/2 tipo={accion.tipo} gesto={accion.jugada} crítico={accion.critico} origen={origen}");
+        if (planLocal.Count < 2)
+        {
+            ActualizarEstado(accion.tipo == AccionCombate.Defender ? "Escudo elegido. Falta un ataque." : "Acción elegida. Falta un ataque o un escudo.");
+            return true;
+        }
+        estadoActual = EstadoJuego.TurnoRival; // Bloquear antes de enviar o iniciar una corrutina.
+        ActualizarEstado(enLinea ? "Plan cerrado. Esperando al rival…" : "Plan cerrado. Comienza el intercambio.");
+        if (enLinea && !relay.EsHost)
+        {
+            if (!relay.Enviar(new MensajeCombate { tipo = "plan", ronda = turnoActual, rival = planLocal.ToArray() }))
+                CancelarPartida("No se pudo enviar tu plan al rival.");
+        }
+        else IntentarResolver();
+        return true;
     }
 
-    private void EjecutarAtaqueJugador(bool ataquePotenciado)
+    private void IntentarResolver()
     {
-        if (estadoActual != EstadoJuego.TurnoJugador) return;
+        if (estadoActual != EstadoJuego.TurnoRival || planLocal.Count != 2 || !ReglasCombate.PlanValido(planRemoto)) return;
+        var mensaje = new MensajeCombate {
+            tipo = "resolver", ronda = turnoActual, jugador = planLocal.ToArray(), rival = (AccionTurno[])planRemoto.Clone(),
+            vidaJugador = vidaJugador.vidaActual, vidaRival = vidaEnemigo.vidaActual
+        };
+        if (enLinea && !relay.Enviar(mensaje)) { CancelarPartida("Se perdió la conexión antes de resolver la ronda."); return; }
+        ResolverYPresentar(mensaje);
+    }
 
+    private void ResolverYPresentar(MensajeCombate mensaje)
+    {
+        resolucion = ReglasCombate.Resolver(turnoActual, maxTurnos, mensaje.jugador, mensaje.rival,
+            vidaJugador.vidaActual, vidaEnemigo.vidaActual, danioBase, multiplicadorDanioGrito, factorReduccionDefensa);
         estadoActual = EstadoJuego.ResolviendoAccion;
-        jugadorDefendiendo = false;
-        StartCoroutine(RutinaAtaqueJugador(ataquePotenciado));
+        ActualizarEstado("Acciones cerradas · observa el intercambio.");
+        Log($"PLANES CERRADOS Hydros=[{ReglasCombate.Resumen(mensaje.jugador[0])}, {ReglasCombate.Resumen(mensaje.jugador[1])}] " +
+            $"Ignis=[{ReglasCombate.Resumen(mensaje.rival[0])}, {ReglasCombate.Resumen(mensaje.rival[1])}]");
+        StartCoroutine(PresentarRonda());
     }
 
-    private IEnumerator RutinaAtaqueJugador(bool ataquePotenciado)
+    private IEnumerator PresentarRonda()
     {
-        // Se decide el choque antes de mostrarlo para saber si el aviso debe destacar un crítico.
-        JugadaRPS jugadaJugador = ObtenerJugadaAtaqueJugador();
-        JugadaRPS jugadaRival = ObtenerJugadaAleatoriaCPU();
-        int resultado = CompararRPS(jugadaJugador, jugadaRival);
-        bool ataqueCritico = ataquePotenciado && resultado > 0;
-
-        if (feedbackAtaqueUI == null)
+        foreach (ResultadoIntercambio r in resolucion.intercambios)
         {
-            feedbackAtaqueUI = GetComponent<FeedbackAtaqueUI>();
-            if (feedbackAtaqueUI == null)
+            ActualizarEstado($"Intercambio {r.pareja}/2 · acciones bloqueadas.");
+            yield return PresentarAccion(r.jugador, controladorAnimacionesJugador, "HYDROS", r.pareja, participanteLocal != 0);
+            if (tiempoPausaRival > 0) yield return new WaitForSeconds(tiempoPausaRival);
+            yield return PresentarAccion(r.rival, controladorAnimacionesEnemigo, "IGNIS", r.pareja, participanteLocal != 1);
+            // El resultado se aplica una sola vez, después de ambas presentaciones.
+            vidaJugador.EstablecerVida(r.vidaJugadorDespues);
+            vidaEnemigo.EstablecerVida(r.vidaRivalDespues);
+            if (r.danioAplicado > 0)
             {
-                feedbackAtaqueUI = gameObject.AddComponent<FeedbackAtaqueUI>();
+                if (r.ganador == 1) controladorAnimacionesEnemigo?.RecibirDano();
+                else controladorAnimacionesJugador?.RecibirDano();
             }
+            feedback.MostrarResultado(r, "HYDROS", "IGNIS", tiempoResultado);
+            Log($"RESULTADO pareja={r.pareja} ganador={(r.ganador == 1 ? "Hydros" : r.ganador == -1 ? "Ignis" : "empate")} " +
+                $"crítico={r.critico} escudo={r.bloqueo} base={danioBase} previoEscudo={r.danioSinDefensa} " +
+                $"calculado={r.danioCalculado} aplicado={r.danioAplicado} exceso={r.danioCalculado - r.danioAplicado} " +
+                $"Hydros={r.vidaJugadorAntes}→{r.vidaJugadorDespues} Ignis={r.vidaRivalAntes}→{r.vidaRivalDespues}");
+            yield return new WaitForSeconds(tiempoResultado);
+            FinalizarAnimaciones();
         }
-
-        float duracionFeedback = Mathf.Max(0f, tiempoFeedbackAtaque);
-        feedbackAtaqueUI.MostrarAtaque(NombreAtaqueEnPantalla(jugadaJugador), ataqueCritico, duracionFeedback);
-        yield return new WaitForSecondsRealtime(duracionFeedback);
-
-        NotificarMensaje($"Tú elegiste [{jugadaJugador}] vs CPU eligió [{jugadaRival}].");
-
-        if (resultado > 0)
+        presentacionLocalLista = true;
+        if (resolucion.resultado != ResultadoPartida.EnCurso)
         {
-            // Jugador gana el RPS -> Daño al enemigo
-            int danioBaseAtaque = ataquePotenciado
-                ? Mathf.RoundToInt(danioBase * multiplicadorDanioGrito)
-                : danioBase;
-            int danio = CalcularDanio(danioBaseAtaque, rivalDefendiendo);
-            if (ataquePotenciado)
-            {
-                NotificarMensaje("¡Grito potente! El ataque recibió daño extra.");
-            }
-            NotificarMensaje($"¡Ganaste el choque! Infliges {danio} de daño al rival.");
-            if (vidaEnemigo != null)
-            {
-                vidaEnemigo.RecibirDanio(danio);
-            }
+            TerminarPartida(resolucion.resultado, resolucion.motivo);
+            yield break;
         }
-        else if (resultado < 0)
-        {
-            // Rival gana el choque -> El ataque falla o es bloqueado
-            NotificarMensaje("El rival predijo tu jugada. ¡Tu ataque falló!");
-        }
-        else
-        {
-            // Empate en RPS
-            NotificarMensaje("¡Empate en la jugada! Ambos ataques chocan sin dañarse.");
-        }
-
-        // Comprobamos si el enemigo cayó derrotado
-        if (VerificarFinDePartida()) yield break;
-
-        // Pasamos al turno del rival
-        StartCoroutine(RutinaTurnoRival());
+        if (!enLinea) { AbrirRonda(turnoActual + 1); yield break; }
+        inicioEsperaPresentacion = Time.realtimeSinceStartup;
+        ActualizarEstado("Esperando que el rival termine de ver el intercambio…");
+        if (relay.EsHost) IntentarSiguienteRonda();
+        else if (!relay.Enviar(new MensajeCombate { tipo = "presentado", ronda = turnoActual,
+            vidaJugador = vidaJugador.vidaActual, vidaRival = vidaEnemigo.vidaActual }))
+            CancelarPartida("Se perdió la conexión al finalizar la ronda.");
     }
 
-    private static string NombreAtaqueEnPantalla(JugadaRPS jugada)
+    private IEnumerator PresentarAccion(AccionTurno accion, ControladorAnimaciones animador, string nombre, int numero, bool rival)
     {
-        switch (jugada)
-        {
-            case JugadaRPS.Piedra:
-                return "ROCA";
-            case JugadaRPS.Papel:
-                return "HOJA";
-            case JugadaRPS.Tijera:
-                return "TIJERA";
-            default:
-                return jugada.ToString().ToUpperInvariant();
-        }
-    }
-    /// <summary>
-    /// Ejecuta la acción de Defensa del jugador para reducir el daño en el turno del rival.
-    /// Puede ser llamado desde botones de la UI (OnClick).
-    /// </summary>
-    public void JugadorSeleccionarDefensa()
-    {
-        if (estadoActual != EstadoJuego.TurnoJugador) return;
-
-        estadoActual = EstadoJuego.ResolviendoAccion;
-        jugadorDefendiendo = true;
-
-        AsegurarFeedbackAtaqueUI();
-        feedbackAtaqueUI.MostrarDefensa(tiempoFeedbackDefensa);
-
-        NotificarMensaje("Te has puesto en guardia para defenderte del próximo ataque.");
-
-        // Pasamos al turno del rival
-        StartCoroutine(RutinaTurnoRival());
+        float duracion = accion.tipo == AccionCombate.Atacar ? tiempoFeedbackAtaque : tiempoFeedbackDefensa;
+        feedback.MostrarAccion(accion, nombre, numero, duracion, rival);
+        if (accion.tipo == AccionCombate.Defender) animador?.EjecutarDefensa(true);
+        else if (accion.critico) animador?.EjecutarAtaqueCritico(accion.jugada);
+        else animador?.EjecutarAtaque(accion.jugada);
+        yield return new WaitForSeconds(duracion);
+        if (accion.tipo == AccionCombate.Atacar) animador?.FinalizarAccion();
     }
 
-    /// <summary>
-    /// Obtiene la jugada del jugador a través del script modular externo.
-    /// </summary>
-    public JugadaRPS ObtenerJugadaAtaqueJugador()
+    private void IniciarComoHost()
     {
-        if (controladorAtaqueJugador != null)
-        {
-            return controladorAtaqueJugador.ObtenerJugadaAtaque();
-        }
-
-        Debug.LogWarning("[GestorNivel] No hay ControladorAtaqueJugador asignado. Usando Piedra por defecto.");
-        return JugadaRPS.Piedra;
+        if (estadoActual != EstadoJuego.EsperandoInicio || !ReferenciasValidas()) return;
+        PrepararPartida(true, 0);
+        var inicio = new MensajeCombate {
+            tipo = "inicio", ronda = 1, maxRondas = maxTurnos, danioBase = danioBase,
+            vidaMaxJugador = vidaJugador.maxVida, vidaMaxRival = vidaEnemigo.maxVida,
+            multiplicadorCritico = multiplicadorDanioGrito, reduccionDefensa = factorReduccionDefensa,
+            segundosAtaque = tiempoFeedbackAtaque, segundosDefensa = tiempoFeedbackDefensa, segundosResultado = tiempoResultado
+        };
+        if (!relay.Enviar(inicio)) { CancelarPartida("No se pudo iniciar la partida con el rival."); return; }
+        AbrirRonda(1);
     }
 
-    #endregion
-
-    #region Turno del Rival (CPU)
-
-    /// <summary>
-    /// Corutina que simula la toma de decisiones y acción del rival con una pequeña pausa natural.
-    /// </summary>
-    private IEnumerator RutinaTurnoRival()
+    private void RecibirMensaje(MensajeCombate m)
     {
-        estadoActual = EstadoJuego.TurnoRival;
-        yield return new WaitForSeconds(tiempoPausaRival);
-
-        // La CPU decide aleatoriamente entre Atacar (70% prob) o Defenderse (30% prob)
-        AccionCombate accionRival = (Random.value > 0.3f) ? AccionCombate.Atacar : AccionCombate.Defender;
-
-        if (accionRival == AccionCombate.Defender)
+        if (estadoActual == EstadoJuego.FinDePartida) return;
+        if (!relay.EsHost && m.tipo == "inicio" && estadoActual == EstadoJuego.EsperandoInicio)
         {
-            rivalDefendiendo = true;
-            NotificarMensaje("El rival ha tomado una postura defensiva.");
-        }
-        else
-        {
-            rivalDefendiendo = false;
-            JugadaRPS ataqueRival = ObtenerJugadaAleatoriaCPU();
-            NotificarMensaje($"El rival lanza un ataque con [{ataqueRival}].");
-
-            AsegurarFeedbackAtaqueUI();
-            float duracionFeedback = Mathf.Max(0f, tiempoFeedbackAtaque);
-            feedbackAtaqueUI.MostrarAtaque(NombreAtaqueEnPantalla(ataqueRival), false, duracionFeedback, true);
-            yield return new WaitForSecondsRealtime(duracionFeedback);
-
-            // Si el jugador decidió defenderse en su turno, absorbe gran parte del daño
-            if (jugadorDefendiendo)
-            {
-                int danioMitigado = CalcularDanio(danioBase, true);
-                NotificarMensaje($"¡Tu defensa amortiguó el golpe! Solo recibes {danioMitigado} de daño.");
-                if (vidaJugador != null)
-                {
-                    vidaJugador.RecibirDanio(danioMitigado);
-                }
-            }
-            else
-            {
-                // Si el jugador no defendió, se resuelve un enfrentamiento RPS con su jugada preparada
-                JugadaRPS jugadaContramedida = ObtenerJugadaAtaqueJugador();
-                int resultado = CompararRPS(ataqueRival, jugadaContramedida);
-
-                if (resultado > 0)
-                {
-                    int danioCompleto = danioBase;
-                    NotificarMensaje($"El ataque del rival te golpeó de lleno. Recibes {danioCompleto} de daño.");
-                    if (vidaJugador != null)
-                    {
-                        vidaJugador.RecibirDanio(danioCompleto);
-                    }
-                }
-                else if (resultado < 0)
-                {
-                    NotificarMensaje("¡Contraatacaste a tiempo con tu jugada y esquivaste el ataque rival!");
-                }
-                else
-                {
-                    NotificarMensaje("¡Choque simultáneo! Los ataques de ambos se neutralizan.");
-                }
-            }
-        }
-
-        // Comprobamos si el jugador fue derrotado
-        if (VerificarFinDePartida()) yield break;
-
-        // Avanzamos de ronda / turno
-        AvanzarRonda();
-    }
-
-    #endregion
-
-    #region Lógica de Rondas y Fin de Partida
-
-    /// <summary>
-    /// Incrementa el contador de turnos y reinicia estados temporales.
-    /// </summary>
-    private void AvanzarRonda()
-    {
-        turnoActual++;
-        jugadorDefendiendo = false; // Se resetea la guardia para la nueva ronda
-
-        if (turnoActual > maxTurnos)
-        {
-            DeterminarGanadorPorTurnos();
+            if (!ConfiguracionValida(m)) { CancelarPartida("El rival envió una configuración de partida inválida."); return; }
+            maxTurnos = m.maxRondas;
+            danioBase = m.danioBase;
+            multiplicadorDanioGrito = m.multiplicadorCritico;
+            factorReduccionDefensa = m.reduccionDefensa;
+            tiempoFeedbackAtaque = m.segundosAtaque;
+            tiempoFeedbackDefensa = m.segundosDefensa;
+            tiempoResultado = m.segundosResultado;
+            vidaJugador.maxVida = m.vidaMaxJugador;
+            vidaEnemigo.maxVida = m.vidaMaxRival;
+            PrepararPartida(true, 1);
+            AbrirRonda(1);
             return;
         }
-
-        estadoActual = EstadoJuego.TurnoJugador;
-        OnTurnoActualizado?.Invoke(turnoActual, maxTurnos);
-        NotificarMensaje($"--- Turno {turnoActual}/{maxTurnos} --- ¡Es tu turno de actuar!");
+        if (!enLinea) return;
+        if (m.tipo == "ronda" && !relay.EsHost && presentacionLocalLista && m.ronda == turnoActual + 1 && m.ronda <= maxTurnos)
+        {
+            if (!VidaCoincide(m)) { CancelarPartida("Los puntos de vida no coinciden entre los equipos."); return; }
+            AbrirRonda(m.ronda);
+            return;
+        }
+        if (m.ronda != turnoActual) { Log($"MENSAJE IGNORADO tipo={m.tipo} rondaRecibida={m.ronda}"); return; }
+        if (relay.EsHost && m.tipo == "plan" && planRemoto == null &&
+            (estadoActual == EstadoJuego.TurnoJugador || estadoActual == EstadoJuego.TurnoRival))
+        {
+            if (!ReglasCombate.PlanValido(m.rival)) { CancelarPartida("El rival envió un plan de acciones inválido."); return; }
+            planRemoto = (AccionTurno[])m.rival.Clone();
+            Log("PLAN RIVAL RECIBIDO · dos acciones válidas");
+            IntentarResolver();
+        }
+        else if (!relay.EsHost && m.tipo == "resolver" && estadoActual == EstadoJuego.TurnoRival)
+        {
+            if (!ReglasCombate.PlanValido(m.jugador) || !ReglasCombate.PlanValido(m.rival) || !PlanCoincide(m.rival) || !VidaCoincide(m))
+            { CancelarPartida("La ronda recibida no coincide con las acciones o la vida de esta partida."); return; }
+            ResolverYPresentar(m);
+        }
+        else if (relay.EsHost && m.tipo == "presentado" && estadoActual == EstadoJuego.ResolviendoAccion && resolucion != null)
+        {
+            var ultimo = resolucion.intercambios[resolucion.intercambios.Length - 1];
+            if (m.vidaJugador != ultimo.vidaJugadorDespues || m.vidaRival != ultimo.vidaRivalDespues)
+            { CancelarPartida("Los equipos resolvieron una vida diferente."); return; }
+            presentacionRemotaLista = true;
+            IntentarSiguienteRonda();
+        }
     }
 
-    /// <summary>
-    /// Comprueba si se ha alcanzado la condición de victoria por vida a 0.
-    /// </summary>
-    /// <returns>True si la partida concluyó, False en caso contrario.</returns>
-    private bool VerificarFinDePartida()
+    private static bool ConfiguracionValida(MensajeCombate m) => m.ronda == 1 && m.maxRondas > 0 && m.maxRondas <= 1000 &&
+        m.danioBase >= 0 && m.danioBase <= 100000 && m.vidaMaxJugador > 0 && m.vidaMaxRival > 0 &&
+        m.multiplicadorCritico >= 1 && m.multiplicadorCritico <= 100 && m.reduccionDefensa >= 0 && m.reduccionDefensa <= 1 &&
+        m.segundosAtaque >= 4 && m.segundosAtaque <= 30 && m.segundosDefensa >= .5f && m.segundosDefensa <= 30 &&
+        m.segundosResultado >= 1 && m.segundosResultado <= 30;
+    private bool VidaCoincide(MensajeCombate m) => m.vidaJugador == vidaJugador.vidaActual && m.vidaRival == vidaEnemigo.vidaActual;
+    private bool PlanCoincide(AccionTurno[] plan)
     {
-        if (vidaEnemigo != null && vidaEnemigo.vidaActual <= 0)
-        {
-            FinalizarPartida(victoriaJugador: true, "¡Victoria! Has dejado al enemigo con 0 de vida.");
-            return true;
-        }
-
-        if (vidaJugador != null && vidaJugador.vidaActual <= 0)
-        {
-            FinalizarPartida(victoriaJugador: false, "¡Derrota! Tu vida ha llegado a 0.");
-            return true;
-        }
-
-        return false;
+        if (planLocal.Count != 2) return false;
+        for (int i = 0; i < 2; i++)
+            if (plan[i].tipo != planLocal[i].tipo || plan[i].jugada != planLocal[i].jugada || plan[i].critico != planLocal[i].critico) return false;
+        return true;
     }
 
-    /// <summary>
-    /// Determina quién gana si se alcanza el límite máximo de turnos sin que nadie llegue a 0 de vida.
-    /// </summary>
-    private void DeterminarGanadorPorTurnos()
+    private void IntentarSiguienteRonda()
     {
-        int hpJugador = vidaJugador != null ? vidaJugador.vidaActual : 0;
-        int hpEnemigo = vidaEnemigo != null ? vidaEnemigo.vidaActual : 0;
-
-        if (hpJugador > hpEnemigo)
-        {
-            FinalizarPartida(victoriaJugador: true, $"¡Límite de {maxTurnos} turnos alcanzado! Ganas por mayor cantidad de vida ({hpJugador} vs {hpEnemigo}).");
-        }
-        else if (hpEnemigo > hpJugador)
-        {
-            FinalizarPartida(victoriaJugador: false, $"¡Límite de {maxTurnos} turnos alcanzado! El rival gana por vida restante ({hpEnemigo} vs {hpJugador}).");
-        }
-        else
-        {
-            FinalizarPartida(victoriaJugador: false, $"¡Límite de {maxTurnos} turnos alcanzado! Empate total ({hpJugador} vs {hpEnemigo}).");
-        }
+        if (!presentacionLocalLista || !presentacionRemotaLista || estadoActual != EstadoJuego.ResolviendoAccion) return;
+        if (!relay.Enviar(new MensajeCombate { tipo = "ronda", ronda = turnoActual + 1,
+            vidaJugador = vidaJugador.vidaActual, vidaRival = vidaEnemigo.vidaActual }))
+        { CancelarPartida("Se perdió la conexión antes de la siguiente ronda."); return; }
+        AbrirRonda(turnoActual + 1);
     }
 
-    /// <summary>
-    /// Cierra el ciclo de juego y dispara eventos correspondientes.
-    /// </summary>
-    private void FinalizarPartida(bool victoriaJugador, string motivo)
+    private void Update()
+    {
+        if (enLinea && inicioEsperaPresentacion > 0 && Time.realtimeSinceStartup - inicioEsperaPresentacion > 120)
+            CancelarPartida("El otro equipo no confirmó el final de la ronda.");
+    }
+
+    private void ConexionPerdida(string motivo)
+    {
+        if (enLinea && EnBatalla) CancelarPartida(motivo);
+    }
+    private void CancelarPartida(string motivo)
+    {
+        StopAllCoroutines();
+        relay?.CancelarConexion();
+        TerminarPartida(ResultadoPartida.Cancelada, motivo);
+    }
+    private void TerminarPartida(ResultadoPartida resultado, string motivo)
     {
         estadoActual = EstadoJuego.FinDePartida;
-        NotificarMensaje($"[FIN DE PARTIDA] {motivo}");
-        OnFinPartida?.Invoke(victoriaJugador);
+        Time.timeScale = 1;
+        pausado = false;
+        FindFirstObjectByType<PauseManager>()?.Reanudar();
+        feedback.MostrarInterfaz(true);
+        inicioEsperaPresentacion = 0;
+        FinalizarAnimaciones();
+        bool victoria = (participanteLocal == 0 && resultado == ResultadoPartida.GanaJugador) ||
+            (participanteLocal == 1 && resultado == ResultadoPartida.GanaRival);
+        string titulo = resultado == ResultadoPartida.Cancelada ? "PARTIDA INTERRUMPIDA" :
+            resultado == ResultadoPartida.Empate ? "EMPATE" : victoria ? "¡VICTORIA!" : "DERROTA";
+        if (resultado == ResultadoPartida.GanaJugador) { controladorAnimacionesJugador?.CelebrarVictoria(); controladorAnimacionesEnemigo?.CaerDerrotado(); }
+        if (resultado == ResultadoPartida.GanaRival) { controladorAnimacionesEnemigo?.CelebrarVictoria(); controladorAnimacionesJugador?.CaerDerrotado(); }
+        string detalle = $"{motivo}\nHydros: {vidaJugador?.vidaActual ?? 0} PS  ·  Ignis: {vidaEnemigo?.vidaActual ?? 0} PS\nRondas: {turnoActual}/{maxTurnos}";
+        feedback.MostrarFin(titulo, detalle, enLinea ? null : (Action)IniciarPartida, VolverAlMenu);
+        OnFinPartida?.Invoke(victoria);
+        OnResultadoPartida?.Invoke(resultado);
+        Log($"FIN resultado={resultado} motivo={motivo} PS=Hydros:{vidaJugador?.vidaActual},Ignis:{vidaEnemigo?.vidaActual}");
     }
 
-    #endregion
-
-    #region Utilidades y Piedra Papel Tijeras
-
-    /// <summary>
-    /// Compara dos jugadas de Piedra, Papel o Tijera.
-    /// </summary>
-    /// <returns>1 si gana j1, -1 si gana j2, 0 si hay empate.</returns>
-    private int CompararRPS(JugadaRPS j1, JugadaRPS j2)
+    private void ActualizarEstado(string mensaje)
     {
-        if (j1 == j2) return 0;
-
-        if ((j1 == JugadaRPS.Piedra && j2 == JugadaRPS.Tijera) ||
-            (j1 == JugadaRPS.Papel && j2 == JugadaRPS.Piedra) ||
-            (j1 == JugadaRPS.Tijera && j2 == JugadaRPS.Papel))
-        {
-            return 1;
-        }
-
-        return -1;
-    }
-
-    /// <summary>
-    /// Calcula el daño a aplicar considerando si el receptor está defendiendo.
-    /// </summary>
-    private int CalcularDanio(int danio, bool estaDefendiendo)
-    {
-        if (estaDefendiendo)
-        {
-            return Mathf.RoundToInt(danio * (1f - factorReduccionDefensa));
-        }
-        return danio;
-    }
-
-    /// <summary>
-    /// Genera una jugada aleatoria para la CPU.
-    /// </summary>
-    private JugadaRPS ObtenerJugadaAleatoriaCPU()
-    {
-        return (JugadaRPS)Random.Range(0, 3);
-    }
-
-    private void NotificarMensaje(string mensaje)
-    {
-        Debug.Log($"[GestorNivel] {mensaje}");
+        string uno = planLocal.Count > 0 ? ReglasCombate.Resumen(planLocal[0]) : "—";
+        string dos = planLocal.Count > 1 ? ReglasCombate.Resumen(planLocal[1]) : "—";
+        feedback.ActualizarEstado(turnoActual, maxTurnos, NombreLocal + " · TÚ", mensaje, $"1. {uno}      2. {dos}");
         OnMensajeEstado?.Invoke(mensaje);
     }
 
-    /// <summary>
-    /// Permite probar todo el flujo en el editor presionando teclas:
-    /// [A] Atacar
-    /// [D] Defender
-    /// [1, 2, 3] Cambiar jugada preparada (Piedra, Papel, Tijera)
-    /// </summary>
-    private void ManejarInputsDebug()
+    public void EstablecerPausa(bool pausa)
     {
-        // Soporte tanto para nuevo Input System como para el Legacy Input Manager
-        bool presionoA = false;
-        bool presionoD = false;
-        bool presiono1 = false;
-        bool presiono2 = false;
-        bool presiono3 = false;
-
-        if (Keyboard.current != null)
-        {
-            presionoA = Keyboard.current.aKey.wasPressedThisFrame;
-            presionoD = Keyboard.current.dKey.wasPressedThisFrame;
-            presiono1 = Keyboard.current.digit1Key.wasPressedThisFrame || Keyboard.current.numpad1Key.wasPressedThisFrame;
-            presiono2 = Keyboard.current.digit2Key.wasPressedThisFrame || Keyboard.current.numpad2Key.wasPressedThisFrame;
-            presiono3 = Keyboard.current.digit3Key.wasPressedThisFrame || Keyboard.current.numpad3Key.wasPressedThisFrame;
-        }
-        else
-        {
-            presionoA = Input.GetKeyDown(KeyCode.A);
-            presionoD = Input.GetKeyDown(KeyCode.D);
-            presiono1 = Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1);
-            presiono2 = Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2);
-            presiono3 = Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3);
-        }
-
-        if (presionoA)
-        {
-            JugadorSeleccionarAtaque();
-        }
-        else if (presionoD)
-        {
-            JugadorSeleccionarDefensa();
-        }
-
-        if (controladorAtaqueJugador != null)
-        {
-            if (presiono1) controladorAtaqueJugador.EstablecerJugada(JugadaRPS.Piedra);
-            if (presiono2) controladorAtaqueJugador.EstablecerJugada(JugadaRPS.Papel);
-            if (presiono3) controladorAtaqueJugador.EstablecerJugada(JugadaRPS.Tijera);
-        }
+        pausado = pausa;
+        feedback?.MostrarInterfaz(!pausa);
+        if (!pausa) InicioVentanaEntradaUtc = DateTime.UtcNow;
     }
-
-    #endregion
+    public void VolverAlMenu()
+    {
+        StopAllCoroutines();
+        estadoActual = EstadoJuego.FinDePartida;
+        FinalizarAnimaciones();
+        Time.timeScale = 1;
+        relay?.SalirAlMenu();
+        SceneManager.LoadScene("Menus");
+    }
+    private void FinalizarAnimaciones()
+    {
+        controladorAnimacionesJugador?.FinalizarAccion();
+        controladorAnimacionesEnemigo?.FinalizarAccion();
+    }
+    private void Log(string mensaje)
+    {
+        if (logsDetallados) Debug.Log($"[Combate {idPartida ?? "preparación"} | ronda {turnoActual}/{maxTurnos} | {estadoActual}] {mensaje}", this);
+    }
+    private void OnDestroy()
+    {
+        if (relay == null) return;
+        relay.OnEstadoSala -= EstadoSala;
+        relay.OnRivalListo -= IniciarComoHost;
+        relay.OnMensaje -= RecibirMensaje;
+        relay.OnConexionPerdida -= ConexionPerdida;
+    }
 }

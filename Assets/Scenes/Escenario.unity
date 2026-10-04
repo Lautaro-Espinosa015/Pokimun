@@ -758,9 +758,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
-  m_Value: 0
+  m_MaxValue: 100
+  m_WholeNumbers: 1
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -780,10 +780,10 @@ RectTransform:
   - {fileID: 1429108408}
   m_Father: {fileID: 923481430}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -274, y: -10}
-  m_SizeDelta: {x: 300, y: 30}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 220, y: -90}
+  m_SizeDelta: {x: 340, y: 28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &168435678
 PrefabInstance:
@@ -999,6 +999,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1e344e121a1c124409d9da244a235d97, type: 3}
       insertIndex: -1
       addedObject: {fileID: 197444403}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1e344e121a1c124409d9da244a235d97, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2100001001}
   m_SourcePrefab: {fileID: 100100000, guid: 1e344e121a1c124409d9da244a235d97, type: 3}
 --- !u!1 &197444401 stripped
 GameObject:
@@ -1616,10 +1619,10 @@ RectTransform:
   - {fileID: 2051421078}
   m_Father: {fileID: 923481430}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 240, y: -10}
-  m_SizeDelta: {x: 300, y: 30}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -220, y: -90}
+  m_SizeDelta: {x: 340, y: 28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &313697596
 MonoBehaviour:
@@ -1679,9 +1682,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
-  m_Value: 0
+  m_MaxValue: 100
+  m_WholeNumbers: 1
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2435,6 +2438,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e1ed19bc4a63ee3479a8c00b2a332419, type: 3}
       insertIndex: -1
       addedObject: {fileID: 234205729}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e1ed19bc4a63ee3479a8c00b2a332419, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2100001002}
   m_SourcePrefab: {fileID: 100100000, guid: e1ed19bc4a63ee3479a8c00b2a332419, type: 3}
 --- !u!4 &435341612 stripped
 Transform:
@@ -3037,7 +3043,7 @@ RectTransform:
   m_Father: {fileID: 2051421078}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3628,7 +3634,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 657088342}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b22dc0b1fc60024c9614cbec2b60ce3, type: 3}
   m_Name: 
@@ -5410,6 +5416,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2956381139885621898, guid: 7ab3b2678934bae4dba50154978c6801, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2978055827294873809, guid: 7ab3b2678934bae4dba50154978c6801, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -5496,7 +5506,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5155985656415965204, guid: 7ab3b2678934bae4dba50154978c6801, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6338,7 +6348,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1023636288}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b22dc0b1fc60024c9614cbec2b60ce3, type: 3}
   m_Name: 
@@ -7294,15 +7304,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7aca411cea77b14e97745d1a8f394fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GestorNivel
-  maxTurnos: 5
+  maxTurnos: 10
   turnoActual: 1
   danioBase: 25
   factorReduccionDefensa: 0.5
   tiempoPausaRival: 1.2
   multiplicadorDanioGrito: 1.5
-  vidaJugador: {fileID: 657088344}
-  vidaEnemigo: {fileID: 1023636290}
+  vidaJugador: {fileID: 2100001001}
+  vidaEnemigo: {fileID: 2100001002}
   controladorAtaqueJugador: {fileID: 1167999425}
+  controladorAnimacionesJugador: {fileID: 197444403}
+  controladorAnimacionesEnemigo: {fileID: 234205729}
   tiempoFeedbackAtaque: 4
   tiempoFeedbackDefensa: 1.5
   estadoActual: 0
@@ -7335,7 +7347,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 126311f7a0525e44491439eaabde5d1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DetectorCommandControl
-  controladorAnimaciones: {fileID: 0}
+  gestorNivel: {fileID: 1167999426}
+  controladoresAnimaciones: []
   umbralGritoRms: 0.12
   ventanaNivelVoz: 1
   frecuenciaMuestreoMicrofono: 16000
@@ -10917,7 +10930,7 @@ RectTransform:
   m_Father: {fileID: 1429108408}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -11121,6 +11134,36 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4934219150772252, guid: 07232b84fecc54e45b2e071b6885bb96, type: 3}
   m_PrefabInstance: {fileID: 2097594196}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2100001001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 197444401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b22dc0b1fc60024c9614cbec2b60ce3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Vida
+  maxVida: 100
+  vidaActual: 100
+  barraVida: {fileID: 165920354}
+--- !u!114 &2100001002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234205728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b22dc0b1fc60024c9614cbec2b60ce3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Vida
+  maxVida: 100
+  vidaActual: 100
+  barraVida: {fileID: 313697596}
 --- !u!1 &2108611107
 GameObject:
   m_ObjectHideFlags: 0

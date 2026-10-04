@@ -15,31 +15,26 @@ public class Options : MonoBehaviour
     void Start()
     {
         #region Start Volumen
-        volumen.value = PlayerPrefs.GetFloat("Volumen", 0.5f);
-        AudioListener.volume = volumen.value;
+        value = Mathf.Clamp01(PlayerPrefs.GetFloat("Volumen", 0.5f));
+        if (volumen != null) volumen.SetValueWithoutNotify(value);
+        AudioListener.volume = value;
         checkMute();
         #endregion
         #region Start PC
-        if (Screen.fullScreen)
-        {
-            fullscreen.isOn = true;
-        }
-        else
-        {
-            fullscreen.isOn = false;
-        }
+        if (fullscreen != null) fullscreen.SetIsOnWithoutNotify(Screen.fullScreen);
         #endregion
     }
     #region Volumen
     public void changeVolumen(float valor)
     {
-        value = valor;
+        value = Mathf.Clamp01(valor);
         AudioListener.volume = value;
         PlayerPrefs.SetFloat("Volumen", value);
         checkMute();
     }
     public void checkMute()
     {
+        if (mute == null) return;
         if (value == 0)
         {
             mute.enabled = true;

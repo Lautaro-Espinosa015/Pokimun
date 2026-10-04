@@ -1,79 +1,45 @@
+using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Vida : MonoBehaviour
 {
     [Header("Configuración")]
-    public int maxVida = 100;
+    [Min(1)] public int maxVida = 100;
     public int vidaActual;
-
     [Header("Referencia a la UI")]
     public BarraVida barraVida;
+    public event Action<int, int> OnVidaCambiada;
 
-    void Start()
-    {
-        vidaActual = maxVida;
+    private void Awake() { vidaActual = Mathf.Max(1, maxVida); }
+    private void Start() { SincronizarBarra(); }
 
-        if (barraVida != null)
-        {
-            barraVida.InicializarBarra(maxVida);
-        }
-    }
-    
-    void Update()
+    public void ReiniciarVida()
     {
-        if (Keyboard.current != null)
-        {
-            // Presiona Espacio para probar recibir 10 de daño
-            if (Keyboard.current.spaceKey.wasPressedThisFrame)
-            {
-                RecibirDanio(10);
-            }
-            // Presiona H para curar 10
-            if (Keyboard.current.hKey.wasPressedThisFrame)
-            {
-                Curar(10);
-            }
-        }
+        maxVida = Mathf.Max(1, maxVida);
+        EstablecerVida(maxVida);
     }
 
-    // Función principal para recibir daño
+    public void EstablecerVida(int valor)
+    {
+        maxVida = Mathf.Max(1, maxVida);
+        vidaActual = Mathf.Clamp(valor, 0, maxVida);
+        SincronizarBarra();
+        OnVidaCambiada?.Invoke(vidaActual, maxVida);
+    }
+
     public void RecibirDanio(int danio)
     {
-        vidaActual -= danio;
-
-        // Evitamos que la vida baje de 0
-        if (vidaActual < 0)
-        {
-            vidaActual = 0;
-        }
-
-        // Actualizamos la barra de vida en pantalla
-        if (barraVida != null)
-        {
-            barraVida.ActualizarVida(vidaActual);
-        }
-
-        // Comprobamos si el personaje se debilitó
-        if (vidaActual <= 0)
-        {
-            Debug.Log(gameObject.name + " se ha debilitado.");
-        }
+        if (danio > 0) EstablecerVida(Mathf.Max(0, vidaActual - danio));
     }
 
-    // Función opcional para curar
     public void Curar(int cantidad)
     {
-        vidaActual += cantidad;
+        if (cantidad > 0) EstablecerVida((int)Math.Min(maxVida, (long)vidaActual + cantidad));
+    }
 
-        if (vidaActual > maxVida)
-        {
-            vidaActual = maxVida;
-        }
-
-        if (barraVida != null)
-        {
-            barraVida.ActualizarVida(vidaActual);
-        }
+    public void SincronizarBarra()
+    {
+        // Un componente desactivado de un antiguo objeto de prueba no debe escribir en la UI.
+        if (isActiveAndEnabled && barraVida != null) barraVida.MostrarVida(vidaActual, maxVida);
     }
 }

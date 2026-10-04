@@ -59,7 +59,12 @@ public class GestorRedRelay : MonoBehaviour
 
     private async Task PrepararServicios()
     {
-        await UnityServices.InitializeAsync();
+        Unity.Services.Core.InitializationOptions options = new Unity.Services.Core.InitializationOptions();
+#if UNITY_EDITOR
+        // Forzar un perfil único en el Editor para que dos personas usando el mismo proyecto clonado de GitHub no choquen con el mismo ID anónimo.
+        options.SetProfile(Guid.NewGuid().ToString().Substring(0, 8));
+#endif
+        await UnityServices.InitializeAsync(options);
         if (!AuthenticationService.Instance.IsSignedIn)
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
     }
@@ -113,15 +118,18 @@ public class GestorRedRelay : MonoBehaviour
         int intento = ++operacion;
         ocupado = true;
         OnEstadoSala?.Invoke("Conectando con la sala…", true);
+        string codigoLimpio = codigoUnion.Trim();
+        Debug.Log($"[Red] Intentando unirse con código: '{codigoLimpio}'", this);
         try
         {
             await ServiciosListos();
             if (!Vigente(intento)) return;
-            JoinAllocation asignacion = await RelayService.Instance.JoinAllocationAsync(codigoUnion.Trim().ToUpperInvariant());
+            JoinAllocation asignacion = await RelayService.Instance.JoinAllocationAsync(codigoLimpio);
             if (!Vigente(intento)) return;
             PrepararRed();
             transporte.SetRelayServerData(new RelayServerData(asignacion, "dtls"));
             if (!red.StartClient()) throw new InvalidOperationException("No se pudo iniciar la conexión.");
+            Debug.Log($"[Red] StartClient() ejecutado. Esperando callback de conexión...", this);
             RegistrarCanal();
             limiteConexion = Time.realtimeSinceStartup + 30f;
         }
@@ -159,6 +167,7 @@ public class GestorRedRelay : MonoBehaviour
 
     private void AlConectar(ulong cliente)
     {
+        Debug.Log($"[Red] AlConectar disparado para el cliente: {cliente}. LocalClientId: {red.LocalClientId}", this);
         if (cerrando) return;
         RegistrarCanal();
         if (red.IsHost)
@@ -168,10 +177,25 @@ public class GestorRedRelay : MonoBehaviour
             rivalId = cliente;
             limiteConexion = Time.realtimeSinceStartup + 30f;
         }
-        else if (cliente == red.LocalClientId)
+        else if (cliente == red.LocalClientId || cliente == NetworkManager.ServerClientId)
         {
+            if (rivalId.HasValue) return; // Evitar dispararlo múltiples veces
             rivalId = NetworkManager.ServerClientId;
-            Enviar(new MensajeCombate { tipo = "listo" });
+            // Retrasar el envío un frame o medio segundo para que Netcode termine de inicializar el CustomMessagingManager internamente.
+            StartCoroutine(EnviarListoConRetraso());
+        }
+    }
+
+    private System.Collections.IEnumerator EnviarListoConRetraso()
+    {
+        // Enviar continuamente hasta que el Host nos responda con "inicio" y rivalListo sea true
+        while (!rivalListo && !cerrando)
+        {
+            yield return new WaitForSecondsRealtime(0.5f);
+            if (red != null && red.IsListening)
+            {
+                Enviar(new MensajeCombate { tipo = "listo" });
+            }
         }
     }
 
@@ -180,6 +204,7 @@ public class GestorRedRelay : MonoBehaviour
         if (red == null || !red.IsListening || !rivalId.HasValue) return false;
         mensaje.partida = partida;
         string json = JsonUtility.ToJson(mensaje);
+        Debug.Log($"[Red] ENVIANDO a {rivalId.Value}: {json}", this);
         int longitud = FastBufferWriter.GetWriteSize(json);
         if (longitud > MaxBytes) return false;
         using (var writer = new FastBufferWriter(longitud, Allocator.Temp))
@@ -196,11 +221,13 @@ public class GestorRedRelay : MonoBehaviour
         try
         {
             reader.ReadValueSafe(out string json);
+            Debug.Log($"[Red] RECIBIDO de {remitente}: {json}", this);
             var mensaje = JsonUtility.FromJson<MensajeCombate>(json);
             if (mensaje == null || mensaje.version != 1) { ErrorConexion("La otra copia del juego usa una versión de combate diferente."); return; }
             if (EsHost && mensaje.tipo == "listo")
             {
-                if (rivalListo) return;
+                // Si el cliente nos vuelve a decir "listo", significa que no recibió nuestro "inicio".
+                // Volvemos a disparar OnRivalListo para reenviarle el paquete.
                 rivalListo = true;
                 limiteConexion = 0;
                 OnRivalListo?.Invoke();

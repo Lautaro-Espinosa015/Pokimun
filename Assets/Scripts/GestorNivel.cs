@@ -371,16 +371,25 @@ public class GestorNivel : MonoBehaviour
 
     private void IniciarComoHost()
     {
-        if (estadoActual != EstadoJuego.EsperandoInicio || !ReferenciasValidas()) return;
-        PrepararPartida(true, 0);
+        if (!ReferenciasValidas()) return;
         var inicio = new MensajeCombate {
             tipo = "inicio", ronda = 1, maxRondas = maxTurnos, danioBase = danioBase,
             vidaMaxJugador = vidaJugador.maxVida, vidaMaxRival = vidaEnemigo.maxVida,
             multiplicadorCritico = multiplicadorDanioGrito, reduccionDefensa = factorReduccionDefensa,
             segundosAtaque = tiempoFeedbackAtaque, segundosDefensa = tiempoFeedbackDefensa, segundosResultado = tiempoResultado
         };
-        if (!relay.Enviar(inicio)) { CancelarPartida("No se pudo iniciar la partida con el rival."); return; }
-        AbrirRonda(1);
+        
+        if (estadoActual == EstadoJuego.EsperandoInicio)
+        {
+            PrepararPartida(true, 0);
+            if (!relay.Enviar(inicio)) { CancelarPartida("No se pudo iniciar la partida con el rival."); return; }
+            AbrirRonda(1);
+        }
+        else
+        {
+            // El cliente no recibió el paquete y lo volvió a pedir, se lo reenviamos
+            relay.Enviar(inicio);
+        }
     }
 
     private void RecibirMensaje(MensajeCombate m)

@@ -170,7 +170,9 @@ public class FeedbackAtaqueUI : MonoBehaviour
         codigo = CampoCodigo(panel, new Vector2(-112, -10));
         unir = Boton(panel, "Unirse", new Vector2(174, -10), new Vector2(180, 54), () => unirse(codigo.text));
         estadoSala = Texto(panel, "En solitario jugarás contra la CPU.", new Vector2(0, -103), new Vector2(560, 116), 23);
-        estadoSala.richText = false;
+        var tmpEstado = (TextMeshProUGUI)estadoSala;
+        tmpEstado.font = null; // Usar LiberationSans para ver mayúsculas/minúsculas reales
+        tmpEstado.richText = false;
         cancelar = Boton(panel, "Cancelar conexión", new Vector2(0, -204), new Vector2(530, 48), cancelarSala);
         cancelar.gameObject.SetActive(false);
         Boton(panel, "Volver al menú", new Vector2(0, -266), new Vector2(530, 48), menu);
@@ -387,8 +389,17 @@ public class FeedbackAtaqueUI : MonoBehaviour
         var campo = rect.gameObject.AddComponent<TMP_InputField>();
         var texto = Texto(rect, "", Vector2.zero, new Vector2(276, 44), 26);
         campo.textViewport = rect;
-        campo.textComponent = (TextMeshProUGUI)texto;
-        campo.placeholder = Texto(rect, "Código de sala", Vector2.zero, new Vector2(276, 44), 23);
+        
+        // Forzar fuente estándar para diferenciar mayúsculas y minúsculas
+        var tmpTexto = (TextMeshProUGUI)texto;
+        tmpTexto.font = null; // Usará LiberationSans por defecto
+        campo.textComponent = tmpTexto;
+        
+        var placeholderTxt = Texto(rect, "Código de sala", Vector2.zero, new Vector2(276, 44), 23);
+        var tmpPlaceholder = (TextMeshProUGUI)placeholderTxt;
+        tmpPlaceholder.font = null;
+        campo.placeholder = tmpPlaceholder;
+        
         campo.characterLimit = 12;
         campo.contentType = TMP_InputField.ContentType.Alphanumeric;
         campo.lineType = TMP_InputField.LineType.SingleLine;

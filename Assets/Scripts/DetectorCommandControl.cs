@@ -19,6 +19,7 @@ public class DetectorCommandControl : MonoBehaviour
     [SerializeField, Min(.1f)] private float ventanaNivelVoz = 1f;
     [SerializeField, Min(8000)] private int frecuenciaMuestreoMicrofono = 16000;
     private readonly Dictionary<string, AccionTurno> comandos = new Dictionary<string, AccionTurno>();
+    private readonly Dictionary<string, Action> comandosMenu = new Dictionary<string, Action>();
     private readonly Queue<Frase> frases = new Queue<Frase>();
     private readonly Queue<Medicion> mediciones = new Queue<Medicion>();
     private struct Frase { public string texto; public DateTime inicioUtc; }
@@ -35,15 +36,34 @@ public class DetectorCommandControl : MonoBehaviour
         if (gestorNivel == null) gestorNivel = GetComponent<GestorNivel>();
         if (gestorNivel == null) gestorNivel = FindFirstObjectByType<GestorNivel>();
         comandos.Clear();
-        foreach (string palabra in new[] { "roca", "piedra" }) comandos[palabra] = AccionTurno.Ataque(JugadaRPS.Piedra);
-        foreach (string palabra in new[] { "hoja", "papel" }) comandos[palabra] = AccionTurno.Ataque(JugadaRPS.Papel);
-        foreach (string palabra in new[] { "tijera", "tijeras", "hidro pulso" }) comandos[palabra] = AccionTurno.Ataque(JugadaRPS.Tijera);
-        foreach (string palabra in new[] { "escudo", "defensa", "bloqueo" }) comandos[palabra] = AccionTurno.Defensa();
+        comandosMenu.Clear();
+        foreach (string palabra in new[] { "roca", "piedra", "rock", "escudo", "defensa", "bloqueo", "shield", "protect" }) comandos[palabra] = AccionTurno.Defensa();
+        foreach (string palabra in new[] { "hoja", "papel", "paper", "cura", "sanacion", "sanación" }) comandos[palabra] = AccionTurno.Curar();
+        foreach (string palabra in new[] { "tijera", "tijeras", "scissors", "hidro pulso", "piro pulso", "atacar", "attack", "water pulse", "fire pulse" }) comandos[palabra] = AccionTurno.Ataque(JugadaRPS.Tijera);
+        
+        comandosMenu["solitario"] = gestorNivel.IniciarPartida;
+        comandosMenu["jugar en solitario"] = gestorNivel.IniciarPartida;
+        comandosMenu["multijugador"] = gestorNivel.CrearSala;
+        comandosMenu["crear partida multijugador"] = gestorNivel.CrearSala;
+
+        // Comandos de fin de partida (Victoria/Derrota)
+        comandosMenu["revancha"] = gestorNivel.IniciarPartida;
+        comandosMenu["jugar de nuevo"] = gestorNivel.IniciarPartida;
+        comandosMenu["volver a jugar"] = gestorNivel.IniciarPartida;
+        comandosMenu["reintentar"] = gestorNivel.IniciarPartida;
+        
+        comandosMenu["salir"] = gestorNivel.VolverAlMenu;
+        comandosMenu["volver"] = gestorNivel.VolverAlMenu;
+        comandosMenu["volver al menu"] = gestorNivel.VolverAlMenu;
+        comandosMenu["regresar a menu"] = gestorNivel.VolverAlMenu;
+        comandosMenu["menu"] = gestorNivel.VolverAlMenu;
+        
         falloMicrofono = false;
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
         try
         {
-            reconocedor = new KeywordRecognizer(comandos.Keys.ToArray());
+            var todasLasPalabras = comandos.Keys.Concat(comandosMenu.Keys).ToArray();
+            reconocedor = new KeywordRecognizer(todasLasPalabras);
             reconocedor.OnPhraseRecognized += AlReconocerFrase;
             reconocedor.Start();
             Debug.Log("[Voz] Comandos: roca/piedra, hoja/papel, tijera/hidro pulso y escudo. Volumen alto potencia el ataque.", this);
@@ -68,6 +88,14 @@ public class DetectorCommandControl : MonoBehaviour
                 if (frases.Count == 0) break;
                 frase = frases.Dequeue();
             }
+            if (comandosMenu.TryGetValue(frase.texto, out Action accionMenu))
+            {
+                Debug.Log($"[Voz] Ejecutando acción de menú: {frase.texto}", this);
+                accionMenu.Invoke();
+                mediciones.Clear();
+                continue;
+            }
+
             if (!disponible || !gestorNivel.PuedeRecibirAcciones || frase.inicioUtc < gestorNivel.InicioVentanaEntradaUtc)
             {
                 Debug.Log($"[Voz] Descartado '{frase.texto}': selección cerrada, pausada o comando de una ventana anterior.", this);
@@ -84,15 +112,15 @@ public class DetectorCommandControl : MonoBehaviour
         Keyboard k = Keyboard.current;
         bool critico = k.leftShiftKey.isPressed || k.rightShiftKey.isPressed;
         if (k.digit1Key.wasPressedThisFrame || k.numpad1Key.wasPressedThisFrame)
-            gestorNivel.IntentarRegistrarAccion(AccionTurno.Ataque(JugadaRPS.Piedra, critico), "teclado 1");
+            gestorNivel.IntentarRegistrarAccion(AccionTurno.Defensa(), "teclado 1");
         else if (k.digit2Key.wasPressedThisFrame || k.numpad2Key.wasPressedThisFrame)
-            gestorNivel.IntentarRegistrarAccion(AccionTurno.Ataque(JugadaRPS.Papel, critico), "teclado 2");
+            gestorNivel.IntentarRegistrarAccion(AccionTurno.Curar(), "teclado 2");
         else if (k.digit3Key.wasPressedThisFrame || k.numpad3Key.wasPressedThisFrame)
             gestorNivel.IntentarRegistrarAccion(AccionTurno.Ataque(JugadaRPS.Tijera, critico), "teclado 3");
         else if (k.dKey.wasPressedThisFrame || k.digit0Key.wasPressedThisFrame || k.numpad0Key.wasPressedThisFrame)
             gestorNivel.IntentarRegistrarAccion(AccionTurno.Defensa(), "teclado D/0");
         else if (k.aKey.wasPressedThisFrame)
-            gestorNivel.IntentarRegistrarAccion(AccionTurno.Ataque(gestorNivel.ObtenerJugadaAtaqueJugador(), critico), "teclado A / gesto preparado");
+            gestorNivel.IntentarRegistrarAccion(AccionTurno.Ataque(JugadaRPS.Tijera, critico), "teclado A / gesto preparado");
     }
 
     private static bool Escribiendo()

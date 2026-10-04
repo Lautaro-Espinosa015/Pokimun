@@ -6,10 +6,6 @@ using UnityEngine.SceneManagement;
 
 public enum EstadoJuego { EsperandoInicio, TurnoJugador, TurnoRival, ResolviendoAccion, FinDePartida }
 
-/// <summary>
-/// Único punto de entrada al combate. Congela los dos planes, resuelve cada pareja una vez
-/// y coordina su presentación. Hydros es el participante 0; Ignis es el 1 (CPU o cliente).
-/// </summary>
 public class GestorNivel : MonoBehaviour
 {
     [Header("Configuración de Turnos")]
@@ -17,8 +13,7 @@ public class GestorNivel : MonoBehaviour
     [SerializeField] private int turnoActual = 1;
     [Header("Parámetros de Combate")]
     [SerializeField, Min(0)] private int danioBase = 25;
-    [SerializeField, Range(0, 1)] private float factorReduccionDefensa = .5f;
-    [SerializeField, Min(0)] private float tiempoPausaRival = 1.2f;
+    [SerializeField, Range(0, 1)] private float factorReduccionDefensa = .3f;
     [SerializeField, Min(1)] private float multiplicadorDanioGrito = 1.5f;
     [SerializeField, Range(0, 1)] private float probabilidadDefensaCPU = .35f;
     [SerializeField, Range(0, 1)] private float probabilidadCriticoCPU = .2f;
@@ -30,6 +25,9 @@ public class GestorNivel : MonoBehaviour
     [Header("Animación de Personajes")]
     [SerializeField] private ControladorAnimaciones controladorAnimacionesJugador;
     [SerializeField] private ControladorAnimaciones controladorAnimacionesEnemigo;
+    [Header("Efectos Visuales de Personaje")]
+    [SerializeField] private EfectoVisualPersonaje efectoVisualJugador;
+    [SerializeField] private EfectoVisualPersonaje efectoVisualEnemigo;
     [Header("Presentación de Acciones")]
     [SerializeField, Min(4)] private float tiempoFeedbackAtaque = 4f;
     [SerializeField, Min(.5f)] private float tiempoFeedbackDefensa = 1.5f;
@@ -40,18 +38,17 @@ public class GestorNivel : MonoBehaviour
 
     public Action<int, int> OnTurnoActualizado;
     public Action<string> OnMensajeEstado;
-    // Compatibilidad: false incluye derrota/empate/cancelación. Para distinguirlos usar OnResultadoPartida.
     public Action<bool> OnFinPartida;
     public Action<ResultadoPartida> OnResultadoPartida;
 
     private FeedbackAtaqueUI feedback;
     private GestorRedRelay relay;
     private readonly List<AccionTurno> planLocal = new List<AccionTurno>(2);
-    private AccionTurno[] planRemoto;
     private ResultadoRonda resolucion;
-    private bool enLinea, pausado, presentacionLocalLista, presentacionRemotaLista;
+    private bool enLinea, pausado, esMiTurno;
     private int participanteLocal;
-    private float inicioEsperaPresentacion;
+    private int bloqueosJugadorLocal;
+    private int bloqueosJugadorRemoto;
     private string idPartida;
 
     public bool EnLinea => enLinea;
@@ -67,11 +64,31 @@ public class GestorNivel : MonoBehaviour
         if (controladorAtaqueJugador == null) controladorAtaqueJugador = GetComponent<ControladorAtaqueJugador>();
         feedback = GetComponent<FeedbackAtaqueUI>();
         if (feedback == null) feedback = gameObject.AddComponent<FeedbackAtaqueUI>();
-        // Las animaciones se buscan solamente en el dueño de cada Vida, nunca en un personaje arbitrario.
         if (controladorAnimacionesJugador == null && vidaJugador != null)
             controladorAnimacionesJugador = vidaJugador.GetComponent<ControladorAnimaciones>();
         if (controladorAnimacionesEnemigo == null && vidaEnemigo != null)
             controladorAnimacionesEnemigo = vidaEnemigo.GetComponent<ControladorAnimaciones>();
+        // Auto-encontrar los efectos visuales si no se asignaron manualmente
+        if (efectoVisualJugador == null && vidaJugador != null)
+            efectoVisualJugador = vidaJugador.GetComponentInChildren<EfectoVisualPersonaje>();
+        if (efectoVisualEnemigo == null && vidaEnemigo != null)
+            efectoVisualEnemigo = vidaEnemigo.GetComponentInChildren<EfectoVisualPersonaje>();
+        if (efectoVisualJugador == null || efectoVisualEnemigo == null)
+        {
+            var todos = FindObjectsByType<EfectoVisualPersonaje>(FindObjectsSortMode.None);
+            foreach (var ef in todos)
+            {
+                if (efectoVisualJugador == null && ef.name.ToLower().Contains("hydros")) efectoVisualJugador = ef;
+                if (efectoVisualEnemigo == null && ef.name.ToLower().Contains("ignis")) efectoVisualEnemigo = ef;
+            }
+            // Si solo hay 2 en escena y no se resolvieron por nombre, asignar por orden
+            if (todos.Length == 2)
+            {
+                if (efectoVisualJugador == null) efectoVisualJugador = todos[0];
+                if (efectoVisualEnemigo == null) efectoVisualEnemigo = todos[1];
+            }
+        }
+        Debug.Log($"[GestorNivel] EfectoVisualJugador={(efectoVisualJugador != null ? efectoVisualJugador.name : "NULL")}  EfectoVisualEnemigo={(efectoVisualEnemigo != null ? efectoVisualEnemigo.name : "NULL")}");
         relay = FindFirstObjectByType<GestorRedRelay>();
         if (relay != null)
         {
@@ -106,7 +123,7 @@ public class GestorNivel : MonoBehaviour
         feedback.MostrarSala(IniciarPartida, CrearSala, UnirseSala, CancelarSala, VolverAlMenu);
     }
 
-    private void CrearSala()
+    public void CrearSala()
     {
         if (relay == null) { EstadoSala("La escena no tiene GestorRedRelay.", false); return; }
         _ = relay.CrearPartidaHost();
@@ -142,6 +159,9 @@ public class GestorNivel : MonoBehaviour
         participanteLocal = local;
         pausado = false;
         Time.timeScale = 1;
+        esMiTurno = !online || relay.EsHost;
+        bloqueosJugadorLocal = 0;
+        bloqueosJugadorRemoto = 0;
         string identificador = online ? relay.IdPartida : Guid.NewGuid().ToString("N");
         idPartida = identificador.Substring(0, Mathf.Min(8, identificador.Length));
         maxTurnos = Mathf.Max(1, maxTurnos);
@@ -156,11 +176,11 @@ public class GestorNivel : MonoBehaviour
         vidaJugador.barraVida.AsignarNombre(participanteLocal == 0 ? "HYDROS · TÚ" : "HYDROS · RIVAL");
         vidaEnemigo.barraVida.AsignarNombre(participanteLocal == 1 ? "IGNIS · TÚ" : online ? "IGNIS · RIVAL" : "IGNIS · CPU");
         FinalizarAnimaciones();
+        efectoVisualJugador?.QuitarTodosLosEfectos();
+        efectoVisualEnemigo?.QuitarTodosLosEfectos();
         feedback.Limpiar();
         feedback.OcultarSala();
-        Log($"INICIO modo={(online ? "multijugador" : "solo")} local={NombreLocal} rondas={maxTurnos} " +
-            $"PS=Hydros:{vidaJugador.vidaActual}/{vidaJugador.maxVida},Ignis:{vidaEnemigo.vidaActual}/{vidaEnemigo.maxVida} " +
-            $"dañoBase={danioBase} crítico=x{multiplicadorDanioGrito} reducciónEscudo={factorReduccionDefensa:P0}");
+        Log($"INICIO modo={(online ? "multijugador" : "solo")} local={NombreLocal} rondas={maxTurnos}");
     }
 
     private string NombreLocal => participanteLocal == 0 ? "HYDROS" : "IGNIS";
@@ -169,21 +189,31 @@ public class GestorNivel : MonoBehaviour
     {
         turnoActual = ronda;
         planLocal.Clear();
-        planRemoto = enLinea ? null : ElegirPlanCPU();
         resolucion = null;
-        presentacionLocalLista = presentacionRemotaLista = false;
-        inicioEsperaPresentacion = 0;
-        estadoActual = EstadoJuego.TurnoJugador;
+        estadoActual = esMiTurno ? EstadoJuego.TurnoJugador : EstadoJuego.TurnoRival;
         InicioVentanaEntradaUtc = DateTime.UtcNow;
         OnTurnoActualizado?.Invoke(turnoActual, maxTurnos);
-        ActualizarEstado("Elige dos acciones: dos ataques o un ataque y un escudo.");
-        Log("RONDA ABIERTA · entrada habilitada · acciones=0/2");
+        if (esMiTurno) ActualizarEstado("Elige dos acciones: ataca, cúrate o defiéndete.");
+        else ActualizarEstado("Turno del rival. Esperando acciones...");
+        Log("RONDA ABIERTA");
+        
+        if (!enLinea && !esMiTurno)
+        {
+            StartCoroutine(TurnoCPU());
+        }
+    }
+
+    private IEnumerator TurnoCPU()
+    {
+        yield return new WaitForSeconds(1f);
+        var plan = ElegirPlanCPU();
+        ResolverYPresentar(plan, false);
     }
 
     private AccionTurno[] ElegirPlanCPU()
     {
         var plan = new AccionTurno[2];
-        int defensa = UnityEngine.Random.value < probabilidadDefensaCPU ? UnityEngine.Random.Range(0, 2) : -1;
+        int defensa = turnoActual > 1 && UnityEngine.Random.value < probabilidadDefensaCPU ? UnityEngine.Random.Range(0, 2) : -1;
         for (int i = 0; i < plan.Length; i++)
             plan[i] = i == defensa ? AccionTurno.Defensa() :
                 AccionTurno.Ataque((JugadaRPS)UnityEngine.Random.Range(0, 3), UnityEngine.Random.value < probabilidadCriticoCPU);
@@ -198,103 +228,140 @@ public class GestorNivel : MonoBehaviour
 
     public bool IntentarRegistrarAccion(AccionTurno accion, string origen)
     {
-        if (!PuedeRecibirAcciones)
+        if (!PuedeRecibirAcciones || !esMiTurno)
         {
-            Log($"ENTRADA RECHAZADA origen={origen} estado={estadoActual} pausa={pausado} acciones={planLocal.Count}/2");
+            Log($"ENTRADA RECHAZADA");
             return false;
         }
-        if (!ReglasCombate.PuedeAgregar(planLocal, accion, out string motivo))
+        if (!ReglasCombate.PuedeAgregar(planLocal, accion, turnoActual, out string motivo))
         {
             ActualizarEstado(motivo);
-            Log($"ENTRADA RECHAZADA origen={origen} motivo={motivo}");
             return false;
         }
-        planLocal.Add(accion); // Copia por valor: un gesto/voz posterior no altera esta elección.
-        Log($"ACCIÓN ACEPTADA actor={NombreLocal} posición={planLocal.Count}/2 tipo={accion.tipo} gesto={accion.jugada} crítico={accion.critico} origen={origen}");
+        planLocal.Add(accion);
+        Log($"ACCIÓN ACEPTADA {accion.tipo}");
         if (planLocal.Count < 2)
         {
-            ActualizarEstado(accion.tipo == AccionCombate.Defender ? "Escudo elegido. Falta un ataque." : "Acción elegida. Falta un ataque o un escudo.");
+            ActualizarEstado(accion.tipo == AccionCombate.Defender ? "Escudo elegido. Falta una acción." : "Acción elegida. Falta otra.");
             return true;
         }
-        estadoActual = EstadoJuego.TurnoRival; // Bloquear antes de enviar o iniciar una corrutina.
-        ActualizarEstado(enLinea ? "Plan cerrado. Esperando al rival…" : "Plan cerrado. Comienza el intercambio.");
-        if (enLinea && !relay.EsHost)
+        
+        estadoActual = EstadoJuego.ResolviendoAccion;
+        if (enLinea)
         {
-            if (!relay.Enviar(new MensajeCombate { tipo = "plan", ronda = turnoActual, rival = planLocal.ToArray() }))
-                CancelarPartida("No se pudo enviar tu plan al rival.");
+            if (!relay.Enviar(new MensajeCombate { tipo = "turno", ronda = turnoActual, jugador = planLocal.ToArray(), 
+                vidaJugador = vidaJugador.vidaActual, vidaRival = vidaEnemigo.vidaActual }))
+            { CancelarPartida("Se perdió la conexión al enviar turno."); return false; }
         }
-        else IntentarResolver();
+        
+        ResolverYPresentar(planLocal.ToArray(), true);
         return true;
     }
 
-    private void IntentarResolver()
+    private void ResolverYPresentar(AccionTurno[] plan, bool soyAtacante)
     {
-        if (estadoActual != EstadoJuego.TurnoRival || planLocal.Count != 2 || !ReglasCombate.PlanValido(planRemoto)) return;
-        var mensaje = new MensajeCombate {
-            tipo = "resolver", ronda = turnoActual, jugador = planLocal.ToArray(), rival = (AccionTurno[])planRemoto.Clone(),
-            vidaJugador = vidaJugador.vidaActual, vidaRival = vidaEnemigo.vidaActual
-        };
-        if (enLinea && !relay.Enviar(mensaje)) { CancelarPartida("Se perdió la conexión antes de resolver la ronda."); return; }
-        ResolverYPresentar(mensaje);
-    }
+        int vidaA = soyAtacante ? vidaJugador.vidaActual : vidaEnemigo.vidaActual;
+        int vidaD = soyAtacante ? vidaEnemigo.vidaActual : vidaJugador.vidaActual;
+        int vidaMaxA = soyAtacante ? vidaJugador.maxVida : vidaEnemigo.maxVida;
+        
+        // Los escudos caducan al volver a ser tu turno, no se acumulan entre rondas.
+        int bloqA = 0; 
+        int bloqD = soyAtacante ? bloqueosJugadorRemoto : bloqueosJugadorLocal;
 
-    private void ResolverYPresentar(MensajeCombate mensaje)
-    {
-        resolucion = ReglasCombate.Resolver(turnoActual, maxTurnos, mensaje.jugador, mensaje.rival,
-            vidaJugador.vidaActual, vidaEnemigo.vidaActual, danioBase, multiplicadorDanioGrito, factorReduccionDefensa);
+        // Quitar visualmente el escudo del que ahora es atacante, ya que caducó
+        if (soyAtacante) efectoVisualJugador?.QuitarDefensa();
+        else efectoVisualEnemigo?.QuitarDefensa();
+
+        resolucion = ReglasCombate.ResolverTurno(turnoActual, maxTurnos, plan,
+            vidaA, vidaD, vidaMaxA, bloqA, bloqD, danioBase, multiplicadorDanioGrito, factorReduccionDefensa, soyAtacante);
+
+        // Almacenar el número de bloqueos antes de la resolución para rastrearlo visualmente
+        int bloqueosVisualesDefensor = bloqD;
+
+        if (soyAtacante) bloqueosJugadorLocal = resolucion.bloqueosRestantesAtacante;
+        else bloqueosJugadorRemoto = resolucion.bloqueosRestantesAtacante;
+
+        if (soyAtacante) bloqueosJugadorRemoto = resolucion.bloqueosRestantesDefensor;
+        else bloqueosJugadorLocal = resolucion.bloqueosRestantesDefensor;
+
         estadoActual = EstadoJuego.ResolviendoAccion;
-        ActualizarEstado("Acciones cerradas · observa el intercambio.");
-        Log($"PLANES CERRADOS Hydros=[{ReglasCombate.Resumen(mensaje.jugador[0])}, {ReglasCombate.Resumen(mensaje.jugador[1])}] " +
-            $"Ignis=[{ReglasCombate.Resumen(mensaje.rival[0])}, {ReglasCombate.Resumen(mensaje.rival[1])}]");
-        StartCoroutine(PresentarRonda());
+        ActualizarEstado("Observa el turno.");
+        StartCoroutine(PresentarTurno(plan, soyAtacante, bloqueosVisualesDefensor));
     }
 
-    private IEnumerator PresentarRonda()
+    private IEnumerator PresentarTurno(AccionTurno[] plan, bool soyAtacante, int bloqueosVisualesDefensor)
     {
+        ControladorAnimaciones animA = soyAtacante ? controladorAnimacionesJugador : controladorAnimacionesEnemigo;
+        ControladorAnimaciones animD = soyAtacante ? controladorAnimacionesEnemigo : controladorAnimacionesJugador;
+        string nombreA = soyAtacante ? "HYDROS" : "IGNIS";
+        string nombreD = soyAtacante ? "IGNIS" : "HYDROS";
+        Vida vidaA = soyAtacante ? vidaJugador : vidaEnemigo;
+        Vida vidaD = soyAtacante ? vidaEnemigo : vidaJugador;
+
         foreach (ResultadoIntercambio r in resolucion.intercambios)
         {
-            ActualizarEstado($"Intercambio {r.pareja}/2 · acciones bloqueadas.");
-            yield return PresentarAccion(r.jugador, controladorAnimacionesJugador, "HYDROS", r.pareja, participanteLocal != 0);
-            if (tiempoPausaRival > 0) yield return new WaitForSeconds(tiempoPausaRival);
-            yield return PresentarAccion(r.rival, controladorAnimacionesEnemigo, "IGNIS", r.pareja, participanteLocal != 1);
-            // El resultado se aplica una sola vez, después de ambas presentaciones.
-            vidaJugador.EstablecerVida(r.vidaJugadorDespues);
-            vidaEnemigo.EstablecerVida(r.vidaRivalDespues);
-            if (r.danioAplicado > 0)
+            ActualizarEstado($"Acción {r.numero}/2");
+            yield return PresentarAccion(r.accion, animA, nombreA, r.numero, !soyAtacante);
+            
+            vidaA.EstablecerVida(r.vidaAtacanteDespues);
+            vidaD.EstablecerVida(r.vidaDefensorDespues);
+            
+            if (r.danioAplicado > 0) animD?.RecibirDano();
+
+            // Si el escudo del defensor se agotó en esta acción, quitar el efecto visual
+            if (r.bloqueoAplicado)
             {
-                if (r.ganador == 1) controladorAnimacionesEnemigo?.RecibirDano();
-                else controladorAnimacionesJugador?.RecibirDano();
+                bloqueosVisualesDefensor--;
+                if (bloqueosVisualesDefensor <= 0)
+                {
+                    EfectoVisualPersonaje efDefensor = soyAtacante ? efectoVisualEnemigo : efectoVisualJugador;
+                    efDefensor?.QuitarDefensa();
+                }
             }
-            feedback.MostrarResultado(r, "HYDROS", "IGNIS", tiempoResultado);
-            Log($"RESULTADO pareja={r.pareja} ganador={(r.ganador == 1 ? "Hydros" : r.ganador == -1 ? "Ignis" : "empate")} " +
-                $"crítico={r.critico} escudo={r.bloqueo} base={danioBase} previoEscudo={r.danioSinDefensa} " +
-                $"calculado={r.danioCalculado} aplicado={r.danioAplicado} exceso={r.danioCalculado - r.danioAplicado} " +
-                $"Hydros={r.vidaJugadorAntes}→{r.vidaJugadorDespues} Ignis={r.vidaRivalAntes}→{r.vidaRivalDespues}");
+
+            feedback.MostrarResultado(r, nombreA, nombreD, tiempoResultado, !soyAtacante);
             yield return new WaitForSeconds(tiempoResultado);
             FinalizarAnimaciones();
         }
-        presentacionLocalLista = true;
+
         if (resolucion.resultado != ResultadoPartida.EnCurso)
         {
             TerminarPartida(resolucion.resultado, resolucion.motivo);
             yield break;
         }
-        if (!enLinea) { AbrirRonda(turnoActual + 1); yield break; }
-        inicioEsperaPresentacion = Time.realtimeSinceStartup;
-        ActualizarEstado("Esperando que el rival termine de ver el intercambio…");
-        if (relay.EsHost) IntentarSiguienteRonda();
-        else if (!relay.Enviar(new MensajeCombate { tipo = "presentado", ronda = turnoActual,
-            vidaJugador = vidaJugador.vidaActual, vidaRival = vidaEnemigo.vidaActual }))
-            CancelarPartida("Se perdió la conexión al finalizar la ronda.");
+
+        esMiTurno = !esMiTurno;
+        if ((enLinea && relay.EsHost && esMiTurno) || (!enLinea && esMiTurno))
+        {
+            AbrirRonda(turnoActual + 1);
+        }
+        else if (enLinea && !relay.EsHost && !esMiTurno)
+        {
+            AbrirRonda(turnoActual + 1);
+        }
+        else
+        {
+            AbrirRonda(turnoActual);
+        }
     }
 
     private IEnumerator PresentarAccion(AccionTurno accion, ControladorAnimaciones animador, string nombre, int numero, bool rival)
     {
         float duracion = accion.tipo == AccionCombate.Atacar ? tiempoFeedbackAtaque : tiempoFeedbackDefensa;
         feedback.MostrarAccion(accion, nombre, numero, duracion, rival);
-        if (accion.tipo == AccionCombate.Defender) animador?.EjecutarDefensa(true);
+        // Determinar a qué personaje pertenece este turno para los efectos de cuerpo
+        EfectoVisualPersonaje efPersonaje = rival ? efectoVisualEnemigo : efectoVisualJugador;
+        if (accion.tipo == AccionCombate.Defender)
+        {
+            animador?.EjecutarDefensa(true);
+            efPersonaje?.MostrarDefensa();
+        }
+        else if (accion.tipo == AccionCombate.Curar)
+        {
+            efPersonaje?.MostrarCuracion();
+        }
         else if (accion.critico) animador?.EjecutarAtaqueCritico(accion.jugada);
-        else animador?.EjecutarAtaque(accion.jugada);
+        else if (accion.tipo == AccionCombate.Atacar) animador?.EjecutarAtaque(accion.jugada);
         yield return new WaitForSeconds(duracion);
         if (accion.tipo == AccionCombate.Atacar) animador?.FinalizarAccion();
     }
@@ -333,34 +400,11 @@ public class GestorNivel : MonoBehaviour
             return;
         }
         if (!enLinea) return;
-        if (m.tipo == "ronda" && !relay.EsHost && presentacionLocalLista && m.ronda == turnoActual + 1 && m.ronda <= maxTurnos)
+        if (m.tipo == "turno" && !esMiTurno && m.ronda == turnoActual)
         {
+            if (!ReglasCombate.PlanValido(m.jugador, m.ronda)) { CancelarPartida("El rival envió un plan de acciones inválido."); return; }
             if (!VidaCoincide(m)) { CancelarPartida("Los puntos de vida no coinciden entre los equipos."); return; }
-            AbrirRonda(m.ronda);
-            return;
-        }
-        if (m.ronda != turnoActual) { Log($"MENSAJE IGNORADO tipo={m.tipo} rondaRecibida={m.ronda}"); return; }
-        if (relay.EsHost && m.tipo == "plan" && planRemoto == null &&
-            (estadoActual == EstadoJuego.TurnoJugador || estadoActual == EstadoJuego.TurnoRival))
-        {
-            if (!ReglasCombate.PlanValido(m.rival)) { CancelarPartida("El rival envió un plan de acciones inválido."); return; }
-            planRemoto = (AccionTurno[])m.rival.Clone();
-            Log("PLAN RIVAL RECIBIDO · dos acciones válidas");
-            IntentarResolver();
-        }
-        else if (!relay.EsHost && m.tipo == "resolver" && estadoActual == EstadoJuego.TurnoRival)
-        {
-            if (!ReglasCombate.PlanValido(m.jugador) || !ReglasCombate.PlanValido(m.rival) || !PlanCoincide(m.rival) || !VidaCoincide(m))
-            { CancelarPartida("La ronda recibida no coincide con las acciones o la vida de esta partida."); return; }
-            ResolverYPresentar(m);
-        }
-        else if (relay.EsHost && m.tipo == "presentado" && estadoActual == EstadoJuego.ResolviendoAccion && resolucion != null)
-        {
-            var ultimo = resolucion.intercambios[resolucion.intercambios.Length - 1];
-            if (m.vidaJugador != ultimo.vidaJugadorDespues || m.vidaRival != ultimo.vidaRivalDespues)
-            { CancelarPartida("Los equipos resolvieron una vida diferente."); return; }
-            presentacionRemotaLista = true;
-            IntentarSiguienteRonda();
+            ResolverYPresentar(m.jugador, false);
         }
     }
 
@@ -369,29 +413,7 @@ public class GestorNivel : MonoBehaviour
         m.multiplicadorCritico >= 1 && m.multiplicadorCritico <= 100 && m.reduccionDefensa >= 0 && m.reduccionDefensa <= 1 &&
         m.segundosAtaque >= 4 && m.segundosAtaque <= 30 && m.segundosDefensa >= .5f && m.segundosDefensa <= 30 &&
         m.segundosResultado >= 1 && m.segundosResultado <= 30;
-    private bool VidaCoincide(MensajeCombate m) => m.vidaJugador == vidaJugador.vidaActual && m.vidaRival == vidaEnemigo.vidaActual;
-    private bool PlanCoincide(AccionTurno[] plan)
-    {
-        if (planLocal.Count != 2) return false;
-        for (int i = 0; i < 2; i++)
-            if (plan[i].tipo != planLocal[i].tipo || plan[i].jugada != planLocal[i].jugada || plan[i].critico != planLocal[i].critico) return false;
-        return true;
-    }
-
-    private void IntentarSiguienteRonda()
-    {
-        if (!presentacionLocalLista || !presentacionRemotaLista || estadoActual != EstadoJuego.ResolviendoAccion) return;
-        if (!relay.Enviar(new MensajeCombate { tipo = "ronda", ronda = turnoActual + 1,
-            vidaJugador = vidaJugador.vidaActual, vidaRival = vidaEnemigo.vidaActual }))
-        { CancelarPartida("Se perdió la conexión antes de la siguiente ronda."); return; }
-        AbrirRonda(turnoActual + 1);
-    }
-
-    private void Update()
-    {
-        if (enLinea && inicioEsperaPresentacion > 0 && Time.realtimeSinceStartup - inicioEsperaPresentacion > 120)
-            CancelarPartida("El otro equipo no confirmó el final de la ronda.");
-    }
+    private bool VidaCoincide(MensajeCombate m) => m.vidaJugador == vidaEnemigo.vidaActual && m.vidaRival == vidaJugador.vidaActual;
 
     private void ConexionPerdida(string motivo)
     {
@@ -410,7 +432,6 @@ public class GestorNivel : MonoBehaviour
         pausado = false;
         FindFirstObjectByType<PauseManager>()?.Reanudar();
         feedback.MostrarInterfaz(true);
-        inicioEsperaPresentacion = 0;
         FinalizarAnimaciones();
         bool victoria = (participanteLocal == 0 && resultado == ResultadoPartida.GanaJugador) ||
             (participanteLocal == 1 && resultado == ResultadoPartida.GanaRival);
@@ -422,7 +443,7 @@ public class GestorNivel : MonoBehaviour
         feedback.MostrarFin(titulo, detalle, enLinea ? null : (Action)IniciarPartida, VolverAlMenu);
         OnFinPartida?.Invoke(victoria);
         OnResultadoPartida?.Invoke(resultado);
-        Log($"FIN resultado={resultado} motivo={motivo} PS=Hydros:{vidaJugador?.vidaActual},Ignis:{vidaEnemigo?.vidaActual}");
+        Log($"FIN resultado={resultado} motivo={motivo}");
     }
 
     private void ActualizarEstado(string mensaje)

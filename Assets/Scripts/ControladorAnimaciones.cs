@@ -9,8 +9,11 @@ public class ControladorAnimaciones : MonoBehaviour
     public Animator animator;
 
     [Header("Efectos Visuales (VFX)")]
-    [Tooltip("El prefab del rayo de agua que vas a crear")]
+    [Tooltip("El prefab del rayo normal (agua o fuego)")]
     public GameObject prefabAtaqueAgua;
+    
+    [Tooltip("El prefab del ataque crítico (explosión o bola gigante)")]
+    public GameObject prefabAtaqueCritico;
     
     [Tooltip("Si disparas con una sola mano, ponla aquí.")]
     public Transform puntoDeDisparo;
@@ -45,7 +48,7 @@ public class ControladorAnimaciones : MonoBehaviour
         
         if (prefabAtaqueAgua != null)
         {
-            StartCoroutine(AparecerEfectoConRetraso(retrasoAtaqueNormal)); 
+            StartCoroutine(AparecerEfectoConRetraso(retrasoAtaqueNormal, prefabAtaqueAgua)); 
         }
     }
 
@@ -54,13 +57,14 @@ public class ControladorAnimaciones : MonoBehaviour
         PrepararAccion();
         IntentarActivarTrigger("AtacarCritico");
 
-        if (prefabAtaqueAgua != null)
+        GameObject prefabAEmitir = prefabAtaqueCritico != null ? prefabAtaqueCritico : prefabAtaqueAgua;
+        if (prefabAEmitir != null)
         {
-            StartCoroutine(AparecerEfectoConRetraso(retrasoAtaqueCritico));
+            StartCoroutine(AparecerEfectoConRetraso(retrasoAtaqueCritico, prefabAEmitir));
         }
     }
 
-    private IEnumerator AparecerEfectoConRetraso(float retraso)
+    private IEnumerator AparecerEfectoConRetraso(float retraso, GameObject prefabSpawn)
     {
         yield return new WaitForSeconds(retraso);
         
@@ -79,7 +83,7 @@ public class ControladorAnimaciones : MonoBehaviour
         // Empujamos el agua hacia adelante para que salga de las palmas y no del pecho/atrás
         posicionDisparo += transform.forward * desplazamientoAdelante;
 
-        efectosActivos.Add(Instantiate(prefabAtaqueAgua, posicionDisparo, rotacionDisparo));
+        efectosActivos.Add(Instantiate(prefabSpawn, posicionDisparo, rotacionDisparo));
     }
 
     public void EjecutarDefensa(bool estaDefendiendo)

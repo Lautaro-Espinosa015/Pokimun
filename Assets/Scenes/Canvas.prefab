@@ -457,7 +457,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<color=#A7F3D0><b>TU TURNO</b></color>\nElige dos acciones.\nDos ataques, o ataque + escudo.\n\n<b>DI EN VOZ ALTA</b>\n<color=#FFD166>ROCA · HOJA · TIJERA</color>\nTambién: piedra, papel o hidro pulso.\n<color=#73D2DE>ESCUDO</color> para defender.\n\n<b>TECLADO</b>\n1 / 2 / 3: ataques\nD o 0: escudo\nMayús + ataque: crítico\n\n<size=85%>Una vez elegidas, espera la siguiente ronda.\nLa voz fuerte potencia el daño si aciertas.</size>"
+  m_text: "<color=#A7F3D0><b>TU TURNO</b></color>\nElige dos acciones.\nCombina ataques, curación o escudos (Escudo bloqueado en Turno 1).\n\n<b>DI EN VOZ ALTA</b>\n<color=#FFD166>TIJERA · HOJA · PIEDRA</color>\n<color=#FFD166>TIJERA</color> para atacar.\n<color=#A7F3D0>HOJA</color> para curar PS.\n<color=#73D2DE>PIEDRA</color> (o Escudo) para defender.\n\n<size=85%>Tu rival elegirá después de tus acciones.\nLa voz fuerte potencia el daño si aciertas.</size>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

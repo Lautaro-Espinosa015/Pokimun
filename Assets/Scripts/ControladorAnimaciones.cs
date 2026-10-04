@@ -25,11 +25,29 @@ public class ControladorAnimaciones : MonoBehaviour
 
     [Header("Ajustes de Disparo")]
     [Tooltip("Tiempo que tarda en salir el agua en el ataque básico")]
-    public float retrasoAtaqueNormal = 0.8f; // Aumentado para que salga más tarde
+    public float retrasoAtaqueNormal = 1.0f; // Medio segundo antes (1.0s)
     [Tooltip("Tiempo que tarda en salir el agua en el ataque crítico")]
-    public float retrasoAtaqueCritico = 1.0f;
+    public float retrasoAtaqueCritico = 1.5f; // Retrasado a 1.5s
     [Tooltip("Mueve el disparo X metros hacia adelante para que no salga desde dentro del cuerpo")]
     public float desplazamientoAdelante = 1.0f;
+
+    [Header("Sonidos de Ataque")]
+    [Tooltip("Audio que suena al lanzar el ataque básico")]
+    public AudioClip audioAtaqueNormal;
+    [Tooltip("Retraso del audio del ataque básico (puede ser menor al del VFX)")]
+    public float retrasoAudioNormal = 0.3f;
+    [Tooltip("Velocidad/Tono del audio básico")]
+    [Range(0.5f, 2f)] public float pitchAudioNormal = 1f;
+
+    [Tooltip("Audio que suena al lanzar el ataque crítico")]
+    public AudioClip audioAtaqueCritico;
+    [Tooltip("Retraso del audio del ataque crítico")]
+    public float retrasoAudioCritico = 0.8f;
+    [Tooltip("Velocidad/Tono del audio crítico")]
+    [Range(0.5f, 2f)] public float pitchAudioCritico = 1f;
+    
+    [Tooltip("Tiempo en segundos para destruir el ataque y liberar memoria")]
+    public float tiempoVidaVFX = 10.0f;
 
     private readonly HashSet<string> avisosParametrosAusentes = new HashSet<string>();
     private readonly List<GameObject> efectosActivos = new List<GameObject>();
@@ -37,6 +55,25 @@ public class ControladorAnimaciones : MonoBehaviour
     private void Start()
     {
         AsegurarAnimator();
+        
+        bool esHydros = gameObject.name.IndexOf("hydros", System.StringComparison.OrdinalIgnoreCase) >= 0 || 
+                        (prefabAtaqueAgua != null && prefabAtaqueAgua.name.IndexOf("agua", System.StringComparison.OrdinalIgnoreCase) >= 0);
+        bool esIgnis = gameObject.name.IndexOf("ignis", System.StringComparison.OrdinalIgnoreCase) >= 0 || 
+                       (prefabAtaqueAgua != null && prefabAtaqueAgua.name.IndexOf("fuego", System.StringComparison.OrdinalIgnoreCase) >= 0);
+
+        if (esHydros)
+        {
+            retrasoAtaqueNormal = 1.0f;
+            retrasoAtaqueCritico = 1.5f;
+            retrasoAudioNormal = 0.3f; // 0.7 segundos ANTES del visual (1.0 - 0.7 = 0.3)
+            retrasoAudioCritico = 0.8f; // 0.7 segundos ANTES del visual (1.5 - 0.7 = 0.8)
+        }
+        else if (esIgnis)
+        {
+            // Para Ignis: el básico 1 seg antes, el crítico 0.6 segs antes
+            retrasoAudioNormal = Mathf.Max(0f, retrasoAtaqueNormal - 1.0f);
+            retrasoAudioCritico = Mathf.Max(0f, retrasoAtaqueCritico - 0.6f);
+        }
     }
 
     // --- MÉTODOS PARA LLAMAR DESDE GESTORNIVEL O BOTONES DE PRUEBA ---
@@ -48,7 +85,7 @@ public class ControladorAnimaciones : MonoBehaviour
         
         if (prefabAtaqueAgua != null)
         {
-            StartCoroutine(AparecerEfectoConRetraso(retrasoAtaqueNormal, prefabAtaqueAgua)); 
+            StartCoroutine(ManejarAtaqueVFX(retrasoAtaqueNormal, prefabAtaqueAgua, retrasoAudioNormal, audioAtaqueNormal, pitchAudioNormal)); 
         }
     }
 
@@ -60,30 +97,62 @@ public class ControladorAnimaciones : MonoBehaviour
         GameObject prefabAEmitir = prefabAtaqueCritico != null ? prefabAtaqueCritico : prefabAtaqueAgua;
         if (prefabAEmitir != null)
         {
-            StartCoroutine(AparecerEfectoConRetraso(retrasoAtaqueCritico, prefabAEmitir));
+            StartCoroutine(ManejarAtaqueVFX(retrasoAtaqueCritico, prefabAEmitir, retrasoAudioCritico, audioAtaqueCritico, pitchAudioCritico));
         }
     }
 
-    private IEnumerator AparecerEfectoConRetraso(float retraso, GameObject prefabSpawn)
+    private IEnumerator ManejarAtaqueVFX(float retrasoVfx, GameObject prefab, float retrasoAudio, AudioClip clip, float pitch)
     {
-        yield return new WaitForSeconds(retraso);
-        
-        Vector3 posicionDisparo = transform.position + Vector3.up * 1f; 
-        Quaternion rotacionDisparo = transform.rotation; 
+        GameObject vfxInstancia = null;
+        GameObject audioObj = null;
 
-        if (manoIzquierda != null && manoDerecha != null)
+        Vector3 posBase = transform.position + Vector3.up * 1f; 
+        if (manoIzquierda != null && manoDerecha != null) posBase = (manoIzquierda.position + manoDerecha.position) / 2f;
+        else if (puntoDeDisparo != null) posBase = puntoDeDisparo.position;
+
+        Transform emisorInicial = puntoDeDisparo != null ? puntoDeDisparo : transform;
+
+        float tiempo = 0;
+        bool vfxSpawned = false;
+        bool audioSpawned = clip == null;
+
+        while (!vfxSpawned || !audioSpawned)
         {
-            posicionDisparo = (manoIzquierda.position + manoDerecha.position) / 2f;
-        }
-        else if (puntoDeDisparo != null)
-        {
-            posicionDisparo = puntoDeDisparo.position;
-        }
+            if (!vfxSpawned && tiempo >= retrasoVfx)
+            {
+                Vector3 posDisparo = posBase + transform.forward * desplazamientoAdelante;
+                vfxInstancia = Instantiate(prefab, posDisparo, transform.rotation);
+                efectosActivos.Add(vfxInstancia);
+                Destroy(vfxInstancia, tiempoVidaVFX);
+                vfxSpawned = true;
 
-        // Empujamos el agua hacia adelante para que salga de las palmas y no del pecho/atrás
-        posicionDisparo += transform.forward * desplazamientoAdelante;
+                if (audioObj != null)
+                {
+                    audioObj.transform.SetParent(vfxInstancia.transform);
+                    audioObj.transform.localPosition = Vector3.zero;
+                }
+            }
 
-        efectosActivos.Add(Instantiate(prefabSpawn, posicionDisparo, rotacionDisparo));
+            if (!audioSpawned && tiempo >= retrasoAudio)
+            {
+                audioObj = new GameObject("AudioAtaque_" + clip.name);
+                if (vfxInstancia != null) audioObj.transform.SetParent(vfxInstancia.transform);
+                else audioObj.transform.SetParent(emisorInicial);
+                
+                audioObj.transform.localPosition = Vector3.zero;
+                AudioSource src = audioObj.AddComponent<AudioSource>();
+                src.clip = clip;
+                src.spatialBlend = 1f; // Sonido 3D
+                src.pitch = pitch;
+                src.volume = PlayerPrefs.GetFloat("VolumenEfectos", 0.5f);
+                src.Play();
+                Destroy(audioObj, (clip.length / Mathf.Max(0.1f, pitch)) + 3.0f); // 3s extra de cola para ecos
+                audioSpawned = true;
+            }
+
+            tiempo += Time.deltaTime;
+            yield return null;
+        }
     }
 
     public void EjecutarDefensa(bool estaDefendiendo)

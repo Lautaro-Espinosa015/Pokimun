@@ -9,6 +9,15 @@ using UnityEngine.UI;
 /// <summary>Presentación del combate. No decide ni aplica daño.</summary>
 public class FeedbackAtaqueUI : MonoBehaviour
 {
+    [Header("Sonidos de Resultados")]
+    public AudioClip audioVictoria;
+    public AudioClip audioDerrota;
+    public AudioClip audioEmpate;
+    public AudioClip musicaEscenario;
+    
+    private AudioSource audioSourceUI;
+    private AudioSource audioSourceEscenario;
+
     private GameObject raiz, hud, sala, final;
     private RectTransform tarjeta;
     private CanvasGroup grupo;
@@ -18,11 +27,65 @@ public class FeedbackAtaqueUI : MonoBehaviour
     private TMP_InputField codigo;
     private Button solo, crear, unir, cancelar;
     private Coroutine rutina;
-    private static readonly Color Azul = new Color(.055f, .09f, .14f, .97f);
+    private static readonly Color FondoPanel = new Color(0.35f, 0.22f, 0.10f, 0.85f); // Marrón translúcido
     private static readonly Color Verde = new Color(.4f, .9f, .75f);
     private static readonly Color Oro = new Color(1f, .78f, .3f);
     private static readonly Color Rojo = new Color(1f, .55f, .48f);
     private static readonly Color Morado = new Color(.6f, .3f, 1f);
+
+    public Sprite botonSprite;
+    public TMP_FontAsset fuentePersonalizada;
+
+    private void Awake()
+    {
+        audioSourceUI = gameObject.AddComponent<AudioSource>();
+        audioSourceUI.playOnAwake = false;
+        audioSourceUI.spatialBlend = 0f; // Sonido 2D
+
+        audioSourceEscenario = gameObject.AddComponent<AudioSource>();
+        audioSourceEscenario.playOnAwake = false;
+        audioSourceEscenario.spatialBlend = 0f; // Sonido 2D
+        audioSourceEscenario.loop = true;
+    }
+
+    private void Start()
+    {
+        if (musicaEscenario != null)
+        {
+            audioSourceEscenario.clip = musicaEscenario;
+            audioSourceEscenario.Play();
+        }
+    }
+
+    private void Update()
+    {
+        if (audioSourceEscenario != null)
+        {
+            audioSourceEscenario.volume = PlayerPrefs.GetFloat("VolumenMusica", 0.5f);
+        }
+        if (audioSourceUI != null)
+        {
+            audioSourceUI.volume = PlayerPrefs.GetFloat("VolumenEfectos", 0.5f);
+        }
+    }
+
+    public void ActualizarMusicaBatalla(int vidaJugador, int vidaMaxJugador, int vidaEnemigo, int vidaMaxEnemigo)
+    {
+        if (audioSourceEscenario == null || !audioSourceEscenario.isPlaying) return;
+
+        float pctJugador = (float)vidaJugador / vidaMaxJugador;
+        float pctEnemigo = (float)vidaEnemigo / vidaMaxEnemigo;
+
+        // Acelerar la música un 15% si alguno de los dos tiene 30% o menos de vida
+        if (pctJugador <= 0.3f || pctEnemigo <= 0.3f)
+        {
+            audioSourceEscenario.pitch = 1.15f;
+        }
+        else
+        {
+            audioSourceEscenario.pitch = 1.0f;
+        }
+    }
 
     public void ActualizarEstado(int ronda, int maxRondas, string personaje, string mensaje, string plan)
     {
@@ -86,7 +149,7 @@ public class FeedbackAtaqueUI : MonoBehaviour
         PrepararInterfaz();
         OcultarAviso();
         aviso.text = $"<size=62%>{titulo}</size>\n<color=#{ColorUtility.ToHtmlStringRGB(color)}><size={(critico ? 125 : 110)}%><b>{principal}</b></size></color>\n<size=65%>{detalle}</size>";
-        fondo.color = Azul;
+        fondo.color = FondoPanel;
         contorno.effectColor = color;
         contorno.effectDistance = new Vector2(critico ? 3 : 2, -2);
         rutina = StartCoroutine(MostrarDurante(Mathf.Max(.1f, duracion), critico));
@@ -128,18 +191,43 @@ public class FeedbackAtaqueUI : MonoBehaviour
         if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(null);
     }
 
-    public void MostrarFin(string titulo, string detalle, Action reiniciar, Action menu)
+    public void MostrarFin(string titulo, string detalle, Action reiniciar, Action menu, Action salir, bool victoria, bool empate)
     {
         PrepararInterfaz();
         OcultarAviso();
         OcultarSala();
         if (final != null) Destroy(final);
-        final = Modal("Resultado de la partida", new Vector2(660, 410), out Transform panel);
-        Texto(panel, titulo, new Vector2(0, 126), new Vector2(590, 75), 44).color = Oro;
-        Texto(panel, detalle, new Vector2(0, 24), new Vector2(570, 125), 26);
+
+        if (audioSourceEscenario != null)
+        {
+            audioSourceEscenario.Stop();
+        }
+
+        if (audioSourceUI != null)
+        {
+            AudioClip clip = empate ? audioEmpate : (victoria ? audioVictoria : audioDerrota);
+            if (clip == null && empate) clip = audioDerrota; // Fallback
+            if (clip != null)
+            {
+                audioSourceUI.clip = clip;
+                audioSourceUI.Play();
+            }
+        }
+        final = Modal("Resultado de la partida", new Vector2(660, 480), out Transform panel);
+        Texto(panel, titulo, new Vector2(0, 160), new Vector2(590, 75), 44).color = Oro;
+        Texto(panel, detalle, new Vector2(0, 50), new Vector2(570, 125), 26);
+        
         if (reiniciar != null)
-            Boton(panel, "Volver a jugar", new Vector2(-145, -133), new Vector2(260, 57), reiniciar);
-        Boton(panel, "Menú principal", new Vector2(reiniciar == null ? 0 : 145, -133), new Vector2(260, 57), menu);
+        {
+            Boton(panel, "Volver a jugar", new Vector2(-145, -70), new Vector2(260, 57), reiniciar);
+            Boton(panel, "Menú principal", new Vector2(145, -70), new Vector2(260, 57), menu);
+            Boton(panel, "Salir del juego", new Vector2(0, -150), new Vector2(260, 57), salir);
+        }
+        else
+        {
+            Boton(panel, "Menú principal", new Vector2(0, -70), new Vector2(260, 57), menu);
+            Boton(panel, "Salir del juego", new Vector2(0, -150), new Vector2(260, 57), salir);
+        }
     }
 
     public void Limpiar()
@@ -207,7 +295,7 @@ public class FeedbackAtaqueUI : MonoBehaviour
         return velo.gameObject;
     }
 
-    private static RectTransform Panel(Transform padre, string nombre, Vector2 posicion, Vector2 tamano)
+    private RectTransform Panel(Transform padre, string nombre, Vector2 posicion, Vector2 tamano)
     {
         var obj = new GameObject(nombre, typeof(RectTransform), typeof(Image));
         var rect = (RectTransform)obj.transform;
@@ -215,11 +303,35 @@ public class FeedbackAtaqueUI : MonoBehaviour
         rect.anchorMin = rect.anchorMax = new Vector2(.5f, .5f);
         rect.sizeDelta = tamano;
         rect.anchoredPosition = posicion;
-        obj.GetComponent<Image>().color = Azul;
+        obj.GetComponent<Image>().color = FondoPanel;
         return rect;
     }
 
-    private static TMP_Text Texto(Transform padre, string contenido, Vector2 posicion, Vector2 tamano, float fuente)
+    private TMP_FontAsset BuscarFuenteGlobal()
+    {
+        if (fuentePersonalizada != null) return fuentePersonalizada;
+        var pm = FindFirstObjectByType<PauseManager>();
+        if (pm != null && pm.pauseMenu != null)
+        {
+            var txt = pm.pauseMenu.GetComponentInChildren<TextMeshProUGUI>(true);
+            if (txt != null) return txt.font;
+        }
+        return null;
+    }
+
+    private Sprite BuscarSpriteBotonGlobal()
+    {
+        if (botonSprite != null) return botonSprite;
+        var pm = FindFirstObjectByType<PauseManager>();
+        if (pm != null && pm.pauseMenu != null)
+        {
+            var btn = pm.pauseMenu.GetComponentInChildren<Button>(true);
+            if (btn != null && btn.targetGraphic is Image img) return img.sprite;
+        }
+        return null;
+    }
+
+    private TMP_Text Texto(Transform padre, string contenido, Vector2 posicion, Vector2 tamano, float fuente)
     {
         var obj = new GameObject("Texto", typeof(RectTransform), typeof(TextMeshProUGUI));
         var rect = (RectTransform)obj.transform;
@@ -229,6 +341,10 @@ public class FeedbackAtaqueUI : MonoBehaviour
         var texto = obj.GetComponent<TextMeshProUGUI>();
         texto.text = contenido;
         texto.fontSize = fuente;
+        
+        TMP_FontAsset f = BuscarFuenteGlobal();
+        if (f != null) texto.font = f;
+        
         texto.enableAutoSizing = true;
         texto.fontSizeMin = fuente * .72f;
         texto.fontSizeMax = fuente;
@@ -238,19 +354,33 @@ public class FeedbackAtaqueUI : MonoBehaviour
         return texto;
     }
 
-    private static Button Boton(Transform padre, string texto, Vector2 posicion, Vector2 tamano, Action accion)
+    private Button Boton(Transform padre, string texto, Vector2 posicion, Vector2 tamano, Action accion)
     {
         var rect = Panel(padre, texto, posicion, tamano);
-        rect.GetComponent<Image>().color = new Color(.11f, .26f, .32f);
+        var img = rect.GetComponent<Image>();
+        
+        Sprite s = BuscarSpriteBotonGlobal();
+        if (s != null)
+        {
+            img.sprite = s;
+            img.type = Image.Type.Sliced;
+            img.color = Color.white;
+        }
+        else
+        {
+            img.color = new Color(.11f, .26f, .32f);
+        }
+        
         var boton = rect.gameObject.AddComponent<Button>();
-        boton.targetGraphic = rect.GetComponent<Image>();
+        boton.targetGraphic = img;
         boton.navigation = new Navigation { mode = Navigation.Mode.None };
         boton.onClick.AddListener(() => accion?.Invoke());
+        rect.gameObject.AddComponent<BotonAnimado>();
         Texto(rect, texto, Vector2.zero, tamano - new Vector2(16, 8), 25);
         return boton;
     }
 
-    private static TMP_InputField CampoCodigo(Transform padre, Vector2 posicion)
+    private TMP_InputField CampoCodigo(Transform padre, Vector2 posicion)
     {
         var rect = Panel(padre, "Código de sala", posicion, new Vector2(302, 54));
         rect.GetComponent<Image>().color = new Color(.16f, .2f, .27f);

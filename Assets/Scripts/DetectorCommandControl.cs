@@ -58,6 +58,14 @@ public class DetectorCommandControl : MonoBehaviour
         comandosMenu["regresar a menu"] = gestorNivel.VolverAlMenu;
         comandosMenu["menu"] = gestorNivel.VolverAlMenu;
         
+        comandosMenu["pausa"] = () => FindFirstObjectByType<PauseManager>()?.Pausar();
+        comandosMenu["pausar"] = () => FindFirstObjectByType<PauseManager>()?.Pausar();
+        comandosMenu["reanudar"] = () => FindFirstObjectByType<PauseManager>()?.Reanudar();
+        comandosMenu["continuar"] = () => FindFirstObjectByType<PauseManager>()?.Reanudar();
+        comandosMenu["quitar pausa"] = () => FindFirstObjectByType<PauseManager>()?.Reanudar();
+        comandosMenu["salir del juego"] = () => FindFirstObjectByType<PauseManager>()?.SalirJuego();
+        comandosMenu["cerrar juego"] = () => FindFirstObjectByType<PauseManager>()?.SalirJuego();
+        
         falloMicrofono = false;
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
         try

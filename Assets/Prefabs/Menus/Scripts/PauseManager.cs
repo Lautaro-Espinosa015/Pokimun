@@ -74,6 +74,12 @@ public class PauseManager : MonoBehaviour
     
     public void SalirJuego()
     {
+        if (gestor != null) {
+            // Destruimos el GestorNivel antes de salir para evitar que procese
+            // eventos de pérdida de conexión y cargue accidentalmente el menú.
+            Destroy(gestor.gameObject);
+        }
+        
         Application.Quit();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;

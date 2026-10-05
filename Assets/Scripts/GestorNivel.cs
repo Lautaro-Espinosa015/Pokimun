@@ -128,7 +128,7 @@ public class GestorNivel : MonoBehaviour
         if (relay == null) { EstadoSala("La escena no tiene GestorRedRelay.", false); return; }
         _ = relay.CrearPartidaHost();
     }
-    private void UnirseSala(string codigo)
+    public void UnirseSala(string codigo)
     {
         if (relay == null) { EstadoSala("La escena no tiene GestorRedRelay.", false); return; }
         _ = relay.UnirseComoCliente(codigo);
@@ -445,12 +445,16 @@ public class GestorNivel : MonoBehaviour
         FindFirstObjectByType<PauseManager>()?.Reanudar();
         feedback.MostrarInterfaz(true);
         FinalizarAnimaciones();
-        bool victoria = (participanteLocal == 0 && resultado == ResultadoPartida.GanaJugador) ||
-            (participanteLocal == 1 && resultado == ResultadoPartida.GanaRival);
+        
+        // GanaJugador siempre significa que el jugador de esta pantalla ganó (ya sea Host, Invitado o un solo jugador)
+        bool victoria = resultado == ResultadoPartida.GanaJugador;
+        
         string titulo = resultado == ResultadoPartida.Cancelada ? "PARTIDA INTERRUMPIDA" :
             resultado == ResultadoPartida.Empate ? "EMPATE" : victoria ? "¡VICTORIA!" : "DERROTA";
+            
         if (resultado == ResultadoPartida.GanaJugador) { controladorAnimacionesJugador?.CelebrarVictoria(); controladorAnimacionesEnemigo?.CaerDerrotado(); }
         if (resultado == ResultadoPartida.GanaRival) { controladorAnimacionesEnemigo?.CelebrarVictoria(); controladorAnimacionesJugador?.CaerDerrotado(); }
+        
         string detalle = $"{motivo}\nHydros: {vidaJugador?.vidaActual ?? 0} PS  ·  Ignis: {vidaEnemigo?.vidaActual ?? 0} PS\nRondas: {turnoActual}/{maxTurnos}";
         feedback.MostrarFin(titulo, detalle, enLinea ? null : (Action)IniciarPartida, VolverAlMenu, SalirDelJuego, victoria, resultado == ResultadoPartida.Empate);
         OnFinPartida?.Invoke(victoria);
@@ -458,8 +462,12 @@ public class GestorNivel : MonoBehaviour
         Log($"FIN resultado={resultado} motivo={motivo}");
     }
 
-    private void SalirDelJuego()
+    public void SalirDelJuego()
     {
+        if (relay != null) {
+            relay.OnConexionPerdida -= ConexionPerdida;
+        }
+
         var pm = FindFirstObjectByType<PauseManager>();
         if (pm != null) pm.SalirJuego();
         else

@@ -528,7 +528,10 @@ PlayerSettings:
       m_Height: 720
       m_Kind: 1
       m_SubKind: 
-  m_BuildTargetBatching: []
+  m_BuildTargetBatching:
+  - m_BuildTarget: Standalone
+    m_StaticBatching: 1
+    m_DynamicBatching: 0
   m_BuildTargetShaderSettings: []
   m_BuildTargetGraphicsJobs: []
   m_BuildTargetGraphicsJobMode: []
@@ -930,11 +933,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
-  cloudProjectId: 9349656c-187d-4f8b-8f3e-3ee8b047c8b5
+  cloudProjectId: 68cfd4c5-fd1b-471c-ad55-3c74136529f8
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: Pokimun
-  organizationId: lautaro-espinosa
+  organizationId: leonelcussi9
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

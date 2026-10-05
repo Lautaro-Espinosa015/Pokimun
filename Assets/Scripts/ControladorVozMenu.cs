@@ -70,6 +70,60 @@ public class ControladorVozMenu : MonoBehaviour
         comandosMenu.Add("return", () => menuManager.Volver());
         comandosMenu.Add("exit", () => menuManager.Salir());
         comandosMenu.Add("quit", () => menuManager.Salir());
+
+        // Comandos de Pantalla Completa
+        Action togglePC = () => {
+            var opt = FindFirstObjectByType<Options>(FindObjectsInactive.Exclude);
+            if (opt != null) {
+                bool isFullScreen = false;
+                if (opt.fullscreen != null) isFullScreen = !opt.fullscreen.isOn;
+                else isFullScreen = !Screen.fullScreen;
+
+                if (opt.fullscreen != null) opt.fullscreen.SetIsOnWithoutNotify(isFullScreen);
+                opt.changeFullscreen(isFullScreen);
+                Debug.Log($"[Voz Menu] Pantalla cambiada a: {(isFullScreen ? "Completa" : "Ventana")}");
+            } else { Debug.Log("[Voz Menu] Ignorado: Panel de Opciones cerrado."); }
+        };
+        comandosMenu.Add("pantalla completa", togglePC);
+        comandosMenu.Add("cambiar pantalla", togglePC);
+        comandosMenu.Add("modo ventana", togglePC);
+
+        // Comandos de Volumen (0 a 100 en pasos de 10)
+        string[] palabrasNumeros = { "cero", "diez", "veinte", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa", "cien" };
+        for (int i = 0; i <= 10; i++)
+        {
+            float vol = i / 10f;
+            int volText = i * 10;
+            string palabraNum = palabrasNumeros[i];
+            
+            Action actFX = () => { 
+                var o = FindFirstObjectByType<Options>(FindObjectsInactive.Exclude); 
+                if(o != null) { o.changeVolumenEfectos(vol); Debug.Log($"[Voz Menu] FX cambiado al {volText}%"); } 
+                else { Debug.Log("[Voz Menu] Ignorado: Panel de Opciones cerrado."); }
+            };
+            Action actMusica = () => { 
+                var o = FindFirstObjectByType<Options>(FindObjectsInactive.Exclude); 
+                if(o != null) { o.changeVolumenMusica(vol); Debug.Log($"[Voz Menu] Música cambiada al {volText}%"); } 
+                else { Debug.Log("[Voz Menu] Ignorado: Panel de Opciones cerrado."); }
+            };
+            
+            comandosMenu.Add($"efectos {palabraNum}", actFX);
+            comandosMenu.Add($"efe equis {palabraNum}", actFX);
+            comandosMenu.Add($"musica {palabraNum}", actMusica);
+            comandosMenu.Add($"música {palabraNum}", actMusica);
+        }
+
+        // Comandos de FPS
+        Action setFps60 = () => { var o = FindFirstObjectByType<Options>(FindObjectsInactive.Exclude); if (o != null) o.SetFPS(60); else Debug.Log("[Voz Menu] Ignorado."); };
+        Action setFps90 = () => { var o = FindFirstObjectByType<Options>(FindObjectsInactive.Exclude); if (o != null) o.SetFPS(90); else Debug.Log("[Voz Menu] Ignorado."); };
+        Action setFps120 = () => { var o = FindFirstObjectByType<Options>(FindObjectsInactive.Exclude); if (o != null) o.SetFPS(120); else Debug.Log("[Voz Menu] Ignorado."); };
+
+        comandosMenu.Add("efe pe ese sesenta", setFps60);
+        comandosMenu.Add("fotogramas sesenta", setFps60);
+        comandosMenu.Add("efe pe ese noventa", setFps90);
+        comandosMenu.Add("fotogramas noventa", setFps90);
+        comandosMenu.Add("efe pe ese ciento veinte", setFps120);
+        comandosMenu.Add("fotogramas ciento veinte", setFps120);
     }
 
     private void IniciarReconocedor()

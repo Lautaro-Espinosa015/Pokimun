@@ -144,7 +144,7 @@ public class ControladorAnimaciones : MonoBehaviour
                 src.clip = clip;
                 src.spatialBlend = 1f; // Sonido 3D
                 src.pitch = pitch;
-                src.volume = PlayerPrefs.GetFloat("VolumenEfectos", 0.5f);
+                src.volume = PlayerPrefs.GetFloat("VolumenEfectos", 0.85f);
                 src.Play();
                 Destroy(audioObj, (clip.length / Mathf.Max(0.1f, pitch)) + 3.0f); // 3s extra de cola para ecos
                 audioSpawned = true;

@@ -61,11 +61,14 @@ public class FeedbackAtaqueUI : MonoBehaviour
     {
         if (audioSourceEscenario != null)
         {
-            audioSourceEscenario.volume = PlayerPrefs.GetFloat("VolumenMusica", 0.5f);
+            // Multiplicamos por 0.3f para que la música del combate suene más baja (como si estuviera en 10 por defecto)
+            // Esto balancea el volumen con el menú principal y permite que los efectos destaquen mucho más.
+            audioSourceEscenario.volume = PlayerPrefs.GetFloat("VolumenMusica", 0.35f) * 0.3f;
         }
         if (audioSourceUI != null)
         {
-            audioSourceUI.volume = PlayerPrefs.GetFloat("VolumenEfectos", 0.5f);
+            // Los efectos se mantienen a escala completa
+            audioSourceUI.volume = PlayerPrefs.GetFloat("VolumenEfectos", 0.85f);
         }
     }
 
@@ -76,10 +79,10 @@ public class FeedbackAtaqueUI : MonoBehaviour
         float pctJugador = (float)vidaJugador / vidaMaxJugador;
         float pctEnemigo = (float)vidaEnemigo / vidaMaxEnemigo;
 
-        // Acelerar la música un 15% si alguno de los dos tiene 30% o menos de vida
+        // Acelerar la música un 7% si alguno de los dos tiene 30% o menos de vida
         if (pctJugador <= 0.3f || pctEnemigo <= 0.3f)
         {
-            audioSourceEscenario.pitch = 1.15f;
+            audioSourceEscenario.pitch = 1.07f;
         }
         else
         {
@@ -191,6 +194,30 @@ public class FeedbackAtaqueUI : MonoBehaviour
         if (sala != null) sala.SetActive(false);
         if (hud != null) hud.SetActive(true);
         if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(null);
+    }
+    
+    public void AnadirCaracterCodigo(string c)
+    {
+        if (sala != null && sala.activeInHierarchy && codigo != null && codigo.interactable)
+        {
+            if (codigo.text.Length < 6) codigo.text += c;
+        }
+    }
+
+    public void BorrarCaracterCodigo()
+    {
+        if (sala != null && sala.activeInHierarchy && codigo != null && codigo.interactable && codigo.text.Length > 0)
+        {
+            codigo.text = codigo.text.Substring(0, codigo.text.Length - 1);
+        }
+    }
+
+    public void UnirseConCodigoVoz(Action<string> unirseAccion)
+    {
+        if (sala != null && sala.activeInHierarchy && codigo != null && codigo.interactable)
+        {
+            unirseAccion(codigo.text);
+        }
     }
 
     public void MostrarFin(string titulo, string detalle, Action reiniciar, Action menu, Action salir, bool victoria, bool empate)

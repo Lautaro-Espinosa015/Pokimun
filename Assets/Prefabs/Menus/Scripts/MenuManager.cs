@@ -32,12 +32,13 @@ public class MenuManager : MonoBehaviour
 
     public void ActualizarVolumenMusica()
     {
-        float volumenMusica = Mathf.Clamp01(PlayerPrefs.GetFloat("VolumenMusica", 0.5f));
+        float volumenMusica = Mathf.Clamp01(PlayerPrefs.GetFloat("VolumenMusica", 0.35f));
         if (audiosEnLoop != null)
         {
             foreach (var audio in audiosEnLoop)
             {
-                if (audio != null) audio.volume = volumenMusica;
+                // Multiplicamos por 1.5f para compensar que la pista del menú es inherentemente más baja
+                if (audio != null) audio.volume = Mathf.Clamp01(volumenMusica * 1.5f);
             }
         }
     }

@@ -68,6 +68,40 @@ public class OpcionesSetup : MonoBehaviour
         txtEfx.alignment = TextAlignmentOptions.Center;
         txtEfx.color = Color.white;
 
+        // Crear Botón FPS
+        Transform tFps = opcionesObj.transform.Find("BotonFPS");
+        if (tFps != null) DestroyImmediate(tFps.gameObject);
+
+        GameObject btnFpsObj = DefaultControls.CreateButton(new DefaultControls.Resources());
+        btnFpsObj.name = "BotonFPS";
+        RectTransform rtBtnFps = btnFpsObj.GetComponent<RectTransform>();
+        rtBtnFps.SetParent(opcionesObj.transform, false);
+        rtBtnFps.anchoredPosition = new Vector2(0, -210); // Aún más abajo
+        rtBtnFps.sizeDelta = new Vector2(300, 50);
+        Button btnFps = btnFpsObj.GetComponent<Button>();
+        btnFps.image.color = new Color(0.35f, 0.22f, 0.1f, 0.85f); // Marrón translúcido
+
+        // Añadir BotonAnimado
+        btnFpsObj.AddComponent<BotonAnimado>();
+
+        // Crear el texto de forma segura
+        Text oldText = btnFpsObj.GetComponentInChildren<Text>();
+        if (oldText != null) DestroyImmediate(oldText.gameObject);
+
+        GameObject txtFpsObj = new GameObject("TextoFPS", typeof(RectTransform), typeof(TextMeshProUGUI));
+        RectTransform rtTxtFps = txtFpsObj.GetComponent<RectTransform>();
+        rtTxtFps.SetParent(rtBtnFps, false);
+        rtTxtFps.anchorMin = Vector2.zero;
+        rtTxtFps.anchorMax = Vector2.one;
+        rtTxtFps.sizeDelta = Vector2.zero;
+
+        TextMeshProUGUI txtFps = txtFpsObj.GetComponent<TextMeshProUGUI>();
+        txtFps.text = $"FPS: {PlayerPrefs.GetInt("LimiteFPS", 120)}";
+        txtFps.fontSize = 28;
+        if (fontAsset != null) txtFps.font = fontAsset;
+        txtFps.alignment = TextAlignmentOptions.Center;
+        txtFps.color = Color.white;
+
         // Conectar los eventos
         UnityEditor.Events.UnityEventTools.AddPersistentListener(sliderMusica.onValueChanged, 
             System.Delegate.CreateDelegate(typeof(UnityEngine.Events.UnityAction<float>), opcionesObj, "changeVolumenMusica") as UnityEngine.Events.UnityAction<float>);
@@ -75,9 +109,13 @@ public class OpcionesSetup : MonoBehaviour
         UnityEditor.Events.UnityEventTools.AddPersistentListener(sliderEfectos.onValueChanged, 
             System.Delegate.CreateDelegate(typeof(UnityEngine.Events.UnityAction<float>), opcionesObj, "changeVolumenEfectos") as UnityEngine.Events.UnityAction<float>);
 
+        UnityEditor.Events.UnityEventTools.AddPersistentListener(btnFps.onClick,
+            System.Delegate.CreateDelegate(typeof(UnityEngine.Events.UnityAction), opcionesObj, "CycleFPS") as UnityEngine.Events.UnityAction);
+
         // Asignar automáticamente en el inspector de Options
         opcionesObj.volumenMusica = sliderMusica;
         opcionesObj.volumenEfectos = sliderEfectos;
+        opcionesObj.fpsText = txtFps;
         EditorUtility.SetDirty(opcionesObj);
 
         // Forzar guardado de la escena

@@ -17,6 +17,8 @@ public class GestorNivel : MonoBehaviour
     [SerializeField, Min(1)] private float multiplicadorDanioGrito = 1.5f;
     [SerializeField, Range(0, 1)] private float probabilidadDefensaCPU = .35f;
     [SerializeField, Range(0, 1)] private float probabilidadCriticoCPU = .2f;
+    [Tooltip("Probabilidad de crítico en ataques con botones o teclado. La voz usa su propio umbral de volumen.")]
+    [SerializeField, Range(0, 1)] private float probabilidadCriticoManual = .15f;
     [Header("Referencias de Vida")]
     [SerializeField] private Vida vidaJugador;
     [SerializeField] private Vida vidaEnemigo;
@@ -57,6 +59,13 @@ public class GestorNivel : MonoBehaviour
         Time.timeScale > 0 && planLocal.Count < ReglasCombate.AccionesPorRonda;
     public DateTime InicioVentanaEntradaUtc { get; private set; }
     public int RondaActual => turnoActual;
+
+    public bool IntentarAtaqueManual(bool forzarCriticoPruebas = false, string origen = "entrada manual")
+    {
+        if (!PuedeRecibirAcciones || !esMiTurno) return false;
+        bool critico = ReglasCombate.EsCriticoManual(probabilidadCriticoManual, UnityEngine.Random.value, forzarCriticoPruebas);
+        return IntentarRegistrarAccion(AccionTurno.Ataque(JugadaRPS.Tijera, critico), origen);
+    }
 
     private void Start()
     {

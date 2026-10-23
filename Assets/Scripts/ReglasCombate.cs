@@ -51,6 +51,10 @@ public static class ReglasCombate
 {
     public const int AccionesPorRonda = 2;
 
+    // La muestra aleatoria se recibe aparte para comprobar los límites sin pruebas estadísticas inestables.
+    public static bool EsCriticoManual(float probabilidad, float muestra, bool forzarPruebas = false) =>
+        forzarPruebas || probabilidad >= 1f || (probabilidad > 0f && muestra < probabilidad);
+
     public static bool EsValida(AccionTurno accion) => Enum.IsDefined(typeof(AccionCombate), accion.tipo);
 
     public static bool PuedeAgregar(IReadOnlyList<AccionTurno> plan, AccionTurno accion, int rondaActual, out string motivo)

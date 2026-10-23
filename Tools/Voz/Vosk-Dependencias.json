@@ -124,6 +124,18 @@
     {
       "path": "Assets/ThirdParty/Vosk/VoskRecognizer.cs",
       "sha256": "7b9728f7a9205e1acfa1f1fdbeb03bd3ffead9c4b678f9004523122baa47b775"
+    },
+    {
+      "path": "Assets/Plugins/Android/arm64-v8a/libvosk.so",
+      "sha256": "df34da99f07a0fb54e328ba6c0bad5545c646cde64769feaa6a76968c7618f64"
     }
-  ]
+  ],
+  "nativeAndroid": {
+    "repository": "https://github.com/alphacep/vosk-unity-asr",
+    "commit": "6cc1d5a2a2837e570e32eec4f0ada383a5e94d04",
+    "source": "Assets/ThirdParty/Vosk/Plugins/Android64/libvosk.so",
+    "architecture": "arm64-v8a",
+    "license": "Apache-2.0",
+    "elfLoadAlignment": 16384
+  }
 }

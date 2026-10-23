@@ -16,6 +16,8 @@ public class DetectorCommandControl : MonoBehaviour
     [SerializeField, Range(.01f, 1)] private float umbralGritoRms = .12f;
     [Tooltip("Umbral RMS del crítico en Linux. Ajustar según la ganancia del micrófono; mayor valor exige más potencia.")]
     [SerializeField, Range(.01f, 1)] private float umbralGritoRmsLinux = .24f;
+    [Tooltip("Valor inicial para Android; calibrar en el teléfono real.")]
+    [SerializeField, Range(.01f, 1)] private float umbralGritoRmsAndroid = .24f;
     [SerializeField, Min(.1f)] private float ventanaNivelVoz = 1f;
     private readonly Dictionary<string, AccionTurno> comandos = new Dictionary<string, AccionTurno>();
     private readonly Dictionary<string, Action> comandosMenu = new Dictionary<string, Action>();
@@ -23,7 +25,8 @@ public class DetectorCommandControl : MonoBehaviour
     private struct Frase { public string texto; public DateTime inicioUtc; public float nivelVoz; }
     private GestorVozMultiplataforma voz;
 
-    private float UmbralGritoActual => voz != null && voz.UsaVosk ? umbralGritoRmsLinux : umbralGritoRms;
+    private float UmbralGritoActual => Application.platform == RuntimePlatform.Android ? umbralGritoRmsAndroid :
+        voz != null && voz.UsaVosk ? umbralGritoRmsLinux : umbralGritoRms;
 
     private void OnEnable()
     {
@@ -98,7 +101,7 @@ public class DetectorCommandControl : MonoBehaviour
                 {"q", "Q"}, {"cu", "Q"}, {"kiu", "Q"}, {"quebec", "Q"},
                 {"r", "R"}, {"erre", "R"}, {"ar", "R"}, {"romeo", "R"},
                 {"s", "S"}, {"ese", "S"}, {"es", "S"}, {"sierra", "S"},
-                {"t", "T"}, {"te", "T"}, {"ti", "T"}, {"tango", "T"},
+                {"t", "T"}, {"te", "T"}, {"té", "T"}, {"ti", "T"}, {"tango", "T"},
                 {"u", "U"}, {"iu", "U"}, {"uniform", "U"},
                 {"v", "V"}, {"ve", "V"}, {"vi", "V"}, {"victor", "V"},
                 {"w", "W"}, {"doble ve", "W"}, {"doble u", "W"}, {"whiskey", "W"},
@@ -251,7 +254,7 @@ public class DetectorCommandControl : MonoBehaviour
             float umbral = UmbralGritoActual;
             accion.critico = accion.tipo == AccionCombate.Atacar && rms >= umbral;
             bool aceptado = gestorNivel.IntentarRegistrarAccion(accion, "voz: " + frase.texto);
-            Debug.Log($"[Voz] proveedor={(voz != null && voz.UsaVosk ? "Vosk/Linux" : "Windows Speech")} frase='{frase.texto}' RMS={rms:F3} umbral={umbral:F3} crítico={accion.critico} aceptado={aceptado}", this);
+            Debug.Log($"[Voz] proveedor={voz?.NombreProveedor} frase='{frase.texto}' RMS={rms:F3} umbral={umbral:F3} crítico={accion.critico} aceptado={aceptado}", this);
         }
         if (!disponible || !gestorNivel.PuedeRecibirAcciones || Keyboard.current == null) return;
         Keyboard k = Keyboard.current;
@@ -261,11 +264,11 @@ public class DetectorCommandControl : MonoBehaviour
         else if (k.digit2Key.wasPressedThisFrame || k.numpad2Key.wasPressedThisFrame)
             gestorNivel.IntentarRegistrarAccion(AccionTurno.Curar(), "teclado 2");
         else if (k.digit3Key.wasPressedThisFrame || k.numpad3Key.wasPressedThisFrame)
-            gestorNivel.IntentarRegistrarAccion(AccionTurno.Ataque(JugadaRPS.Tijera, critico), "teclado 3");
+            gestorNivel.IntentarAtaqueManual(critico, "teclado 3");
         else if (k.dKey.wasPressedThisFrame || k.digit0Key.wasPressedThisFrame || k.numpad0Key.wasPressedThisFrame)
             gestorNivel.IntentarRegistrarAccion(AccionTurno.Defensa(), "teclado D/0");
         else if (k.aKey.wasPressedThisFrame)
-            gestorNivel.IntentarRegistrarAccion(AccionTurno.Ataque(JugadaRPS.Tijera, critico), "teclado A / gesto preparado");
+            gestorNivel.IntentarAtaqueManual(critico, "teclado A");
     }
 
     private static bool Escribiendo()

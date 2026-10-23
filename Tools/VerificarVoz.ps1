@@ -1,11 +1,11 @@
 param(
-    [ValidateSet('recursos', 'pruebas', 'linux', 'windows')]
+    [ValidateSet('recursos', 'pruebas', 'linux', 'windows', 'android', 'plataformas')]
     [string]$Accion = 'recursos'
 )
 
 $ErrorActionPreference = 'Stop'
 $taskProjectRoot = Split-Path -Parent $PSScriptRoot
-$taskManifest = Get-Content -LiteralPath (Join-Path $taskProjectRoot 'Docs/Vosk-Dependencias.json') -Raw | ConvertFrom-Json
+$taskManifest = Get-Content -LiteralPath (Join-Path $taskProjectRoot 'Tools/Voz/Vosk-Dependencias.json') -Raw | ConvertFrom-Json
 foreach ($taskEntry in $taskManifest.files) {
     $taskFile = Join-Path $taskProjectRoot $taskEntry.path
     if (-not (Test-Path -LiteralPath $taskFile -PathType Leaf)) {

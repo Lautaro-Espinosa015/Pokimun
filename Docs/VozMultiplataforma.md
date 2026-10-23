@@ -35,7 +35,13 @@ Hay una captura continua por proveedor activo, a **16000 Hz**, con un clip circu
 
 La carga del modelo y el reconocimiento Vosk se realizan en un trabajador. La lectura de Unity y la ejecución de acciones quedan en el hilo principal. La cola de audio está acotada: si el equipo no alcanza a procesarla o el clip pierde audio, se detiene la voz y se registra el motivo, en lugar de ejecutar órdenes atrasadas.
 
-Vosk devuelve el inicio y final de las palabras. Se usan esos tiempos para rechazar órdenes de una ventana anterior de combate y medir la potencia en el momento del audio. `umbralGritoRms` y `ventanaNivelVoz` siguen siendo ajustables en `DetectorCommandControl`. La frecuencia se fija a 16000 Hz; el antiguo campo de frecuencia del controlador ya no se utiliza.
+Vosk devuelve el inicio y final de las palabras. Se usan esos tiempos para rechazar órdenes de una ventana anterior de combate y medir la potencia en el momento del audio. `umbralGritoRms`, `umbralGritoRmsLinux` y `ventanaNivelVoz` son ajustables en `DetectorCommandControl`. La frecuencia se fija a 16000 Hz; el antiguo campo de frecuencia del controlador ya no se utiliza.
+
+### Sensibilidad del crítico por plataforma
+
+Windows conserva el umbral RMS de **0,12**. Linux usa un umbral independiente de **0,24**, como ajuste inicial tras las pruebas del usuario. El proveedor se selecciona según el sistema donde se ejecuta el juego o el editor; cambiar el destino de build a Linux desde el editor Windows sigue usando el umbral Windows durante Play Mode.
+
+La consola registra proveedor, RMS, umbral y resultado del crítico. Para calibrar, comparar varios ataques hablados normalmente con varios ataques fuertes y elegir un umbral Linux por encima de la voz normal y por debajo de la voz fuerte. La ganancia y el procesamiento del dispositivo pueden variar entre equipos: **0,24 es un valor inicial, no una calibración automática**. Ajustarlo en el campo `Umbral Grito Rms Linux` del Inspector.
 
 Al desactivar el consumidor se detiene el micrófono y se cancela el trabajador. El trabajador libera primero `VoskRecognizer` y luego `Model`. Reactivar el consumidor vuelve a llamar a `Iniciar`. En Windows, si falla únicamente la captura para RMS, Windows Speech puede seguir funcionando con potencia cero; en Linux la captura es necesaria para reconocer.
 
@@ -60,7 +66,7 @@ La primera orden comprueba integridad sin requerir Unity. Las otras solicitan un
 
 Compilar scripts comprueba ambas ramas de plataforma, pero no genera un ejecutable completo ni demuestra funcionamiento del plugin nativo o del micrófono en Linux.
 
-### Resultado de la implementación del 23 de octubre de 2026
+### Resultado de la integración inicial del 23 de octubre de 2026
 
 - **13 pruebas EditMode aprobadas**, sin fallos ni omisiones, ejecutadas en Unity 6000.3.23f1.
 - **Scripts de player Linux x86_64 compilados** por Unity; el assembly generado contiene la implementación Vosk y las comprobaciones finales de micrófono.
@@ -70,6 +76,8 @@ Compilar scripts comprueba ambas ramas de plataforma, pero no genera un ejecutab
 - Los ajustes de proyecto y la fuente que ya tenían modificaciones coinciden con las copias locales conservadas; no se cambiaron las escenas ni los scripts de reglas, gestor de nivel o Relay.
 
 La prueba de voz hablada en un equipo Linux y la partida entre dos sistemas siguen pendientes. Los resultados automáticos se guardaron en `Temp/ValidacionVoz/pruebas.xml`, `pruebas.txt`, `linux.txt` y `windows.txt`.
+
+La revisión posterior de sensibilidad, cierre de conexión y animación de Hydros se documenta en `Docs/AjustesVozRedHydros.md`, con 21 pruebas automáticas aprobadas.
 
 ## Prueba manual pendiente en cada sistema
 

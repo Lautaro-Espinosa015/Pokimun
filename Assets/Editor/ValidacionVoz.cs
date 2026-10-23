@@ -23,6 +23,9 @@ public static class ValidacionVoz
         proximaConsulta = EditorApplication.timeSinceStartup + 1;
         string solicitud = Path.Combine(Carpeta, "solicitud.txt");
         if (!File.Exists(solicitud)) return;
+        // Importar cambios externos antes de ejecutar pruebas contra assemblies ya cargados.
+        AssetDatabase.Refresh();
+        if (EditorApplication.isCompiling || EditorApplication.isUpdating) return;
         string accion = File.ReadAllText(solicitud).Trim();
         File.Delete(solicitud);
         if (accion == "pruebas") EjecutarPruebas();

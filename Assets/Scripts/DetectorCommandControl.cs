@@ -12,13 +12,18 @@ public class DetectorCommandControl : MonoBehaviour
     [Header("Referencias del combate")]
     [SerializeField] private GestorNivel gestorNivel;
     [Header("Potencia por voz")]
+    [Tooltip("Umbral RMS del crítico en Windows. Se conserva el valor anterior.")]
     [SerializeField, Range(.01f, 1)] private float umbralGritoRms = .12f;
+    [Tooltip("Umbral RMS del crítico en Linux. Ajustar según la ganancia del micrófono; mayor valor exige más potencia.")]
+    [SerializeField, Range(.01f, 1)] private float umbralGritoRmsLinux = .24f;
     [SerializeField, Min(.1f)] private float ventanaNivelVoz = 1f;
     private readonly Dictionary<string, AccionTurno> comandos = new Dictionary<string, AccionTurno>();
     private readonly Dictionary<string, Action> comandosMenu = new Dictionary<string, Action>();
     private readonly Queue<Frase> frases = new Queue<Frase>();
     private struct Frase { public string texto; public DateTime inicioUtc; public float nivelVoz; }
     private GestorVozMultiplataforma voz;
+
+    private float UmbralGritoActual => voz != null && voz.UsaVosk ? umbralGritoRmsLinux : umbralGritoRms;
 
     private void OnEnable()
     {
@@ -243,9 +248,10 @@ public class DetectorCommandControl : MonoBehaviour
             }
             if (!comandos.TryGetValue(frase.texto, out AccionTurno accion)) continue;
             float rms = frase.nivelVoz;
-            accion.critico = accion.tipo == AccionCombate.Atacar && rms >= umbralGritoRms;
+            float umbral = UmbralGritoActual;
+            accion.critico = accion.tipo == AccionCombate.Atacar && rms >= umbral;
             bool aceptado = gestorNivel.IntentarRegistrarAccion(accion, "voz: " + frase.texto);
-            Debug.Log($"[Voz] frase='{frase.texto}' RMS={rms:F3} umbral={umbralGritoRms:F3} crítico={accion.critico} aceptado={aceptado}", this);
+            Debug.Log($"[Voz] proveedor={(voz != null && voz.UsaVosk ? "Vosk/Linux" : "Windows Speech")} frase='{frase.texto}' RMS={rms:F3} umbral={umbral:F3} crítico={accion.critico} aceptado={aceptado}", this);
         }
         if (!disponible || !gestorNivel.PuedeRecibirAcciones || Keyboard.current == null) return;
         Keyboard k = Keyboard.current;

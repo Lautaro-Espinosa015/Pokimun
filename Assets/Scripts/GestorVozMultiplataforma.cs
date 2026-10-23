@@ -20,6 +20,18 @@ using UnityEngine.Windows.Speech;
 [DisallowMultipleComponent]
 public class GestorVozMultiplataforma : MonoBehaviour
 {
+    public bool UsaVosk
+    {
+        get
+        {
+#if VOZ_LINUX
+            return true;
+#else
+            return false;
+#endif
+        }
+    }
+
     public struct ComandoReconocido
     {
         public string texto;

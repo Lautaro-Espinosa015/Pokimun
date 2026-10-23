@@ -1,0 +1,129 @@
+{
+  "binding": {
+    "repository": "https://github.com/alphacep/vosk-unity-asr",
+    "commit": "6cc1d5a2a2837e570e32eec4f0ada383a5e94d04",
+    "license": "Apache-2.0",
+    "files": [
+      {
+        "path": "Assets/ThirdParty/Vosk/Model.cs",
+        "blob": "42bd5988a376c2372aeeab2acc647b133d933fcc"
+      },
+      {
+        "path": "Assets/ThirdParty/Vosk/SpkModel.cs",
+        "blob": "2369ebe9da9f47da03f8dddd54fc57384dee4f84"
+      },
+      {
+        "path": "Assets/ThirdParty/Vosk/Vosk.cs",
+        "blob": "7da199b24f0006fbad39f7f374fc352ecd38671b"
+      },
+      {
+        "path": "Assets/ThirdParty/Vosk/VoskPINVOKE.cs",
+        "blob": "2392da7af3f102762f9c31e131ecbbed3ec0248d"
+      },
+      {
+        "path": "Assets/ThirdParty/Vosk/VoskRecognizer.cs",
+        "blob": "b20c05fe1e6c6c69aedbe7e6abb8bb595856a4b4"
+      }
+    ]
+  },
+  "native": {
+    "url": "https://github.com/alphacep/vosk-api/releases/download/v0.3.45/vosk-linux-x86_64-0.3.45.zip",
+    "version": "0.3.45",
+    "archiveSha256": "bbdc8ed85c43979f6443142889770ea95cbfbc56cffb5c5dcd73afa875c5fbb2",
+    "path": "Assets/Plugins/Linux/x86_64/libvosk.so",
+    "sha256": "85c4654de3acdeb99abab86eeb2a6e603927d37089597c0fcc33d8638dc2ccaf"
+  },
+  "model": {
+    "url": "https://alphacephei.com/vosk/models/vosk-model-small-es-0.42.zip",
+    "version": "0.42",
+    "license": "Apache-2.0",
+    "archiveSha256": "09b239888f633ef2f0b4e09736e3d9936acfd810bc65d53fad45261762c6511f",
+    "path": "Assets/StreamingAssets/vosk-model-small-es"
+  },
+  "files": [
+    {
+      "path": "Assets/Plugins/Linux/x86_64/libvosk.so",
+      "sha256": "85c4654de3acdeb99abab86eeb2a6e603927d37089597c0fcc33d8638dc2ccaf"
+    },
+    {
+      "path": "Assets/StreamingAssets/vosk-model-small-es/am/final.mdl",
+      "sha256": "ff9508e4db01d2e2375da3887973f94ef8057ee85411f4cb10a5c174ce7a4425"
+    },
+    {
+      "path": "Assets/StreamingAssets/vosk-model-small-es/conf/mfcc.conf",
+      "sha256": "e3c6cae9faa5da8a5a952cede8729af15166f325bb512789ec1ad6c0fd99e97f"
+    },
+    {
+      "path": "Assets/StreamingAssets/vosk-model-small-es/conf/model.conf",
+      "sha256": "330c1b50575d0c1c0402276c9cdc7a589ebd04de5d3de17695dd7e6db701da54"
+    },
+    {
+      "path": "Assets/StreamingAssets/vosk-model-small-es/graph/disambig_tid.int",
+      "sha256": "de29a2e1ae927c7207d93e93687e25242f7dcdcc9d7246b092364427aca54c24"
+    },
+    {
+      "path": "Assets/StreamingAssets/vosk-model-small-es/graph/Gr.fst",
+      "sha256": "0ddc8aacbc80b2e8d470060a429eb26706b2ae1d32615a499befd60cc86a0304"
+    },
+    {
+      "path": "Assets/StreamingAssets/vosk-model-small-es/graph/HCLr.fst",
+      "sha256": "ce42fba42b99076f16bfe2892c3cab0936fb7409edba95c545be81c74f2f59e5"
+    },
+    {
+      "path": "Assets/StreamingAssets/vosk-model-small-es/graph/phones/word_boundary.int",
+      "sha256": "581390c44961af08d79afc2b36ac41289b219810c85c049ddf5c6de0442ea92a"
+    },
+    {
+      "path": "Assets/StreamingAssets/vosk-model-small-es/ivector/final.dubm",
+      "sha256": "71b6830ae8cbef8764ccc9a6c65943a0e80f28b32982ae4e32f2d1ff15fadf14"
+    },
+    {
+      "path": "Assets/StreamingAssets/vosk-model-small-es/ivector/final.ie",
+      "sha256": "601057024fc8292ed8c8bd82686f254c390868024b20c4978dfc37d82529ba05"
+    },
+    {
+      "path": "Assets/StreamingAssets/vosk-model-small-es/ivector/final.mat",
+      "sha256": "81a445f1589de2251562879efd0ca55d2954d937d4ae5f653aa3f11e6fdea5ef"
+    },
+    {
+      "path": "Assets/StreamingAssets/vosk-model-small-es/ivector/global_cmvn.stats",
+      "sha256": "489e52a6f34fdf3dac2293784e6e096803c5b5387fe8ad9fbdcd03a65be8917c"
+    },
+    {
+      "path": "Assets/StreamingAssets/vosk-model-small-es/ivector/online_cmvn.conf",
+      "sha256": "a2f3571754b64297cb7efb2e7ca3df61995c5a45fcbb97188f90613552bb2dfe"
+    },
+    {
+      "path": "Assets/StreamingAssets/vosk-model-small-es/ivector/splice.conf",
+      "sha256": "9f0c5f7c82d18eaf25d8bce470efa9f7741f88411fe428774bc0a9bb69a24756"
+    },
+    {
+      "path": "Assets/StreamingAssets/vosk-model-small-es/README",
+      "sha256": "94132a6f5334701d8c0b4d25ef6890f74972909d8824c6c5974c41bca0542d88"
+    },
+    {
+      "path": "Assets/ThirdParty/Vosk/LICENSE.txt",
+      "sha256": "bb618af833c817ab01c1564bd3ec75ba4b4f9cf30910a4a2168e30a674ee8cc6"
+    },
+    {
+      "path": "Assets/ThirdParty/Vosk/Model.cs",
+      "sha256": "f8287cd0c6b887d68eaa72b27569e2bc552efc4297237199474834140ebebeb9"
+    },
+    {
+      "path": "Assets/ThirdParty/Vosk/SpkModel.cs",
+      "sha256": "bad191ed68df61e63c03d20ec47221aef15994f07921bd576d84c372e9b4bd6b"
+    },
+    {
+      "path": "Assets/ThirdParty/Vosk/Vosk.cs",
+      "sha256": "086657b456367ea34da1b58a89847bcc1299f532292279fb25c4a70062243bae"
+    },
+    {
+      "path": "Assets/ThirdParty/Vosk/VoskPINVOKE.cs",
+      "sha256": "207bcd977afb2c61c5d9208d6b85baf95d44b4afb8f335005bcc7c1e8efdcde4"
+    },
+    {
+      "path": "Assets/ThirdParty/Vosk/VoskRecognizer.cs",
+      "sha256": "7b9728f7a9205e1acfa1f1fdbeb03bd3ffead9c4b678f9004523122baa47b775"
+    }
+  ]
+}

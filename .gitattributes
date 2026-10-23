@@ -1,0 +1,6 @@
+# Mantener los bytes de los recursos de voz usados por la verificación SHA256.
+Assets/ThirdParty/Vosk/*.cs text eol=lf
+Assets/ThirdParty/Vosk/LICENSE.txt text eol=lf
+Assets/Plugins/Linux/x86_64/libvosk.so -text
+Assets/StreamingAssets/vosk-model-small-es/** -text
+Assets/StreamingAssets/vosk-model-small-es/**/*.meta text eol=lf

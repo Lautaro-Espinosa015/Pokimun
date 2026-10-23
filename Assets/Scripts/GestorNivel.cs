@@ -464,9 +464,7 @@ public class GestorNivel : MonoBehaviour
 
     public void SalirDelJuego()
     {
-        if (relay != null) {
-            relay.OnConexionPerdida -= ConexionPerdida;
-        }
+        PrepararSalidaDelJuego();
 
         var pm = FindFirstObjectByType<PauseManager>();
         if (pm != null) pm.SalirJuego();
@@ -476,6 +474,19 @@ public class GestorNivel : MonoBehaviour
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
+        }
+    }
+
+    public void PrepararSalidaDelJuego()
+    {
+        // El cierre debe ser síncrono: Destroy se ejecuta después de los callbacks de salida de Netcode.
+        StopAllCoroutines();
+        estadoActual = EstadoJuego.FinDePartida;
+        if (relay == null) relay = FindFirstObjectByType<GestorRedRelay>();
+        if (relay != null)
+        {
+            relay.OnConexionPerdida -= ConexionPerdida;
+            relay.CancelarConexion();
         }
     }
 

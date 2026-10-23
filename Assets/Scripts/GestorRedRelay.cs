@@ -40,6 +40,24 @@ public class GestorRedRelay : MonoBehaviour
     private float limiteConexion;
     private Task inicializacion;
 
+#if UNITY_EDITOR
+    private static bool saliendoDelEditor;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void PrepararCicloEditor()
+    {
+        saliendoDelEditor = false;
+        // Antes de los Awake: Netcode registra su cierre de Play Mode desde NetworkManager.Awake.
+        UnityEditor.EditorApplication.playModeStateChanged -= AlCambiarModoEditor;
+        UnityEditor.EditorApplication.playModeStateChanged += AlCambiarModoEditor;
+    }
+
+    private static void AlCambiarModoEditor(UnityEditor.PlayModeStateChange estado)
+    {
+        if (estado == UnityEditor.PlayModeStateChange.ExitingPlayMode) saliendoDelEditor = true;
+    }
+#endif
+
     public event Action<string, bool> OnEstadoSala;
     public event Action OnRivalListo;
     public event Action<MensajeCombate> OnMensaje;
@@ -254,6 +272,9 @@ public class GestorRedRelay : MonoBehaviour
 
     private void AlDesconectar(ulong cliente)
     {
+#if UNITY_EDITOR
+        if (saliendoDelEditor) return;
+#endif
         if (cerrando || (EsHost && (!rivalId.HasValue || cliente != rivalId.Value))) return;
         ErrorConexion("El otro jugador se ha desconectado.");
     }
@@ -289,6 +310,8 @@ public class GestorRedRelay : MonoBehaviour
         // NetworkManager se conserva entre escenas al conectarse: se elimina al abandonar la partida.
         Destroy(gameObject);
     }
+
+    private void OnApplicationQuit() => CancelarConexion();
 
     private void OnDestroy()
     {

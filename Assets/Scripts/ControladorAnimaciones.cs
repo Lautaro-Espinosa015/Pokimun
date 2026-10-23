@@ -187,11 +187,18 @@ public class ControladorAnimaciones : MonoBehaviour
         foreach (GameObject efecto in efectosActivos) if (efecto != null) Destroy(efecto);
         efectosActivos.Clear();
         if (!AsegurarAnimator()) return;
-        if (TieneParametro("Defendiendo", AnimatorControllerParameterType.Bool)) animator.SetBool("Defendiendo", false);
+        bool defensaPorBool = TieneParametro("Defendiendo", AnimatorControllerParameterType.Bool);
+        if (defensaPorBool) animator.SetBool("Defendiendo", false);
         foreach (string trigger in new[] { "Atacar", "AtacarCritico", "Defendiendo" })
             if (TieneParametro(trigger, AnimatorControllerParameterType.Trigger)) animator.ResetTrigger(trigger);
-        if (animator.isActiveAndEnabled && animator.HasState(0, Animator.StringToHash("Base Layer.Reposo")))
-            animator.CrossFade("Base Layer.Reposo", .12f, 0);
+        if (!animator.isActiveAndEnabled || !animator.HasState(0, Animator.StringToHash("Base Layer.Reposo"))) return;
+        var estado = animator.GetCurrentAnimatorStateInfo(0);
+        bool enTransicion = animator.IsInTransition(0);
+        // Respetar la mezcla configurada en el controller y la fase del idle actual.
+        if (enTransicion && animator.GetNextAnimatorStateInfo(0).IsName("Base Layer.Reposo")) return;
+        if (!enTransicion && estado.IsName("Base Layer.Reposo")) return;
+        if (defensaPorBool && estado.IsName("Base Layer.Defensa")) return;
+        animator.CrossFade("Base Layer.Reposo", .12f, 0);
     }
 
     private void OnDisable() { FinalizarAccion(); }

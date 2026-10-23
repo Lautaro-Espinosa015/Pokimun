@@ -28,3 +28,6 @@ sysinfo.txt
 
 .DS_Store
 Thumbs.db
+
+# Copias locales antes de cambios; no forman parte de la distribución.
+/Backups/

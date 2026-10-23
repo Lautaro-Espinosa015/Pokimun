@@ -1,0 +1,7 @@
+{
+  "name": "Pokimun.Voz.Tests",
+  "references": ["Pokimun.Voz.Core"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": false
+}

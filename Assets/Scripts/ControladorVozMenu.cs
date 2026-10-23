@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Windows.Speech;
 
 public class ControladorVozMenu : MonoBehaviour
 {
@@ -10,7 +8,7 @@ public class ControladorVozMenu : MonoBehaviour
     [Tooltip("Arrastra aquí el objeto que tiene el script MenuManager")]
     public MenuManager menuManager;
 
-    private KeywordRecognizer reconocedorVoz;
+    private GestorVozMultiplataforma voz;
     private Dictionary<string, Action> comandosMenu = new Dictionary<string, Action>();
 
     private void OnEnable()
@@ -128,24 +126,15 @@ public class ControladorVozMenu : MonoBehaviour
 
     private void IniciarReconocedor()
     {
-        try
-        {
-            // Crea el reconocedor de voz con las palabras clave del diccionario
-            reconocedorVoz = new KeywordRecognizer(comandosMenu.Keys.ToArray());
-            reconocedorVoz.OnPhraseRecognized += AlReconocerFrase;
-            reconocedorVoz.Start();
-            Debug.Log("[ControladorVozMenu] Escuchando comandos: Jugar (Play), Opciones (Options), Tutorial, Creditos (Credits), Volver (Back), Salir (Exit)...");
-        }
-        catch (Exception excepcion)
-        {
-            Debug.LogError($"[ControladorVozMenu] No se pudo iniciar el reconocimiento de voz: {excepcion.Message}");
-        }
+        voz = GetComponent<GestorVozMultiplataforma>();
+        if (voz == null) voz = gameObject.AddComponent<GestorVozMultiplataforma>();
+        voz.Iniciar(comandosMenu.Keys, AlReconocerFrase);
     }
 
-    private void AlReconocerFrase(PhraseRecognizedEventArgs args)
+    private void AlReconocerFrase(GestorVozMultiplataforma.ComandoReconocido resultado)
     {
-        string frase = args.text.Trim().ToLowerInvariant();
-        Debug.Log($"[ControladorVozMenu] Comando reconocido: '{args.text}' (Confianza: {args.confidence})");
+        string frase = resultado.texto;
+        Debug.Log($"[ControladorVozMenu] Comando reconocido: '{frase}'");
 
         // Si la frase que escuchó está en nuestra lista de comandos, ejecuta la acción
         if (comandosMenu.TryGetValue(frase, out Action comando))
@@ -156,16 +145,6 @@ public class ControladorVozMenu : MonoBehaviour
 
     private void OnDisable()
     {
-        // Apaga y limpia el reconocedor cuando se cierra el menú o el juego
-        if (reconocedorVoz != null)
-        {
-            reconocedorVoz.OnPhraseRecognized -= AlReconocerFrase;
-            if (reconocedorVoz.IsRunning)
-            {
-                reconocedorVoz.Stop();
-            }
-            reconocedorVoz.Dispose();
-            reconocedorVoz = null;
-        }
+        voz?.Detener();
     }
 }

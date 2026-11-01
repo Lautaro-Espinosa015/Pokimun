@@ -465,7 +465,7 @@ public class GestorNivel : MonoBehaviour
         if (resultado == ResultadoPartida.GanaRival) { controladorAnimacionesEnemigo?.CelebrarVictoria(); controladorAnimacionesJugador?.CaerDerrotado(); }
         
         string detalle = $"{motivo}\nHydros: {vidaJugador?.vidaActual ?? 0} PS  ·  Ignis: {vidaEnemigo?.vidaActual ?? 0} PS\nRondas: {turnoActual}/{maxTurnos}";
-        feedback.MostrarFin(titulo, detalle, enLinea ? null : (Action)IniciarPartida, VolverAlMenu, SalirDelJuego, victoria, resultado == ResultadoPartida.Empate);
+        feedback.MostrarFin(titulo, detalle, enLinea ? null : (Action)IniciarPartida, VolverAlMenu, SalirDelJuego, victoria, resultado == ResultadoPartida.Empate, VolverAlLobby);
         OnFinPartida?.Invoke(victoria);
         OnResultadoPartida?.Invoke(resultado);
         Log($"FIN resultado={resultado} motivo={motivo}");
@@ -515,12 +515,20 @@ public class GestorNivel : MonoBehaviour
     }
     public void VolverAlMenu()
     {
+        VolverAEscena("Menus");
+    }
+    public void VolverAlLobby()
+    {
+        VolverAEscena("Lobby");
+    }
+    private void VolverAEscena(string escena)
+    {
         StopAllCoroutines();
         estadoActual = EstadoJuego.FinDePartida;
         FinalizarAnimaciones();
         Time.timeScale = 1;
         relay?.SalirAlMenu();
-        SceneManager.LoadScene("Menus");
+        SceneManager.LoadScene(escena);
     }
     private void FinalizarAnimaciones()
     {

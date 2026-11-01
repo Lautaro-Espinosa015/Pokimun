@@ -62,6 +62,13 @@ public class PauseManager : MonoBehaviour
         else UnityEngine.SceneManagement.SceneManager.LoadScene("Menus");
     }
 
+    public void Lobby()
+    {
+        Reanudar();
+        if (gestor != null) gestor.VolverAlLobby();
+        else UnityEngine.SceneManagement.SceneManager.LoadScene("Lobby");
+    }
+
     public void CambiarVolumenMusica(float valor)
     {
         PlayerPrefs.SetFloat("VolumenMusica", valor);
@@ -140,6 +147,7 @@ public class PauseManager : MonoBehaviour
         CrearBoton(rtPanel, "Reanudar", new Vector2(0, 50), new Vector2(400, 80), Reanudar);
         CrearBoton(rtPanel, "Volver al Menú", new Vector2(0, -50), new Vector2(400, 80), Menu);
         CrearBoton(rtPanel, "Salir del Juego", new Vector2(0, -150), new Vector2(400, 80), SalirJuego);
+        CrearBoton(rtPanel, "Volver al lobby", new Vector2(0, -250), new Vector2(400, 80), Lobby);
 
         velo.SetActive(false);
     }

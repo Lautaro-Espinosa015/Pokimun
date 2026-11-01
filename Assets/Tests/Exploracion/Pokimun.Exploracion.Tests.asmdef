@@ -1,0 +1,7 @@
+{
+  "name": "Pokimun.Exploracion.Tests",
+  "references": ["Pokimun.Exploracion.Core"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": false
+}

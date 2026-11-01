@@ -7,6 +7,7 @@ public class ReconocimientoVozTests
     [TestCase(" NÚMERO   UNO ", "numero uno")]
     [TestCase("¡Música, cien!", "musica cien")]
     [TestCase("letra alfa", "letra alfa")]
+    [TestCase("letra té", "letra te")]
     public void NormalizaFrasesEspanolas(string texto, string esperado)
     {
         Assert.That(ComandosVoz.Normalizar(texto), Is.EqualTo(esperado));

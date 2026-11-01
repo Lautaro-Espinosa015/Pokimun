@@ -5,6 +5,7 @@
 [Bb]uilds/
 [Ll]ogs/
 [Uu]ser[Ss]ettings/
+/.utmp/
 
 .vs/
 .vscode/
@@ -31,3 +32,6 @@ Thumbs.db
 
 # Copias locales antes de cambios; no forman parte de la distribución.
 /Backups/
+
+# Informes, notas y diagnósticos locales del asistente.
+/.local-codex/

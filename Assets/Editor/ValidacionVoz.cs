@@ -31,6 +31,13 @@ public static class ValidacionVoz
         if (accion == "pruebas") EjecutarPruebas();
         else if (accion == "linux") CompilarLinux();
         else if (accion == "windows") CompilarWindows();
+        else if (accion == "android") CompilarAndroid();
+        else if (accion == "plataformas")
+        {
+            CompilarWindows();
+            CompilarLinux();
+            CompilarAndroid();
+        }
     }
 
     [MenuItem("Pokimun/Voz/Ejecutar pruebas de reconocimiento")]
@@ -52,6 +59,9 @@ public static class ValidacionVoz
     [MenuItem("Pokimun/Voz/Comprobar scripts Windows x86_64")]
     public static void CompilarWindows() => Compilar(BuildTarget.StandaloneWindows64, "windows");
 
+    [MenuItem("Pokimun/Voz/Comprobar scripts Android")]
+    public static void CompilarAndroid() => Compilar(BuildTarget.Android, "android");
+
     private static void Compilar(BuildTarget destino, string nombre)
     {
         if (ocupado) return;
@@ -61,7 +71,7 @@ public static class ValidacionVoz
         {
             if (destino == BuildTarget.StandaloneLinux64) ComprobarRecursosLinux();
             var configuracion = new ScriptCompilationSettings {
-                target = destino, group = BuildTargetGroup.Standalone,
+                target = destino, group = destino == BuildTarget.Android ? BuildTargetGroup.Android : BuildTargetGroup.Standalone,
                 options = ScriptCompilationOptions.None
             };
             var resultado = PlayerBuildInterface.CompilePlayerScripts(configuracion, Path.Combine(Carpeta, nombre));

@@ -1,6 +1,6 @@
 {
   "name": "Pokimun.Voz.Tests",
-  "references": ["Pokimun.Voz.Core"],
+  "references": ["Pokimun.Voz.Core", "UnityEngine.UI"],
   "includePlatforms": ["Editor"],
   "optionalUnityReferences": ["TestAssemblies"],
   "autoReferenced": false

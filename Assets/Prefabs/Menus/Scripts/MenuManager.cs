@@ -49,7 +49,7 @@ public class MenuManager : MonoBehaviour
         if (cargandoPartida) return;
         cargandoPartida = true;
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Escenario");
+        SceneManager.LoadScene("Lobby");
     }
 
     public void Opciones()

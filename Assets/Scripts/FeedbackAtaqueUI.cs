@@ -220,7 +220,7 @@ public class FeedbackAtaqueUI : MonoBehaviour
         }
     }
 
-    public void MostrarFin(string titulo, string detalle, Action reiniciar, Action menu, Action salir, bool victoria, bool empate)
+    public void MostrarFin(string titulo, string detalle, Action reiniciar, Action menu, Action salir, bool victoria, bool empate, Action lobby = null)
     {
         PrepararInterfaz();
         OcultarAviso();
@@ -250,13 +250,14 @@ public class FeedbackAtaqueUI : MonoBehaviour
         {
             Boton(panel, "Volver a jugar", new Vector2(-145, -70), new Vector2(260, 57), reiniciar);
             Boton(panel, "Menú principal", new Vector2(145, -70), new Vector2(260, 57), menu);
-            Boton(panel, "Salir del juego", new Vector2(0, -150), new Vector2(260, 57), salir);
+            Boton(panel, "Salir del juego", new Vector2(lobby != null ? -145 : 0, -150), new Vector2(260, 57), salir);
         }
         else
         {
             Boton(panel, "Menú principal", new Vector2(0, -70), new Vector2(260, 57), menu);
-            Boton(panel, "Salir del juego", new Vector2(0, -150), new Vector2(260, 57), salir);
+            Boton(panel, "Salir del juego", new Vector2(lobby != null ? -145 : 0, -150), new Vector2(260, 57), salir);
         }
+        if (lobby != null) Boton(panel, "Volver al lobby", new Vector2(145, -150), new Vector2(260, 57), lobby);
     }
 
     public void Limpiar()

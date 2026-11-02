@@ -140,6 +140,17 @@ public class GestorVozMultiplataforma : MonoBehaviour
         }
         if (clipMicrofono != null)
         {
+            // El editor puede detener Update durante compilaciones o al perder foco mientras el micrófono sigue grabando.
+            // Renovar la sesión descarta tanto el audio sobrescrito como los resultados viejos del reconocedor.
+            if (Time.realtimeSinceStartupAsDouble - ultimaLectura >= SegundosBuffer - .5)
+            {
+                var palabras = comandos.PalabrasClave;
+                var callback = alReconocer;
+                float ventana = ventanaActual;
+                Iniciar(palabras, callback, ventana);
+                Debug.Log("[Voz] Sesión renovada tras una interrupción prolongada de la captura.", this);
+                return;
+            }
             try { LeerMicrofono(); }
             catch (Exception ex)
             {
@@ -163,8 +174,6 @@ public class GestorVozMultiplataforma : MonoBehaviour
     private void LeerMicrofono()
     {
         double ahora = Time.realtimeSinceStartupAsDouble;
-        if (ahora - ultimaLectura >= SegundosBuffer - .5)
-            throw new InvalidOperationException("El buffer de audio se desbordó. Desactiva y reactiva la voz para reiniciarla.");
         ultimaLectura = ahora;
         int posicion = Microphone.GetPosition(dispositivo);
         if (posicion < 0) throw new InvalidOperationException("Se perdió el micrófono.");

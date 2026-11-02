@@ -43,7 +43,13 @@ namespace Pokimun.Exploracion
         }
         private void ConfigurarVoz()
         {
-            comandos["detener"] = jugador.Detener;
+            comandos["detener"] = () => { jugador.Detener();interfaz.Notificar("Nos detenemos aquí. Mirá a tu alrededor."); };
+            comandos["ayuda"] = AlternarAyuda;
+            comandos["cerrar ayuda"] = () => EstablecerAyuda(false);
+            comandos["correr"] = jugador.Correr;
+            comandos["caminar"] = jugador.Caminar;
+            comandos["avanzar"] = () => jugador.MoverPorVoz(1);
+            comandos["retroceder"] = () => jugador.MoverPorVoz(-1);
             comandos["mirar izquierda"] = () => jugador.Girar(-45);
             comandos["mirar derecha"] = () => jugador.Girar(45);
             comandos["mirar atras"] = () => jugador.Girar(180);
@@ -52,6 +58,11 @@ namespace Pokimun.Exploracion
             comandos["entrar"] = Interactuar;
             comandos["pausa"] = () => EstablecerPausa(true);
             comandos["reanudar"] = () => EstablecerPausa(false);
+            if (busqueda)
+            {
+                comandos["mapa"] = AlternarMapa;
+                comandos["cerrar mapa"] = () => EstablecerMapa(false);
+            }
             comandos["volver al lobby"] = () => Cargar("Lobby");
             comandos["menu principal"] = () => Cargar("Menus");
             comandos["repetir"] = () => { if (Partida != null && Partida.Finalizada) Cargar("BusquedaIgnis"); };
@@ -59,18 +70,20 @@ namespace Pokimun.Exploracion
             {
                 var local = destino;
                 Action ir = () => {
-                    if (!jugador.Bloqueado && !Cargando) jugador.IrA(local.PuntoLlegada);
+                    if (!jugador.Bloqueado && !Cargando) jugador.IrA(local);
                 };
                 comandos["ir a " + destino.nombreVoz] = ir;
                 comandos["ir al " + destino.nombreVoz] = ir;
                 comandos["ir a la " + destino.nombreVoz] = ir;
-                if (destino.nombreVoz == "hydros") comandos["ir a agua"] = ir;
-                if (destino.nombreVoz == "ignis") comandos["ir a fuego"] = ir;
+                foreach (string alias in destino.aliasVoz ?? Array.Empty<string>())
+                {
+                    comandos["ir a " + alias] = ir; comandos["ir al " + alias] = ir; comandos["ir a la " + alias] = ir;
+                }
             }
             // Vosk conserva tildes en su vocabulario. El normalizador compartido mantiene la misma acción.
             foreach (var par in new List<KeyValuePair<string, Action>>(comandos))
             {
-                string acentuada = par.Key.Replace("busqueda", "búsqueda").Replace("arbol", "árbol").Replace("atras", "atrás").Replace("menu", "menú");
+                string acentuada = par.Key.Replace("busqueda", "búsqueda").Replace("arbol", "árbol").Replace("atras", "atrás").Replace("menu", "menú").Replace("jardin", "jardín").Replace("caido", "caído").Replace("tocon", "tocón");
                 if (acentuada != par.Key) comandos[acentuada] = par.Value;
             }
             voz = gameObject.AddComponent<GestorVozMultiplataforma>();
@@ -78,7 +91,7 @@ namespace Pokimun.Exploracion
                 if (!Application.isFocused || Cargando || resultado.inicioUtc < ventanaEntrada) return;
                 string frase = resultado.texto;
                 bool permitida = !jugador.Bloqueado || frase == "reanudar" || frase == "volver al lobby" ||
-                    frase == "menu principal" || frase == "repetir";
+                    frase == "menu principal" || frase == "repetir" || frase == "mapa" || frase == "cerrar mapa" || frase == "ayuda" || frase == "cerrar ayuda";
                 if (permitida && comandos.TryGetValue(frase, out var accion)) accion();
             });
         }
@@ -86,8 +99,14 @@ namespace Pokimun.Exploracion
         {
             if (jugador == null || interfaz == null || Cargando) return;
             var teclado = Keyboard.current;
+            if (teclado != null && teclado.hKey.wasPressedThisFrame) AlternarAyuda();
+            if (teclado != null && teclado.mKey.wasPressedThisFrame) AlternarMapa();
             if (teclado != null && teclado.escapeKey.wasPressedThisFrame && !(Partida != null && Partida.Finalizada))
-                EstablecerPausa(!Pausado);
+            {
+                if (interfaz.AyudaAbierta) EstablecerAyuda(false);
+                else if (interfaz.MapaAbierto) EstablecerMapa(false);
+                else EstablecerPausa(!Pausado);
+            }
             if (Pausado || (Partida != null && Partida.Finalizada)) return;
             if (busqueda)
             {
@@ -118,9 +137,13 @@ namespace Pokimun.Exploracion
             if (!Physics.Raycast(rayo, out var hit, 6.5f, ~(1 << 2), QueryTriggerInteraction.Ignore))
             { interfaz.PistaInteraccion = ""; return; }
             float distancia = Vector3.Distance(jugador.transform.position, hit.point);
-            if (distancia > 3.3f) { interfaz.PistaInteraccion = "Acercate para interactuar"; return; }
             mirandoIgnis = busqueda && Partida.Iniciada && hit.transform.IsChildOf(ignis);
             objetivo = hit.collider.GetComponentInParent<DestinoExploracion>();
+            if (distancia > 3.3f)
+            {
+                interfaz.PistaInteraccion = mirandoIgnis || objetivo != null ? "Acercate para interactuar" : "";
+                mirandoIgnis = false; objetivo = null; return;
+            }
             interfaz.PistaInteraccion = mirandoIgnis ? "Encontrar a Ignis · E / Interactuar" :
                 objetivo != null ? objetivo.descripcion + " · E / Interactuar" : "";
         }
@@ -145,9 +168,38 @@ namespace Pokimun.Exploracion
         public void EstablecerPausa(bool valor)
         {
             if (Cargando || Partida != null && Partida.Finalizada) return;
+            interfaz.MostrarMapa(false);
+            interfaz.MostrarAyuda(false);
             Pausado = valor; jugador.Bloqueado = valor; jugador.Detener(); jugador.SoltarCursor();
             Time.timeScale = valor ? 0 : 1; ventanaEntrada = DateTime.UtcNow;
             interfaz.MostrarPausa(valor);
+        }
+        public void AlternarMapa()
+        {
+            if (!busqueda || Pausado && !interfaz.MapaAbierto) return;
+            EstablecerMapa(!interfaz.MapaAbierto);
+        }
+        public void AlternarAyuda()
+        {
+            if(Pausado&&!interfaz.AyudaAbierta)return;
+            EstablecerAyuda(!interfaz.AyudaAbierta);
+        }
+        public void EstablecerAyuda(bool visible)
+        {
+            if(Cargando||Partida!=null&&Partida.Finalizada)return;
+            if(visible&&Pausado&&!interfaz.AyudaAbierta)return;
+            if(!visible&&!interfaz.AyudaAbierta)return;
+            Pausado=visible;jugador.Bloqueado=visible;jugador.Detener();jugador.SoltarCursor();
+            Time.timeScale=visible?0:1;ventanaEntrada=DateTime.UtcNow;interfaz.MostrarAyuda(visible);
+        }
+        public void EstablecerMapa(bool visible)
+        {
+            if (!busqueda || Cargando || Partida != null && Partida.Finalizada) return;
+            if (!visible && !interfaz.MapaAbierto) return;
+            if (visible && Pausado && !interfaz.MapaAbierto) return;
+            Pausado = visible; jugador.Bloqueado = visible; jugador.Detener(); jugador.SoltarCursor();
+            Time.timeScale = visible ? 0 : 1; ventanaEntrada = DateTime.UtcNow;
+            interfaz.MostrarMapa(visible);
         }
         private void OnApplicationPause(bool pausa)
         {

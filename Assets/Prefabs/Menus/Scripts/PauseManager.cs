@@ -118,7 +118,7 @@ public class PauseManager : MonoBehaviour
         canvas.sortingOrder = 300; // Aseguramos que esté sobre todo lo demás
         var scaler = canvasObj.GetComponent<CanvasScaler>();
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new Vector2(1920, 1080);
+        scaler.referenceResolution = new Vector2(1280, 720);
         scaler.matchWidthOrHeight = 0.5f;
         
         if (EventSystem.current == null)
@@ -139,15 +139,16 @@ public class PauseManager : MonoBehaviour
         RectTransform rtPanel = panel.GetComponent<RectTransform>();
         rtPanel.SetParent(rtVelo, false);
         rtPanel.anchorMin = rtPanel.anchorMax = new Vector2(0.5f, 0.5f);
-        rtPanel.sizeDelta = new Vector2(500, 600);
+        rtPanel.sizeDelta = new Vector2(620, 640);
         rtPanel.anchoredPosition = Vector2.zero;
 
-        CrearTexto(rtPanel, "PAUSA", new Vector2(0, 200), new Vector2(500, 80), 50);
+        CrearTexto(rtPanel, "PAUSA", new Vector2(0, 255), new Vector2(500, 70), 45);
+        PanelVolumenPausa.Crear(rtPanel, new Vector2(0, 120));
 
-        CrearBoton(rtPanel, "Reanudar", new Vector2(0, 50), new Vector2(400, 80), Reanudar);
-        CrearBoton(rtPanel, "Volver al Menú", new Vector2(0, -50), new Vector2(400, 80), Menu);
-        CrearBoton(rtPanel, "Salir del Juego", new Vector2(0, -150), new Vector2(400, 80), SalirJuego);
-        CrearBoton(rtPanel, "Volver al lobby", new Vector2(0, -250), new Vector2(400, 80), Lobby);
+        CrearBoton(rtPanel, "Reanudar", new Vector2(0, -20), new Vector2(400, 55), Reanudar);
+        CrearBoton(rtPanel, "Volver al Menú", new Vector2(0, -85), new Vector2(400, 55), Menu);
+        CrearBoton(rtPanel, "Salir del Juego", new Vector2(0, -150), new Vector2(400, 55), SalirJuego);
+        CrearBoton(rtPanel, "Volver al lobby", new Vector2(0, -215), new Vector2(400, 55), Lobby);
 
         velo.SetActive(false);
     }

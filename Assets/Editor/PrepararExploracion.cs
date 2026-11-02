@@ -33,11 +33,67 @@ public static class PrepararExploracion
         {
             string nombre = accion.Substring(3);
             if (nombre == "ignis") g.jugador.IrA(g.ignis.position + Vector3.right * 1.8f);
-            else g.jugador.IrA(g.destinos.First(d => d.nombreVoz == nombre).PuntoLlegada);
+            else g.jugador.IrA(g.destinos.First(d => d.nombreVoz == nombre));
         }
         else if (accion == "interactuar") g.Interactuar();
         else if (accion == "busqueda") g.Cargar("BusquedaIgnis");
         else if (accion == "lobby") g.Cargar("Lobby");
+        else if (accion == "recorridos") ConstruirZonasExploracion.ProbarRecorridos(g);
+        else if (accion == "mapa") g.AlternarMapa();
+        else if (accion == "probar-mapa") ConstruirZonasExploracion.ProbarMapa(g);
+        else if (accion == "atajos-mapa") ConstruirZonasExploracion.ProbarAtajosMapa(g);
+        else if (accion == "ayuda") g.AlternarAyuda();
+        else if (accion == "probar-tema-ui") AcabadoInterfazExploracion.Probar(g);
+        else if (accion == "probar-recuperacion-voz")
+        {
+            var voz = g.GetComponent<GestorVozMultiplataforma>();
+            var flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic;
+            var tipo = typeof(GestorVozMultiplataforma);
+            var campoClip = tipo.GetField("clipMicrofono", flags);
+            var anterior = campoClip.GetValue(voz);
+            tipo.GetField("ultimaLectura", flags).SetValue(voz, Time.realtimeSinceStartupAsDouble - 11);
+            double fin = EditorApplication.timeSinceStartup + 3;
+            EditorApplication.CallbackFunction comprobar = null;
+            comprobar = () => {
+                if (!EditorApplication.isPlaying || voz == null) { EditorApplication.update -= comprobar; return; }
+                if (EditorApplication.timeSinceStartup < fin) return;
+                bool activo = (bool)tipo.GetField("activo", flags).GetValue(voz);
+                var nuevo = campoClip.GetValue(voz);
+                File.WriteAllText("Temp/Exploracion/recuperacion-voz.txt", activo && nuevo != null && !ReferenceEquals(anterior, nuevo)
+                    ? "OK: captura renovada automáticamente después de una interrupción de 11 segundos." : "ERROR: la captura no se renovó.");
+                EditorApplication.update -= comprobar;
+            };
+            EditorApplication.update += comprobar;
+        }
+        else if (accion == "pausa") g.EstablecerPausa(true);
+        else if (accion == "reanudar") g.EstablecerPausa(false);
+        else if (accion == "probar-volumen")
+        {
+            bool teniaMusica = PlayerPrefs.HasKey("VolumenMusica"), teniaEfectos = PlayerPrefs.HasKey("VolumenEfectos");
+            float musica = PlayerPrefs.GetFloat("VolumenMusica", .35f), efectos = PlayerPrefs.GetFloat("VolumenEfectos", .85f);
+            try
+            {
+                g.EstablecerPausa(true);
+                var sliders = g.interfaz.GetComponentsInChildren<UnityEngine.UI.Slider>();
+                var m = sliders.First(s => s.name == "Control Música");
+                var e = sliders.First(s => s.name == "Control Efectos y ambiente");
+                m.value = .2f; e.value = .7f;
+                bool ok = Mathf.Approximately(PlayerPrefs.GetFloat("VolumenMusica"), .2f) &&
+                    Mathf.Approximately(PlayerPrefs.GetFloat("VolumenEfectos"), .7f) && g.Pausado;
+                File.WriteAllText("Temp/Exploracion/volumen.txt", ok ? "OK: música y efectos independientes, valores compartidos con opciones y pausa activa." : "ERROR: volumen no sincronizado.");
+            }
+            finally
+            {
+                if (teniaMusica) PlayerPrefs.SetFloat("VolumenMusica", musica); else PlayerPrefs.DeleteKey("VolumenMusica");
+                if (teniaEfectos) PlayerPrefs.SetFloat("VolumenEfectos", efectos); else PlayerPrefs.DeleteKey("VolumenEfectos");
+                g.EstablecerPausa(false); PlayerPrefs.Save();
+            }
+        }
+        else if (accion.StartsWith("correr:"))
+        {
+            g.jugador.Correr(); g.jugador.IrA(g.destinos.First(d => d.nombreVoz == accion.Substring(7)).PuntoLlegada);
+            MedirMovimiento(g);
+        }
         else if (accion == "mirar-ignis")
         {
             float angulo = Quaternion.LookRotation(g.ignis.position - g.jugador.transform.position).eulerAngles.y;
@@ -46,9 +102,34 @@ public static class PrepararExploracion
         var lineas = new List<string> { "Escena=" + SceneManager.GetActiveScene().name, "Jugador=" + g.jugador.transform.position,
             "Camara=" + g.jugador.camara.transform.position + " tercera=" + g.jugador.terceraPersona, "Navegando=" + g.jugador.Navegando,
             "Aviso=" + g.jugador.Aviso, "Tiempo=" + (g.Partida?.Tiempo ?? 0), "Pausa=" + g.Pausado + " escalaTiempo=" + Time.timeScale };
+        var avatar = g.jugador.cuerpo.GetComponentInChildren<Animator>();
+        if (avatar != null && avatar.isHuman)
+        {
+            float pie = Mathf.Min(avatar.GetBoneTransform(HumanBodyBones.LeftFoot).position.y, avatar.GetBoneTransform(HumanBodyBones.RightFoot).position.y);
+            if (Physics.Raycast(g.jugador.transform.position + Vector3.up * .5f, Vector3.down, out var apoyo, 2, 1 << 0, QueryTriggerInteraction.Ignore))
+                lineas.Add("Altura pies sobre suelo=" + (pie - apoyo.point.y).ToString("F3") + "; raíz=" + (g.jugador.transform.position.y - apoyo.point.y).ToString("F3"));
+        }
         foreach (var r in UnityEngine.Object.FindObjectsByType<SkinnedMeshRenderer>(FindObjectsSortMode.None))
             lineas.Add(r.name + " bounds=" + r.bounds + " escala=" + r.transform.lossyScale + " root=" + r.transform.root.name);
         File.WriteAllLines("Temp/Exploracion/juego-resultado.txt", lineas);
+    }
+    private static void MedirMovimiento(GestorExploracion gestor)
+    {
+        float inicio = gestor.jugador.transform.position.y, altura = 0, velocidad = 0;
+        double fin = EditorApplication.timeSinceStartup + 3;
+        EditorApplication.CallbackFunction medir = null;
+        medir = () => {
+            if (!EditorApplication.isPlaying || gestor == null) { EditorApplication.update -= medir; return; }
+            altura = Mathf.Max(altura, gestor.jugador.transform.position.y - inicio);
+            Vector3 v = gestor.jugador.GetComponent<CharacterController>().velocity; v.y = 0;
+            velocidad = Mathf.Max(velocidad, v.magnitude);
+            if (EditorApplication.timeSinceStartup < fin) return;
+            bool correcto = velocidad > 4;
+            File.WriteAllText("Temp/Exploracion/carrera.txt",
+                (correcto ? "OK" : "ERROR") + " altura=" + altura.ToString("F2") + " velocidad=" + velocidad.ToString("F2"));
+            EditorApplication.update -= medir;
+        };
+        EditorApplication.update += medir;
     }
     private static void RevisarSolicitud()
     {
@@ -68,6 +149,24 @@ public static class PrepararExploracion
             else if (accion == "validar") ValidarEscenas();
             else if (accion == "actualizar-base") ActualizarBase();
             else if (accion == "pruebas") EjecutarPruebas();
+            else if (accion == "mejorar-lobby") MejorarSantuario.Aplicar();
+            else if (accion == "acabado-entorno") AcabadoEntorno.Aplicar();
+            else if (accion == "corregir-busqueda") AcabadoEntorno.CorregirBusqueda();
+            else if (accion == "atardecer-arbustos") AcabadoEntorno.AtardecerYArbustos();
+            else if (accion == "arbustos-hojas") AcabadoEntorno.RefinarArbustos();
+            else if (accion == "suelo-cielo") AcabadoEntorno.PulirSueloYCielo();
+            else if (accion == "zonas-carteles") ConstruirZonasExploracion.Aplicar();
+            else if (accion == "diag-zonas") ConstruirZonasExploracion.Diagnostico();
+            else if (accion == "limpiar-zonas-mapa") ConstruirZonasExploracion.DespejarZonas();
+            else if (accion == "mapa-cenital") GenerarMapaCenital.Generar();
+            else if (accion == "acabado-ui") AcabadoInterfazExploracion.Aplicar();
+            else if (accion == "colores-lobby") AcabadoInterfazExploracion.AjustarColoresLobby();
+            else if (accion == "reiniciar-editor")
+            {
+                if (!EditorSceneManager.SaveOpenScenes()) throw new Exception("No se pudieron guardar las escenas antes del reinicio.");
+                File.WriteAllText("Temp/Exploracion/reinicio.txt", "Solicitado " + DateTime.UtcNow.ToString("O"));
+                EditorApplication.OpenProject(Path.GetFullPath("."));
+            }
         }
         catch (Exception ex)
         {
@@ -214,8 +313,8 @@ public static class PrepararExploracion
             Cubo("Columna", p + Vector3.up * 3, new Vector3(1.2f, 6, 1.2f), piedra, arquitectura.transform);
         }
         var destinos = new List<DestinoExploracion>();
-        destinos.Add(Portal("combate", "Escenario", new Vector3(-6, 0, 13.6f), fuego));
-        destinos.Add(Portal("busqueda", "BusquedaIgnis", new Vector3(6, 0, 13.6f), agua));
+        destinos.Add(Portal("combate", "Escenario", new Vector3(6, 0, 13.6f), fuego));
+        destinos.Add(Portal("busqueda", "BusquedaIgnis", new Vector3(-6, 0, 13.6f), agua));
         foreach (string personaje in new[] { "Hydros", "Ignis" })
         {
             float x = personaje == "Hydros" ? -6 : 6;

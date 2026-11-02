@@ -1,0 +1,77 @@
+{
+  "provider": "Poly Haven",
+  "license": "CC0-1.0",
+  "license_url": "https://polyhaven.com/license",
+  "cc0_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-11-01",
+  "assets": [
+    {
+      "id": "brown_mud_dry",
+      "name": "Brown Mud Dry",
+      "authors": {
+        "Rob Tuytel": "All"
+      },
+      "source": "https://polyhaven.com/a/brown_mud_dry",
+      "files": [
+        {
+          "channel": "diff",
+          "resolution": "1k",
+          "path": "Assets/ThirdParty/PolyHaven/brown_mud_dry/brown_mud_dry_diff_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/brown_mud_dry/brown_mud_dry_diff_1k.jpg",
+          "sha256": "a56281b644de614787340f3db45e28d2f72ec32fc19a442f99002bae0ab11398",
+          "bytes": 920456
+        },
+        {
+          "channel": "nor_gl",
+          "resolution": "1k",
+          "path": "Assets/ThirdParty/PolyHaven/brown_mud_dry/brown_mud_dry_nor_gl_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/brown_mud_dry/brown_mud_dry_nor_gl_1k.jpg",
+          "sha256": "4dd82ecb3e810d4de49d34c7d6cc30152129434a58b3bd786bc9952bc8874877",
+          "bytes": 1539092
+        },
+        {
+          "channel": "ao",
+          "resolution": "1k",
+          "path": "Assets/ThirdParty/PolyHaven/brown_mud_dry/brown_mud_dry_ao_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/brown_mud_dry/brown_mud_dry_ao_1k.jpg",
+          "sha256": "c212423e0a5fda2c1ed514e142a8b3cae0195f5a37096c549c8ff0ed6a875f9e",
+          "bytes": 568420
+        }
+      ]
+    },
+    {
+      "id": "wood_planks",
+      "name": "Wood Planks",
+      "authors": {
+        "Amal Kumar": "All"
+      },
+      "source": "https://polyhaven.com/a/wood_planks",
+      "files": [
+        {
+          "channel": "diff",
+          "resolution": "1k",
+          "path": "Assets/ThirdParty/PolyHaven/wood_planks/wood_planks_diff_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/wood_planks/wood_planks_diff_1k.jpg",
+          "sha256": "3b0669f683e4bf10f5a55a381cfa9669a7b8dfd921901829daa3b35acc2bbdec",
+          "bytes": 609525
+        },
+        {
+          "channel": "nor_gl",
+          "resolution": "1k",
+          "path": "Assets/ThirdParty/PolyHaven/wood_planks/wood_planks_nor_gl_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/wood_planks/wood_planks_nor_gl_1k.jpg",
+          "sha256": "d02abf113e17a8abe97e1be3e9d6d88add242e8c2291e2200d37aa8c68909f25",
+          "bytes": 652441
+        },
+        {
+          "channel": "ao",
+          "resolution": "1k",
+          "path": "Assets/ThirdParty/PolyHaven/wood_planks/wood_planks_ao_1k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/wood_planks/wood_planks_ao_1k.jpg",
+          "sha256": "9ab36d73298d789b7bf9c6a873db79e09fbd3fc987217e3ec4cc6110786f05b5",
+          "bytes": 351488
+        }
+      ]
+    }
+  ]
+}

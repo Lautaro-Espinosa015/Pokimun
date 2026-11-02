@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b7992f17884b564fb596fa6277d5ade, type: 3}
+  m_Name: TemaCombate
+  m_EditorClassIdentifier: Assembly-CSharp::Pokimun.Exploracion.TemaExploracion
+  boton: {fileID: 3839355700136853231, guid: da34ef7e397c1e047ab2f62b1360d1d2, type: 3}
+  fuente: {fileID: 11400000, guid: cdef4ec58892ceb4393109d50a013655, type: 2}

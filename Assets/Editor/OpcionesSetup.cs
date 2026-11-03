@@ -10,10 +10,10 @@ public class OpcionesSetup : MonoBehaviour
     [MenuItem("Pokimun/Generar Sliders de Opciones (Menú Principal)")]
     public static void GenerarOpciones()
     {
-        Options opcionesObj = Object.FindFirstObjectByType<Options>(FindObjectsInactive.Include);
+        OpcionesMenu opcionesObj = Object.FindFirstObjectByType<OpcionesMenu>(FindObjectsInactive.Include);
         if (opcionesObj == null)
         {
-            EditorUtility.DisplayDialog("Error", "No se encontró el script Options en la escena. Asegúrate de estar en la escena del Menú Principal.", "OK");
+            EditorUtility.DisplayDialog("Error", "No se encontró el script OpcionesMenu en la escena. Asegúrate de estar en la escena del Menú Principal.", "OK");
             return;
         }
 
@@ -112,7 +112,7 @@ public class OpcionesSetup : MonoBehaviour
         UnityEditor.Events.UnityEventTools.AddPersistentListener(btnFps.onClick,
             System.Delegate.CreateDelegate(typeof(UnityEngine.Events.UnityAction), opcionesObj, "CycleFPS") as UnityEngine.Events.UnityAction);
 
-        // Asignar automáticamente en el inspector de Options
+        // Asignar automáticamente en el inspector de OpcionesMenu
         opcionesObj.volumenMusica = sliderMusica;
         opcionesObj.volumenEfectos = sliderEfectos;
         opcionesObj.fpsText = txtFps;

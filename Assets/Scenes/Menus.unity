@@ -1331,7 +1331,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21088b6f99c2b7c44a453cdc1debce93, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Options
+  m_EditorClassIdentifier: Assembly-CSharp::OpcionesMenu
   volumenMusica: {fileID: 888021345}
   volumenEfectos: {fileID: 1211190215}
   valueMusica: 0
@@ -2250,7 +2250,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 122514377}
-        m_TargetAssemblyTypeName: Options, Assembly-CSharp
+        m_TargetAssemblyTypeName: OpcionesMenu, Assembly-CSharp
         m_MethodName: changeFullscreen
         m_Mode: 0
         m_Arguments:
@@ -7086,7 +7086,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 122514377}
-        m_TargetAssemblyTypeName: Options, Assembly-CSharp
+        m_TargetAssemblyTypeName: OpcionesMenu, Assembly-CSharp
         m_MethodName: changeVolumenMusica
         m_Mode: 0
         m_Arguments:
@@ -9070,7 +9070,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 122514377}
-        m_TargetAssemblyTypeName: Options, Assembly-CSharp
+        m_TargetAssemblyTypeName: OpcionesMenu, Assembly-CSharp
         m_MethodName: changeVolumenEfectos
         m_Mode: 0
         m_Arguments:
@@ -15017,7 +15017,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 122514377}
-        m_TargetAssemblyTypeName: Options, Assembly-CSharp
+        m_TargetAssemblyTypeName: OpcionesMenu, Assembly-CSharp
         m_MethodName: CycleFPS
         m_Mode: 0
         m_Arguments:

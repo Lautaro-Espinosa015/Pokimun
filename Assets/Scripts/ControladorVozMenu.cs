@@ -71,7 +71,7 @@ public class ControladorVozMenu : MonoBehaviour
 
         // Comandos de Pantalla Completa
         Action togglePC = () => {
-            var opt = FindFirstObjectByType<Options>(FindObjectsInactive.Exclude);
+            var opt = FindFirstObjectByType<OpcionesMenu>(FindObjectsInactive.Exclude);
             if (opt != null) {
                 bool isFullScreen = false;
                 if (opt.fullscreen != null) isFullScreen = !opt.fullscreen.isOn;
@@ -95,12 +95,12 @@ public class ControladorVozMenu : MonoBehaviour
             string palabraNum = palabrasNumeros[i];
             
             Action actFX = () => { 
-                var o = FindFirstObjectByType<Options>(FindObjectsInactive.Exclude); 
+                var o = FindFirstObjectByType<OpcionesMenu>(FindObjectsInactive.Exclude);
                 if(o != null) { o.changeVolumenEfectos(vol); Debug.Log($"[Voz Menu] FX cambiado al {volText}%"); } 
                 else { Debug.Log("[Voz Menu] Ignorado: Panel de Opciones cerrado."); }
             };
             Action actMusica = () => { 
-                var o = FindFirstObjectByType<Options>(FindObjectsInactive.Exclude); 
+                var o = FindFirstObjectByType<OpcionesMenu>(FindObjectsInactive.Exclude);
                 if(o != null) { o.changeVolumenMusica(vol); Debug.Log($"[Voz Menu] Música cambiada al {volText}%"); } 
                 else { Debug.Log("[Voz Menu] Ignorado: Panel de Opciones cerrado."); }
             };
@@ -112,9 +112,9 @@ public class ControladorVozMenu : MonoBehaviour
         }
 
         // Comandos de FPS
-        Action setFps60 = () => { var o = FindFirstObjectByType<Options>(FindObjectsInactive.Exclude); if (o != null) o.SetFPS(60); else Debug.Log("[Voz Menu] Ignorado."); };
-        Action setFps90 = () => { var o = FindFirstObjectByType<Options>(FindObjectsInactive.Exclude); if (o != null) o.SetFPS(90); else Debug.Log("[Voz Menu] Ignorado."); };
-        Action setFps120 = () => { var o = FindFirstObjectByType<Options>(FindObjectsInactive.Exclude); if (o != null) o.SetFPS(120); else Debug.Log("[Voz Menu] Ignorado."); };
+        Action setFps60 = () => { var o = FindFirstObjectByType<OpcionesMenu>(FindObjectsInactive.Exclude); if (o != null) o.SetFPS(60); else Debug.Log("[Voz Menu] Ignorado."); };
+        Action setFps90 = () => { var o = FindFirstObjectByType<OpcionesMenu>(FindObjectsInactive.Exclude); if (o != null) o.SetFPS(90); else Debug.Log("[Voz Menu] Ignorado."); };
+        Action setFps120 = () => { var o = FindFirstObjectByType<OpcionesMenu>(FindObjectsInactive.Exclude); if (o != null) o.SetFPS(120); else Debug.Log("[Voz Menu] Ignorado."); };
 
         comandosMenu.Add("efe pe ese sesenta", setFps60);
         comandosMenu.Add("fotogramas sesenta", setFps60);

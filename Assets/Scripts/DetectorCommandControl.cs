@@ -180,7 +180,7 @@ public class DetectorCommandControl : MonoBehaviour
             string palabraNum = palabrasNumeros[i];
             
             Action actFX = () => { 
-                var o = FindFirstObjectByType<Options>(FindObjectsInactive.Exclude); 
+                var o = FindFirstObjectByType<OpcionesMenu>(FindObjectsInactive.Exclude);
                 if(o != null) { o.changeVolumenEfectos(vol); Debug.Log($"[Voz] Volumen Efectos cambiado al {volText}%"); return; } 
                 
                 var p = FindFirstObjectByType<PauseManager>();
@@ -197,7 +197,7 @@ public class DetectorCommandControl : MonoBehaviour
                 } else { Debug.Log("[Voz] Comando ignorado: El juego no está pausado o en Opciones."); }
             };
             Action actMusica = () => { 
-                var o = FindFirstObjectByType<Options>(FindObjectsInactive.Exclude); 
+                var o = FindFirstObjectByType<OpcionesMenu>(FindObjectsInactive.Exclude);
                 if(o != null) { o.changeVolumenMusica(vol); Debug.Log($"[Voz] Volumen Música cambiado al {volText}%"); return; } 
                 
                 var p = FindFirstObjectByType<PauseManager>();

@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Linux",
+  "BasePlatform": "Linux",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "1074601027",
+    "Type": "Event",
+    "GUID": "{7B6F5CC3-0D3B-4F8B-B9F1-FA0AC4E9D036}",
+    "Language": "SFX",
+    "Hash": "{9FD7A4F3-20BB-1057-E0E5-D49E59A28001}",
+    "ObjectPath": "Play_SFX_Puerta_Cobertizo",
+    "ShortName": "Play_SFX_Puerta_Cobertizo",
+    "Path": "Event/Play_SFX_Puerta_Cobertizo.bnk",
+    "Media": [
+     {
+      "Id": "269963342",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\SFX_Cobertizo_Abrir_Puerta.wav",
+      "Path": "Media/269963342.wem",
+      "CachePath": "E6/{E6F2B908-3CFB-1BFF-DE32-7416D8FB5A51}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "1074601027",
+      "Name": "Play_SFX_Puerta_Cobertizo",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Puerta_Cobertizo",
+      "GUID": "{7B6F5CC3-0D3B-4F8B-B9F1-FA0AC4E9D036}",
+      "MaxAttenuation": "30",
+      "DurationType": "OneShot",
+      "DurationMin": "2.35",
+      "DurationMax": "2.35",
+      "MediaRefs": [
+       {
+        "Id": "269963342"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{40BFA8F6-301D-495A-A85D-83D86CAF6D2C}"
+ }
+}

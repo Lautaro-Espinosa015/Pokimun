@@ -1,0 +1,23 @@
+State Group	ID	Name			Wwise Object Path	Notes
+	2923807541	Busqueda			\Default Work Unit\Busqueda	
+
+State	ID	Name	State Group			Notes
+	748895195	None	Busqueda			
+	1571361561	Tension	Busqueda			
+	2559230583	Hallazgo	Busqueda			
+	2877940427	Explorando	Busqueda			
+
+Audio Bus	ID	Name			Wwise Object Path	Notes
+	393239870	SFX			\Default Work Unit\Main Audio Bus\SFX	
+	1730564739	Musica			\Default Work Unit\Main Audio Bus\Musica	
+	2246998526	Main Audio Bus			\Default Work Unit\Main Audio Bus	
+	3071032539	Voces			\Default Work Unit\Main Audio Bus\Voces	
+	4095160060	Ambiente			\Default Work Unit\Main Audio Bus\Ambiente	
+
+Effect plug-ins	ID	Name	Type				Notes
+	1459522457	Brick_Wall_Minus_1dB_Peak_Fast_Release	Wwise Peak Limiter			
+
+Audio Devices	ID	Name	Type				Notes
+	2317455096	No_Output	No Output			
+	3859886410	System	System			
+

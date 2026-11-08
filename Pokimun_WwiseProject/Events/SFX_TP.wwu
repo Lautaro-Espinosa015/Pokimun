@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{EB355461-C4B6-4C94-8A49-EF85E041E91E}" SchemaVersion="133">
+	<Events>
+		<WorkUnit Name="SFX_TP" ID="{EB355461-C4B6-4C94-8A49-EF85E041E91E}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Play_SFX_Amb_Lava" ID="{E4AEEBED-B57D-4721-9C19-1E22F664B08A}">
+					<ChildrenList>
+						<Action Name="" ID="{A9F64A48-6703-495A-9250-C17E118B416C}" ShortID="115282126">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Amb_Lava" ID="{1695E971-AE2C-4245-A613-8E20FD9AE178}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Amb_Estanque" ID="{ADB3182C-C6AD-4AF0-A9FB-CAFB2B827EDA}">
+					<ChildrenList>
+						<Action Name="" ID="{643AE6F8-E103-4530-A003-392B35A0F5C1}" ShortID="492813204">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Amb_Estanque" ID="{1C6117BB-EB93-4950-9D7D-F8C5DA2F40DC}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Amb_Portal" ID="{4BBABA22-D6D5-4FB3-AE80-2BDB6B731FFC}">
+					<ChildrenList>
+						<Action Name="" ID="{13FBAC89-8426-42BD-8D46-B2F3B0F5EDD8}" ShortID="22336038">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Amb_Portal" ID="{83EE6033-0921-4D09-AB9E-F8D9BB29BF20}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Paso_Piedra" ID="{136B8D35-A1DB-4BC4-95D8-F75FFC8817E2}">
+					<ChildrenList>
+						<Action Name="" ID="{00905A31-6649-40E9-934B-C7B18AE92B9B}" ShortID="884844773">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Paso_Piedra" ID="{200448EA-79D5-437F-9FCD-B2D11621170E}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Paso_Tierra" ID="{B1877829-4ADC-4FC2-B751-1164663D0F19}">
+					<ChildrenList>
+						<Action Name="" ID="{E5303514-71D0-4C73-88CC-DFEA6A237A7E}" ShortID="966664961">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Paso_Tierra" ID="{0A56A7C4-8948-4507-8F0C-11B95602A1A7}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Paso_Madera" ID="{C3F6E933-A0EB-414A-988E-C6931C37C699}">
+					<ChildrenList>
+						<Action Name="" ID="{AAAA4DEC-880C-4145-AACF-B6D875625FE1}" ShortID="745704344">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Paso_Madera" ID="{40FA397D-72EE-4026-92C0-E7C08F06C5D9}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Paso_Charco" ID="{2CEEF758-E196-4180-A360-DB9C72688292}">
+					<ChildrenList>
+						<Action Name="" ID="{E3B04232-C473-4271-A867-2B1E3C190C01}" ShortID="536441373">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Paso_Charco" ID="{4BC842B2-EDFA-483C-8494-CEA420A2E943}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Caja_Madera" ID="{95BDB9EA-AD3F-43A0-B717-D6C22A3E49E8}">
+					<ChildrenList>
+						<Action Name="" ID="{02905C02-D27D-4CD7-984C-363783B3B50F}" ShortID="739488324">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Caja_Madera" ID="{760DAC0B-91C6-4B55-AF99-58CFE4651F13}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Puerta_Cobertizo" ID="{7B6F5CC3-0D3B-4F8B-B9F1-FA0AC4E9D036}">
+					<ChildrenList>
+						<Action Name="" ID="{2EC2ECE6-5D07-4237-9A7C-33E7C2C871C6}" ShortID="347405251">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Puerta_Cobertizo" ID="{2ACB6DA3-9BD2-4401-98FC-6281BD7E321B}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Arbusto" ID="{0C426354-8FC9-4C38-B9CC-CCAF5DDC49A0}">
+					<ChildrenList>
+						<Action Name="" ID="{E5282C1E-DA6F-483E-8D60-5A350B27EA3C}" ShortID="235727008">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Arbusto" ID="{474F4FCF-1A4B-4842-8A16-FB4759FB7993}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Encontrar_Ignis" ID="{3648E20F-6BB3-424E-990E-F4CC9BAF3043}">
+					<ChildrenList>
+						<Action Name="" ID="{1C77D086-22CC-435C-994A-CC0C6A75AC1A}" ShortID="436508939">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Encontrar_Ignis" ID="{073F7DE7-14E5-431C-B092-A270D344B862}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Cruzar_Portal" ID="{7C275DD1-BDA0-43D3-9311-B8634ECC899F}">
+					<ChildrenList>
+						<Action Name="" ID="{09D77B50-3EF7-466E-A974-88EACA8F2A0A}" ShortID="280060143">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Cruzar_Portal" ID="{F1E7FDC7-D11C-4AB6-AD60-6D8508107A00}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Transicion_Escena" ID="{42663389-E7BF-47BD-9FC3-8D141A2B5A3E}">
+					<ChildrenList>
+						<Action Name="" ID="{69A9803B-66F2-4171-84A2-E513690BA2C0}" ShortID="383294770">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Transicion_Escena" ID="{923D219D-80B7-4C31-81D9-0F74BD6B49C0}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_Narracion_Hydros" ID="{5EF1316E-FCE4-496F-A613-63B8E0B83809}">
+					<ChildrenList>
+						<Action Name="" ID="{70ED120D-9910-4E2A-837F-F7E8E8644AC8}" ShortID="392935044">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_Narracion_Hydros" ID="{04A8A9AF-A3CF-4545-8B23-5CA11E77E890}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_Ignis_QueFueEso_01" ID="{B5346662-18BB-4FEF-9259-8EA7019D277E}">
+					<ChildrenList>
+						<Action Name="" ID="{BBF37885-9B3B-4303-8221-1A48B728B3E6}" ShortID="874508088">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_Ignis_QueFueEso_01" ID="{46CF1635-B2A9-4FA0-B18B-58A91A2B28E4}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_Ignis_QueFueEso_02" ID="{5F2E11C8-7434-4D69-94BC-70BBE104E732}">
+					<ChildrenList>
+						<Action Name="" ID="{26F27D85-8181-4B9E-8EDA-74BB31DB33DD}" ShortID="414096818">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_Ignis_QueFueEso_02" ID="{9D2D83D2-4930-45E9-BD33-35098C19338C}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_Ignis_CreoQueSeFue" ID="{C9DE18E2-0AAE-400B-BC62-D9998DCDEA8A}">
+					<ChildrenList>
+						<Action Name="" ID="{4E82F5DF-02A6-4D5D-B83A-5D2506889DF3}" ShortID="810979098">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_Ignis_CreoQueSeFue" ID="{DD0C5611-1824-4FC8-A9C5-B7BDE1D0937C}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_Ignis_Respiracion" ID="{644533CF-1574-44DC-9B56-77C6CB3458DF}">
+					<ChildrenList>
+						<Action Name="" ID="{B2F56DD9-A936-433B-A2A6-1D5CA7463FB8}" ShortID="561460429">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_Ignis_Respiracion" ID="{8D94A679-3244-433F-BF4B-93B89E3F7722}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_Ignis_Risa" ID="{452F1AF8-D5D7-480A-8C5C-EF8B3601245B}">
+					<ChildrenList>
+						<Action Name="" ID="{DB0BF4C2-768D-4714-8850-518E315C4ABE}" ShortID="694743907">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_Ignis_Risa" ID="{446321B4-BCBB-46C0-A1ED-13101A1979BE}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_Ignis_MeEncontro" ID="{F8B60A3C-DA91-4771-BDE5-39D5F6810799}">
+					<ChildrenList>
+						<Action Name="" ID="{5D714F56-2BA0-40FE-BBF9-9C340C518B39}" ShortID="91947868">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_Ignis_MeEncontro" ID="{46AA2EF2-212E-4469-A738-5F593073789F}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_Hydros_DondeEstas" ID="{0DD5289F-1544-4DF7-9E98-72BE1EF6ADAC}">
+					<ChildrenList>
+						<Action Name="" ID="{363068B7-CE09-473E-9A7B-B8A293ED453F}" ShortID="786435574">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_Hydros_DondeEstas" ID="{C0DC1EB6-2D58-48E7-A9FE-D9F9328C96F2}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_Hydros_SeQueEstasAqui" ID="{BDB476F8-EB0E-4817-9F36-48F9A9EC831E}">
+					<ChildrenList>
+						<Action Name="" ID="{3F17CF7D-A7D3-491D-B3EC-AA9CE1F265EA}" ShortID="375495893">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_Hydros_SeQueEstasAqui" ID="{73E69E6F-7983-42B9-B337-79FF3E3B4AF0}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_Hydros_TeEncontre" ID="{16860D4D-3A27-410E-9067-D61752713F0E}">
+					<ChildrenList>
+						<Action Name="" ID="{30A20572-3172-43F6-9B68-EE3D6BA898F1}" ShortID="106277024">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_Hydros_TeEncontre" ID="{B2BA3B0C-4014-41A4-87BD-DA3376E3FBF7}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "3845977684",
+    "Type": "Event",
+    "GUID": "{452F1AF8-D5D7-480A-8C5C-EF8B3601245B}",
+    "Language": "SFX",
+    "Hash": "{FBC97455-1AAA-34E9-9031-E9FCD6D639B4}",
+    "ObjectPath": "Play_VO_Ignis_Risa",
+    "ShortName": "Play_VO_Ignis_Risa",
+    "Path": "Event/Play_VO_Ignis_Risa.bnk",
+    "Media": [
+     {
+      "Id": "944743368",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\Voces\\VO_Risa.wav",
+      "Path": "Media/944743368.wem",
+      "CachePath": "EE/{EE68F0E6-B9CB-72E7-07CA-2C233F8F0DA2}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "3845977684",
+      "Name": "Play_VO_Ignis_Risa",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_VO_Ignis_Risa",
+      "GUID": "{452F1AF8-D5D7-480A-8C5C-EF8B3601245B}",
+      "MaxAttenuation": "35",
+      "DurationType": "OneShot",
+      "DurationMin": "1.63",
+      "DurationMax": "1.63",
+      "MediaRefs": [
+       {
+        "Id": "944743368"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{A034B5C1-9405-982D-A10F-7B1A84108494}"
+ }
+}

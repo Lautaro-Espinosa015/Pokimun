@@ -1,0 +1,3 @@
+Event	ID	Name			Wwise Object Path	Notes
+	1222254363	Play_SFX_Paso_Tierra			\SFX_TP\Play_SFX_Paso_Tierra	
+

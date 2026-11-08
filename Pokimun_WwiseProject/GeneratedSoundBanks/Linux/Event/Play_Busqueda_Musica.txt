@@ -1,0 +1,12 @@
+Event	ID	Name			Wwise Object Path	Notes
+	648912767	Play_Busqueda_Musica			\Default Work Unit\Play_Busqueda_Musica	
+
+State Group	ID	Name			Wwise Object Path	Notes
+	2923807541	Busqueda			\Default Work Unit\Busqueda	
+
+State	ID	Name	State Group			Notes
+	748895195	None	Busqueda			
+	1571361561	Tension	Busqueda			
+	2559230583	Hallazgo	Busqueda			
+	2877940427	Explorando	Busqueda			
+

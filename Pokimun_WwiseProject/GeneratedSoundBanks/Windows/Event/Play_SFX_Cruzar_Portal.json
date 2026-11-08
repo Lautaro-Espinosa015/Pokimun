@@ -1,0 +1,48 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "1855160254",
+    "Type": "Event",
+    "GUID": "{7C275DD1-BDA0-43D3-9311-B8634ECC899F}",
+    "Language": "SFX",
+    "Hash": "{17F850D6-FF09-2004-44FA-B6A5C0EA2464}",
+    "ObjectPath": "Play_SFX_Cruzar_Portal",
+    "ShortName": "Play_SFX_Cruzar_Portal",
+    "Path": "Event/Play_SFX_Cruzar_Portal.bnk",
+    "Media": [
+     {
+      "Id": "48817789",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\SFX_Cruzar_Portal.wav",
+      "Path": "Media/48817789.wem",
+      "CachePath": "4C/{4CB70D41-EB05-9C8E-CC39-E8E6BA2EF930}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "1855160254",
+      "Name": "Play_SFX_Cruzar_Portal",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Cruzar_Portal",
+      "GUID": "{7C275DD1-BDA0-43D3-9311-B8634ECC899F}",
+      "DurationType": "OneShot",
+      "DurationMin": "2.65",
+      "DurationMax": "2.65",
+      "MediaRefs": [
+       {
+        "Id": "48817789"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{4E106C73-BA34-F439-17FD-C607DA3816B7}"
+ }
+}

@@ -1,0 +1,48 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Mac",
+  "BasePlatform": "Mac",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "1893805273",
+    "Type": "Event",
+    "GUID": "{16860D4D-3A27-410E-9067-D61752713F0E}",
+    "Language": "SFX",
+    "Hash": "{595EE202-FBC0-C642-033A-BE5AD0F8EFE7}",
+    "ObjectPath": "Play_VO_Hydros_TeEncontre",
+    "ShortName": "Play_VO_Hydros_TeEncontre",
+    "Path": "Event/Play_VO_Hydros_TeEncontre.bnk",
+    "Media": [
+     {
+      "Id": "729069662",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\Voces\\VO_Te_Encontre.wav",
+      "Path": "Media/729069662.wem",
+      "CachePath": "95/{950517AB-3C7B-AEEA-0333-CEC0474CB429}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "1893805273",
+      "Name": "Play_VO_Hydros_TeEncontre",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_VO_Hydros_TeEncontre",
+      "GUID": "{16860D4D-3A27-410E-9067-D61752713F0E}",
+      "DurationType": "OneShot",
+      "DurationMin": "1.15",
+      "DurationMax": "1.15",
+      "MediaRefs": [
+       {
+        "Id": "729069662"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{F39F1BB5-B85B-414F-C72C-B6A49473E7B0}"
+ }
+}

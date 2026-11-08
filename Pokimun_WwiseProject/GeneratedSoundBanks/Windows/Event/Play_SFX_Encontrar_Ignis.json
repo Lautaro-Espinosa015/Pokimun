@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "2112017441",
+    "Type": "Event",
+    "GUID": "{3648E20F-6BB3-424E-990E-F4CC9BAF3043}",
+    "Language": "SFX",
+    "Hash": "{0884318A-017D-277F-40D1-D93DD0532D56}",
+    "ObjectPath": "Play_SFX_Encontrar_Ignis",
+    "ShortName": "Play_SFX_Encontrar_Ignis",
+    "Path": "Event/Play_SFX_Encontrar_Ignis.bnk",
+    "Media": [
+     {
+      "Id": "949778294",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\SFX_11_Encontrar_Ignis.wav",
+      "Path": "Media/949778294.wem",
+      "CachePath": "8E/{8E513D08-D2D7-F8CE-1AC8-2553D8DFD62A}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "2112017441",
+      "Name": "Play_SFX_Encontrar_Ignis",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Encontrar_Ignis",
+      "GUID": "{3648E20F-6BB3-424E-990E-F4CC9BAF3043}",
+      "MaxAttenuation": "30",
+      "DurationType": "OneShot",
+      "DurationMin": "3.35",
+      "DurationMax": "3.35",
+      "MediaRefs": [
+       {
+        "Id": "949778294"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{74FE762E-6B11-3ED6-215D-95DDAAF852F1}"
+ }
+}

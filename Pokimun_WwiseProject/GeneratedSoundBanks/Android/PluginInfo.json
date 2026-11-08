@@ -4,6 +4,13 @@
   "BasePlatform": "Android",
   "PluginLibs": [
    {
+    "LibName": "Wwise Peak Limiter",
+    "LibId": "7208963",
+    "Type": "Effect",
+    "DLL": "AkPeakLimiter",
+    "StaticLib": "AkPeakLimiterFX"
+   },
+   {
     "LibName": "System",
     "LibId": "11403271",
     "Type": "AudioDevice"
@@ -14,6 +21,6 @@
     "Type": "AudioDevice"
    }
   ],
-  "FileHash": "{18CD9949-654D-326A-2A68-3AA18E1D7FC0}"
+  "FileHash": "{1D385EFA-1687-CFB4-0471-6ACFBCA97980}"
  }
 }

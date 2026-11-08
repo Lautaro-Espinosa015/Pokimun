@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "623870794",
+    "Type": "Event",
+    "GUID": "{2CEEF758-E196-4180-A360-DB9C72688292}",
+    "Language": "SFX",
+    "Hash": "{CCE6CF23-81FA-CCEA-9C69-93C1A6878072}",
+    "ObjectPath": "Play_SFX_Paso_Charco",
+    "ShortName": "Play_SFX_Paso_Charco",
+    "Path": "Event/Play_SFX_Paso_Charco.bnk",
+    "Media": [
+     {
+      "Id": "208585800",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\SFX_12_Pisada_Charco.wav",
+      "Path": "Media/208585800.wem",
+      "CachePath": "DF/{DFBDF53F-1C96-C2A8-6A35-C61FB8AD5B41}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "623870794",
+      "Name": "Play_SFX_Paso_Charco",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Paso_Charco",
+      "GUID": "{2CEEF758-E196-4180-A360-DB9C72688292}",
+      "MaxAttenuation": "15",
+      "DurationType": "OneShot",
+      "DurationMin": "0.62",
+      "DurationMax": "0.62",
+      "MediaRefs": [
+       {
+        "Id": "208585800"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{BD3CD06B-036C-5331-74D5-1CB157F65A4F}"
+ }
+}

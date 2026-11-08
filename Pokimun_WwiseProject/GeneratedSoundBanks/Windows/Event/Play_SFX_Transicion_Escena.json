@@ -1,0 +1,48 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "2096821206",
+    "Type": "Event",
+    "GUID": "{42663389-E7BF-47BD-9FC3-8D141A2B5A3E}",
+    "Language": "SFX",
+    "Hash": "{572C4D40-A71F-3920-3A99-77973353CBA5}",
+    "ObjectPath": "Play_SFX_Transicion_Escena",
+    "ShortName": "Play_SFX_Transicion_Escena",
+    "Path": "Event/Play_SFX_Transicion_Escena.bnk",
+    "Media": [
+     {
+      "Id": "990577288",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\SFX_14_Transicion_Escenas.wav",
+      "Path": "Media/990577288.wem",
+      "CachePath": "FF/{FFF3F817-3D48-E866-6BD9-8094458D9F8C}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "2096821206",
+      "Name": "Play_SFX_Transicion_Escena",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Transicion_Escena",
+      "GUID": "{42663389-E7BF-47BD-9FC3-8D141A2B5A3E}",
+      "DurationType": "OneShot",
+      "DurationMin": "2.35",
+      "DurationMax": "2.35",
+      "MediaRefs": [
+       {
+        "Id": "990577288"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{6904ADBB-9BFC-6A72-4283-56BBF035D55E}"
+ }
+}

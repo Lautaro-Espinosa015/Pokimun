@@ -1,0 +1,47 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Android",
+  "BasePlatform": "Android",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "812184897",
+    "Type": "Event",
+    "GUID": "{ADB3182C-C6AD-4AF0-A9FB-CAFB2B827EDA}",
+    "Language": "SFX",
+    "Hash": "{C12377A4-084D-8BBB-66CC-A25256A997B4}",
+    "ObjectPath": "Play_SFX_Amb_Estanque",
+    "ShortName": "Play_SFX_Amb_Estanque",
+    "Path": "Event/Play_SFX_Amb_Estanque.bnk",
+    "Media": [
+     {
+      "Id": "19225019",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\SFX_02_Estanque_Hydros.wav",
+      "Path": "Media/19225019.wem",
+      "CachePath": "82/{82364155-1A49-134C-4878-48617BDC92EE}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "812184897",
+      "Name": "Play_SFX_Amb_Estanque",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Amb_Estanque",
+      "GUID": "{ADB3182C-C6AD-4AF0-A9FB-CAFB2B827EDA}",
+      "MaxAttenuation": "25",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "19225019"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{08764BF0-F391-7A32-7E36-D0E049CD214D}"
+ }
+}

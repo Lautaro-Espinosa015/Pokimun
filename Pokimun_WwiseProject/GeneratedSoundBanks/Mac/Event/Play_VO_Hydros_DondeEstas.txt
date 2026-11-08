@@ -1,0 +1,3 @@
+Event	ID	Name			Wwise Object Path	Notes
+	3030975400	Play_VO_Hydros_DondeEstas			\SFX_TP\Play_VO_Hydros_DondeEstas	
+

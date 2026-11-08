@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Linux",
+  "BasePlatform": "Linux",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "1056296590",
+    "Type": "Event",
+    "GUID": "{644533CF-1574-44DC-9B56-77C6CB3458DF}",
+    "Language": "SFX",
+    "Hash": "{5F470AA7-4AA7-0F63-EEC8-026D06C3D250}",
+    "ObjectPath": "Play_VO_Ignis_Respiracion",
+    "ShortName": "Play_VO_Ignis_Respiracion",
+    "Path": "Event/Play_VO_Ignis_Respiracion.bnk",
+    "Media": [
+     {
+      "Id": "1031697434",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\Voces\\VO_Respiracion.wav",
+      "Path": "Media/1031697434.wem",
+      "CachePath": "B9/{B9225B4A-EFD5-F53C-6E67-DA7AEF4D3E0C}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "1056296590",
+      "Name": "Play_VO_Ignis_Respiracion",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_VO_Ignis_Respiracion",
+      "GUID": "{644533CF-1574-44DC-9B56-77C6CB3458DF}",
+      "MaxAttenuation": "35",
+      "DurationType": "OneShot",
+      "DurationMin": "1.75",
+      "DurationMax": "1.75",
+      "MediaRefs": [
+       {
+        "Id": "1031697434"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{4A60D557-331D-E183-C539-05EF4DC88A1A}"
+ }
+}

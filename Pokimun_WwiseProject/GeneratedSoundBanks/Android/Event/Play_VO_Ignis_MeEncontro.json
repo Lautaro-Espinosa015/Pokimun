@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Android",
+  "BasePlatform": "Android",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "2526260625",
+    "Type": "Event",
+    "GUID": "{F8B60A3C-DA91-4771-BDE5-39D5F6810799}",
+    "Language": "SFX",
+    "Hash": "{21B28AC9-72E3-847B-0D22-25E53E8D7E66}",
+    "ObjectPath": "Play_VO_Ignis_MeEncontro",
+    "ShortName": "Play_VO_Ignis_MeEncontro",
+    "Path": "Event/Play_VO_Ignis_MeEncontro.bnk",
+    "Media": [
+     {
+      "Id": "12842504",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\Voces\\VO_Me_Encontro.wav",
+      "Path": "Media/12842504.wem",
+      "CachePath": "2A/{2A1C2CCA-A2B2-ACE4-55C7-B5FD21023EB5}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "2526260625",
+      "Name": "Play_VO_Ignis_MeEncontro",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_VO_Ignis_MeEncontro",
+      "GUID": "{F8B60A3C-DA91-4771-BDE5-39D5F6810799}",
+      "MaxAttenuation": "35",
+      "DurationType": "OneShot",
+      "DurationMin": "1.11",
+      "DurationMax": "1.11",
+      "MediaRefs": [
+       {
+        "Id": "12842504"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{41692697-4B2C-C247-F9E5-CFDF32E4DA09}"
+ }
+}

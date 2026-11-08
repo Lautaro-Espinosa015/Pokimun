@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{2E9C12F0-25B0-4F0C-A812-D38EF2190A51}" SchemaVersion="133">
 	<Events>
-		<WorkUnit Name="Default Work Unit" ID="{2E9C12F0-25B0-4F0C-A812-D38EF2190A51}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{2E9C12F0-25B0-4F0C-A812-D38EF2190A51}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Play_Santuario" ID="{94199E15-ADC7-42D0-908B-8E567D7D26EB}">
+					<ChildrenList>
+						<Action Name="" ID="{B9FA4ECE-A808-4E86-9082-2D05AFB90CC1}" ShortID="284462791">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Santuario" ID="{143F86E3-9A5E-4D01-84FC-32144D863270}" WorkUnitID="{5AA0BE30-8ECB-48AA-8918-BF96A34AA86B}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Busqueda_Musica" ID="{0A4EF816-FCD9-4847-B5DE-13D94648F38B}">
+					<ChildrenList>
+						<Action Name="" ID="{5E3C714B-9FC5-4301-AE54-14EC6AD25988}" ShortID="793209313">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Busqueda_Musica" ID="{6EA1B565-DA6B-40BA-9774-B962955ED596}" WorkUnitID="{5AA0BE30-8ECB-48AA-8918-BF96A34AA86B}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
 	</Events>
 </WwiseDocument>

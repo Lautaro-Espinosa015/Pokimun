@@ -1,0 +1,47 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Android",
+  "BasePlatform": "Android",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "2777385883",
+    "Type": "Event",
+    "GUID": "{E4AEEBED-B57D-4721-9C19-1E22F664B08A}",
+    "Language": "SFX",
+    "Hash": "{1C88964B-CFDB-5468-0A63-FCDA3B149101}",
+    "ObjectPath": "Play_SFX_Amb_Lava",
+    "ShortName": "Play_SFX_Amb_Lava",
+    "Path": "Event/Play_SFX_Amb_Lava.bnk",
+    "Media": [
+     {
+      "Id": "77211226",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\lava.wav",
+      "Path": "Media/77211226.wem",
+      "CachePath": "7D/{7D00073A-283E-7BC4-490D-783DC56CAD1E}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "2777385883",
+      "Name": "Play_SFX_Amb_Lava",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Amb_Lava",
+      "GUID": "{E4AEEBED-B57D-4721-9C19-1E22F664B08A}",
+      "MaxAttenuation": "25",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "77211226"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{DEE773BE-F668-8FF3-F5D7-53C9AC4280E1}"
+ }
+}

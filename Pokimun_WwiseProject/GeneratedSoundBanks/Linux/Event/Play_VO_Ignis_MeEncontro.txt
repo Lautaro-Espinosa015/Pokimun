@@ -1,0 +1,3 @@
+Event	ID	Name			Wwise Object Path	Notes
+	2526260625	Play_VO_Ignis_MeEncontro			\SFX_TP\Play_VO_Ignis_MeEncontro	
+

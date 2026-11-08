@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Linux",
+  "BasePlatform": "Linux",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "58055313",
+    "Type": "Event",
+    "GUID": "{136B8D35-A1DB-4BC4-95D8-F75FFC8817E2}",
+    "Language": "SFX",
+    "Hash": "{0EADD45B-723C-8D62-55C0-46DD3E025C18}",
+    "ObjectPath": "Play_SFX_Paso_Piedra",
+    "ShortName": "Play_SFX_Paso_Piedra",
+    "Path": "Event/Play_SFX_Paso_Piedra.bnk",
+    "Media": [
+     {
+      "Id": "244396589",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\Paso_Lobby_Piedra.wav",
+      "Path": "Media/244396589.wem",
+      "CachePath": "C8/{C8F44322-D5B4-1E96-2589-6A9D52DD4334}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "58055313",
+      "Name": "Play_SFX_Paso_Piedra",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Paso_Piedra",
+      "GUID": "{136B8D35-A1DB-4BC4-95D8-F75FFC8817E2}",
+      "MaxAttenuation": "15",
+      "DurationType": "OneShot",
+      "DurationMin": "0.28",
+      "DurationMax": "0.28",
+      "MediaRefs": [
+       {
+        "Id": "244396589"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{5C13F311-AB48-1448-68A1-C9042D414A1F}"
+ }
+}

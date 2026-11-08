@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "3552061609",
+    "Type": "Event",
+    "GUID": "{B5346662-18BB-4FEF-9259-8EA7019D277E}",
+    "Language": "SFX",
+    "Hash": "{09C31243-734A-63A3-7D24-C505AE573DEF}",
+    "ObjectPath": "Play_VO_Ignis_QueFueEso_01",
+    "ShortName": "Play_VO_Ignis_QueFueEso_01",
+    "Path": "Event/Play_VO_Ignis_QueFueEso_01.bnk",
+    "Media": [
+     {
+      "Id": "746569954",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\Voces\\VO_Que_Fue_Eso_01.wav",
+      "Path": "Media/746569954.wem",
+      "CachePath": "E1/{E12401CD-BFBB-89F9-0F0D-9E95333653BB}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "3552061609",
+      "Name": "Play_VO_Ignis_QueFueEso_01",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_VO_Ignis_QueFueEso_01",
+      "GUID": "{B5346662-18BB-4FEF-9259-8EA7019D277E}",
+      "MaxAttenuation": "35",
+      "DurationType": "OneShot",
+      "DurationMin": "0.97",
+      "DurationMax": "0.97",
+      "MediaRefs": [
+       {
+        "Id": "746569954"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{CAEA5D57-3E59-8F10-ACC1-80D865E05362}"
+ }
+}

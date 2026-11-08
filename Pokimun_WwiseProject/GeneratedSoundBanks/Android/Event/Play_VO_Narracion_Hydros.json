@@ -1,0 +1,48 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Android",
+  "BasePlatform": "Android",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "1379991945",
+    "Type": "Event",
+    "GUID": "{5EF1316E-FCE4-496F-A613-63B8E0B83809}",
+    "Language": "SFX",
+    "Hash": "{2087BA57-58C1-2016-025C-DAB9DA0330E3}",
+    "ObjectPath": "Play_VO_Narracion_Hydros",
+    "ShortName": "Play_VO_Narracion_Hydros",
+    "Path": "Event/Play_VO_Narracion_Hydros.bnk",
+    "Media": [
+     {
+      "Id": "751495042",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\SFX_13_Voz_Hydros.wav",
+      "Path": "Media/751495042.wem",
+      "CachePath": "3A/{3A48B4FB-E815-0EE2-7618-8DBAFE4F294C}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "1379991945",
+      "Name": "Play_VO_Narracion_Hydros",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_VO_Narracion_Hydros",
+      "GUID": "{5EF1316E-FCE4-496F-A613-63B8E0B83809}",
+      "DurationType": "OneShot",
+      "DurationMin": "12.15",
+      "DurationMax": "12.15",
+      "MediaRefs": [
+       {
+        "Id": "751495042"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{DEF1CD54-B09F-BEE7-1000-C26225A6B9F8}"
+ }
+}

@@ -1,0 +1,47 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Android",
+  "BasePlatform": "Android",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "3662618071",
+    "Type": "Event",
+    "GUID": "{4BBABA22-D6D5-4FB3-AE80-2BDB6B731FFC}",
+    "Language": "SFX",
+    "Hash": "{DD4EA7AE-4868-6B37-476B-C5604D941D17}",
+    "ObjectPath": "Play_SFX_Amb_Portal",
+    "ShortName": "Play_SFX_Amb_Portal",
+    "Path": "Event/Play_SFX_Amb_Portal.bnk",
+    "Media": [
+     {
+      "Id": "982974950",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\SFX_06_Portales.wav",
+      "Path": "Media/982974950.wem",
+      "CachePath": "75/{75470F36-F7C9-C912-C796-EFC6F966750A}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "3662618071",
+      "Name": "Play_SFX_Amb_Portal",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Amb_Portal",
+      "GUID": "{4BBABA22-D6D5-4FB3-AE80-2BDB6B731FFC}",
+      "MaxAttenuation": "25",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "982974950"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{78CB5B6B-F057-E2E5-F34C-9FA996AB55D1}"
+ }
+}

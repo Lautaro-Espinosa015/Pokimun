@@ -10,11 +10,21 @@
     "Type": "User",
     "GUID": "{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}",
     "Language": "SFX",
-    "Hash": "{CDE9AC3D-2B42-1217-02C1-D64576EB9AF6}",
+    "Hash": "{77B2A04A-8FE8-FBC4-A157-B2426333685E}",
     "ObjectPath": "Init",
     "ShortName": "Init",
     "Path": "Init.bnk",
     "Plugins": {
+     "ShareSets": [
+      {
+       "Id": "1459522457",
+       "Name": "Brick_Wall_Minus_1dB_Peak_Fast_Release",
+       "ObjectPath": "\\Effects\\Factory Effects\\Peak Limiter\\Brick_Wall_Minus_1dB_Peak_Fast_Release",
+       "GUID": "{2144284E-7ADD-4341-86A4-4E468BEC9A2D}",
+       "LibName": "Wwise Peak Limiter",
+       "LibId": "7208963"
+      }
+     ],
      "AudioDevices": [
       {
        "Id": "2317455096",
@@ -36,14 +46,99 @@
     },
     "Busses": [
      {
+      "Id": "393239870",
+      "Name": "SFX",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Main Audio Bus\\SFX",
+      "GUID": "{F8A4C978-29E7-4592-9592-CBB0860C1160}"
+     },
+     {
+      "Id": "1730564739",
+      "Name": "Musica",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Main Audio Bus\\Musica",
+      "GUID": "{B0EC0272-FB00-4CFE-9421-076DE9A081B0}"
+     },
+     {
       "Id": "2246998526",
       "Name": "Main Audio Bus",
       "ObjectPath": "\\Busses\\Default Work Unit\\Main Audio Bus",
-      "GUID": "{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}"
+      "GUID": "{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}",
+      "PluginRefs": {
+       "ShareSets": [
+        {
+         "Id": "1459522457"
+        }
+       ]
+      }
+     },
+     {
+      "Id": "3071032539",
+      "Name": "Voces",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Main Audio Bus\\Voces",
+      "GUID": "{8A389AC0-8F01-41B2-87A7-3EF71BF226D2}"
+     },
+     {
+      "Id": "4095160060",
+      "Name": "Ambiente",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Main Audio Bus\\Ambiente",
+      "GUID": "{04900290-D162-4533-8865-0149FDB569D1}"
+     }
+    ],
+    "GameParameters": [
+     {
+      "Id": "377172175",
+      "Name": "Cercania_Hydros",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Cercania_Hydros",
+      "GUID": "{924DCD08-4595-4954-8132-5A88EDB439A7}"
+     },
+     {
+      "Id": "928867836",
+      "Name": "Cercania_Ignis",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Cercania_Ignis",
+      "GUID": "{4905C940-7E1F-43CE-96B4-827A9611D6A9}"
+     },
+     {
+      "Id": "3006859328",
+      "Name": "Cercania_Portal",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Cercania_Portal",
+      "GUID": "{D9733650-5372-43FA-8B23-B850BCB6C6FC}"
+     }
+    ],
+    "StateGroups": [
+     {
+      "Id": "2923807541",
+      "Name": "Busqueda",
+      "ObjectPath": "\\States\\Default Work Unit\\Busqueda",
+      "GUID": "{9324366C-927D-49B3-809A-C50133677C48}",
+      "States": [
+       {
+        "Id": "748895195",
+        "Name": "None",
+        "ObjectPath": "\\States\\Default Work Unit\\Busqueda\\None",
+        "GUID": "{C259F0B9-1475-4363-AED3-D8B9AE330BF8}"
+       },
+       {
+        "Id": "1571361561",
+        "Name": "Tension",
+        "ObjectPath": "\\States\\Default Work Unit\\Busqueda\\Tension",
+        "GUID": "{AEB62DBE-B2BC-4E0A-B8B3-3190F0A606D1}"
+       },
+       {
+        "Id": "2559230583",
+        "Name": "Hallazgo",
+        "ObjectPath": "\\States\\Default Work Unit\\Busqueda\\Hallazgo",
+        "GUID": "{A6FB3F63-1BA9-48A9-8DB3-76BD4EFF6235}"
+       },
+       {
+        "Id": "2877940427",
+        "Name": "Explorando",
+        "ObjectPath": "\\States\\Default Work Unit\\Busqueda\\Explorando",
+        "GUID": "{049367BC-7045-43E8-94A7-8910FF43FFCA}"
+       }
+      ]
      }
     ]
    }
   ],
-  "FileHash": "{327A5E1C-DE3F-04F6-BC83-7F799C049875}"
+  "FileHash": "{E6737A2D-3FBD-C94E-3742-E11F3ECA6C1B}"
  }
 }

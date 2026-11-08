@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Android",
+  "BasePlatform": "Android",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "360461692",
+    "Type": "Event",
+    "GUID": "{0C426354-8FC9-4C38-B9CC-CCAF5DDC49A0}",
+    "Language": "SFX",
+    "Hash": "{FE8680E5-2431-B357-A40E-FAE446B2C72B}",
+    "ObjectPath": "Play_SFX_Arbusto",
+    "ShortName": "Play_SFX_Arbusto",
+    "Path": "Event/Play_SFX_Arbusto.bnk",
+    "Media": [
+     {
+      "Id": "866291977",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\SFX_Entrar_Arbusto.wav",
+      "Path": "Media/866291977.wem",
+      "CachePath": "40/{40A78E2A-65C1-BBDA-A656-70A0093C0EB3}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "360461692",
+      "Name": "Play_SFX_Arbusto",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Arbusto",
+      "GUID": "{0C426354-8FC9-4C38-B9CC-CCAF5DDC49A0}",
+      "MaxAttenuation": "30",
+      "DurationType": "OneShot",
+      "DurationMin": "1.16",
+      "DurationMax": "1.16",
+      "MediaRefs": [
+       {
+        "Id": "866291977"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{C570C844-01DA-EF03-12AD-BA1C47E6F9E0}"
+ }
+}

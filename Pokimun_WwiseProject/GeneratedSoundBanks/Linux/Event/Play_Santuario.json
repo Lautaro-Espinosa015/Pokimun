@@ -1,0 +1,102 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Linux",
+  "BasePlatform": "Linux",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "31360628",
+    "Type": "Event",
+    "GUID": "{94199E15-ADC7-42D0-908B-8E567D7D26EB}",
+    "Language": "SFX",
+    "Hash": "{23BF20A5-9E0B-4B6B-2310-7346C7F57857}",
+    "ObjectPath": "Play_Santuario",
+    "ShortName": "Play_Santuario",
+    "Path": "Event/Play_Santuario.bnk",
+    "Media": [
+     {
+      "Id": "383086334",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MUS_Santuario_Capa2_Ignis.wav",
+      "Path": "Media/383086334.wem",
+      "CachePath": "66/{66D5AD58-7173-4EFB-21BA-0B5D450463FC}.wem"
+     },
+     {
+      "Id": "410114439",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MUS_Santuario_Capa4_Melodia.wav",
+      "Path": "Media/410114439.wem",
+      "CachePath": "70/{70C217FA-A420-A0C6-93D8-30199B410BF5}.wem"
+     },
+     {
+      "Id": "572292764",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MUS_Santuario_Capa1_Base.wav",
+      "Path": "Media/572292764.wem",
+      "CachePath": "AC/{AC2DFA10-7B47-04A3-15A1-22D0B1F50A2B}.wem"
+     },
+     {
+      "Id": "781127160",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MUS_Santuario_Capa3_Hydros.wav",
+      "Path": "Media/781127160.wem",
+      "CachePath": "0A/{0A953932-CF94-5E9D-D668-A83B813D83FC}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "31360628",
+      "Name": "Play_Santuario",
+      "ObjectPath": "\\Events\\Default Work Unit\\Play_Santuario",
+      "GUID": "{94199E15-ADC7-42D0-908B-8E567D7D26EB}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "383086334"
+       },
+       {
+        "Id": "410114439"
+       },
+       {
+        "Id": "572292764"
+       },
+       {
+        "Id": "781127160"
+       }
+      ]
+     }
+    ],
+    "GameParameters": [
+     {
+      "Id": "377172175",
+      "Name": "Cercania_Hydros",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Cercania_Hydros",
+      "GUID": "{924DCD08-4595-4954-8132-5A88EDB439A7}"
+     },
+     {
+      "Id": "928867836",
+      "Name": "Cercania_Ignis",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Cercania_Ignis",
+      "GUID": "{4905C940-7E1F-43CE-96B4-827A9611D6A9}"
+     },
+     {
+      "Id": "3006859328",
+      "Name": "Cercania_Portal",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Cercania_Portal",
+      "GUID": "{D9733650-5372-43FA-8B23-B850BCB6C6FC}"
+     }
+    ]
+   }
+  ],
+  "FileHash": "{4A63E505-737E-4DCD-60C5-9276027D1332}"
+ }
+}

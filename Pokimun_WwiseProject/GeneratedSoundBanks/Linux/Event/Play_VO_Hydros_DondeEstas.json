@@ -1,0 +1,48 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Linux",
+  "BasePlatform": "Linux",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "3030975400",
+    "Type": "Event",
+    "GUID": "{0DD5289F-1544-4DF7-9E98-72BE1EF6ADAC}",
+    "Language": "SFX",
+    "Hash": "{F6268CD4-6173-DC5F-C10A-6A77C10B56D4}",
+    "ObjectPath": "Play_VO_Hydros_DondeEstas",
+    "ShortName": "Play_VO_Hydros_DondeEstas",
+    "Path": "Event/Play_VO_Hydros_DondeEstas.bnk",
+    "Media": [
+     {
+      "Id": "761897860",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\Voces\\VO_Donde_Estas.wav",
+      "Path": "Media/761897860.wem",
+      "CachePath": "34/{34AEA961-FFC0-F3F4-CB40-9158DF530064}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "3030975400",
+      "Name": "Play_VO_Hydros_DondeEstas",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_VO_Hydros_DondeEstas",
+      "GUID": "{0DD5289F-1544-4DF7-9E98-72BE1EF6ADAC}",
+      "DurationType": "OneShot",
+      "DurationMin": "1.44",
+      "DurationMax": "1.44",
+      "MediaRefs": [
+       {
+        "Id": "761897860"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{6F3900E0-B08F-DADF-65E9-82741542E605}"
+ }
+}

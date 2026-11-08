@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "937325180",
+    "Type": "Event",
+    "GUID": "{C3F6E933-A0EB-414A-988E-C6931C37C699}",
+    "Language": "SFX",
+    "Hash": "{C817F820-BAA3-84FA-3990-64FB00BFE7A8}",
+    "ObjectPath": "Play_SFX_Paso_Madera",
+    "ShortName": "Play_SFX_Paso_Madera",
+    "Path": "Event/Play_SFX_Paso_Madera.bnk",
+    "Media": [
+     {
+      "Id": "812861179",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\Paso_Cobertizo_Madera.wav",
+      "Path": "Media/812861179.wem",
+      "CachePath": "E9/{E92A64AA-1CCE-688B-669D-377425C53FDC}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "937325180",
+      "Name": "Play_SFX_Paso_Madera",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Paso_Madera",
+      "GUID": "{C3F6E933-A0EB-414A-988E-C6931C37C699}",
+      "MaxAttenuation": "15",
+      "DurationType": "OneShot",
+      "DurationMin": "0.36",
+      "DurationMax": "0.36",
+      "MediaRefs": [
+       {
+        "Id": "812861179"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{F2333EDB-4E6C-19FD-DA5A-6AE45D94EEA8}"
+ }
+}

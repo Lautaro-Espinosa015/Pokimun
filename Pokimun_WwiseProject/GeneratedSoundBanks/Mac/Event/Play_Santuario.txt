@@ -1,0 +1,8 @@
+Event	ID	Name			Wwise Object Path	Notes
+	31360628	Play_Santuario			\Default Work Unit\Play_Santuario	
+
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	377172175	Cercania_Hydros			\Default Work Unit\Cercania_Hydros	
+	928867836	Cercania_Ignis			\Default Work Unit\Cercania_Ignis	
+	3006859328	Cercania_Portal			\Default Work Unit\Cercania_Portal	
+

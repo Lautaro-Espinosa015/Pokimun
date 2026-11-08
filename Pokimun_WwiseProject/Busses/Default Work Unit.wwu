@@ -9,6 +9,51 @@
 							<ObjectRef Name="System" ID="{1F819873-72E3-4B82-BE5C-366541860510}" WorkUnitID="{400E311A-8700-41D4-B7C6-B94B56825860}"/>
 						</Reference>
 					</ReferenceList>
+					<ChildrenList>
+						<Bus Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}">
+							<PropertyList>
+								<Property Name="BusVolume" Type="Real64">
+									<ValueList>
+										<Value>-8</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+						</Bus>
+						<Bus Name="Ambiente" ID="{04900290-D162-4533-8865-0149FDB569D1}">
+							<PropertyList>
+								<Property Name="BusVolume" Type="Real64">
+									<ValueList>
+										<Value>-3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+						</Bus>
+						<Bus Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}"/>
+						<Bus Name="Voces" ID="{8A389AC0-8F01-41B2-87A7-3EF71BF226D2}">
+							<DuckingList>
+								<DuckItem>
+									<BusRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}"/>
+									<DuckingParam>
+										<Volume>-6</Volume>
+										<FadeInTime>1</FadeInTime>
+										<FadeOutTime>0.300000011920929</FadeOutTime>
+										<FadeCurve>FadeLinear</FadeCurve>
+									</DuckingParam>
+								</DuckItem>
+							</DuckingList>
+						</Bus>
+					</ChildrenList>
+					<ObjectLists>
+						<ObjectList Name="Effects">
+							<EffectSlot Name="" ID="{48C38C86-6353-438B-9947-4793E8BA6971}" ShortID="982267978">
+								<ReferenceList>
+									<Reference Name="Effect" PluginName="Wwise Peak Limiter" CompanyID="0" PluginID="110" PluginType="3">
+										<ObjectRef Name="Brick_Wall_Minus_1dB_Peak_Fast_Release" ID="{2144284E-7ADD-4341-86A4-4E468BEC9A2D}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+									</Reference>
+								</ReferenceList>
+							</EffectSlot>
+						</ObjectList>
+					</ObjectLists>
 				</Bus>
 			</ChildrenList>
 		</WorkUnit>

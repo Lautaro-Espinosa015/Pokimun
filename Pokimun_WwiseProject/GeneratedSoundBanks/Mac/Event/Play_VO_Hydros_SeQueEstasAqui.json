@@ -1,0 +1,48 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Mac",
+  "BasePlatform": "Mac",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "1632893959",
+    "Type": "Event",
+    "GUID": "{BDB476F8-EB0E-4817-9F36-48F9A9EC831E}",
+    "Language": "SFX",
+    "Hash": "{0FB16E51-2117-2EC6-5BEF-36381029DC8B}",
+    "ObjectPath": "Play_VO_Hydros_SeQueEstasAqui",
+    "ShortName": "Play_VO_Hydros_SeQueEstasAqui",
+    "Path": "Event/Play_VO_Hydros_SeQueEstasAqui.bnk",
+    "Media": [
+     {
+      "Id": "83293030",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\Voces\\VO_Se_Que_Estas_Aqui.wav",
+      "Path": "Media/83293030.wem",
+      "CachePath": "C2/{C201298B-44BF-0CAB-DB39-6B26CBB71909}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "1632893959",
+      "Name": "Play_VO_Hydros_SeQueEstasAqui",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_VO_Hydros_SeQueEstasAqui",
+      "GUID": "{BDB476F8-EB0E-4817-9F36-48F9A9EC831E}",
+      "DurationType": "OneShot",
+      "DurationMin": "1.71",
+      "DurationMax": "1.71",
+      "MediaRefs": [
+       {
+        "Id": "83293030"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{074A3865-FC9E-1014-1389-7F2B67124FA7}"
+ }
+}

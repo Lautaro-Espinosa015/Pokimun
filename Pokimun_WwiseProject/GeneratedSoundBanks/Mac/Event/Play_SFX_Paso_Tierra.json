@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Mac",
+  "BasePlatform": "Mac",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "1222254363",
+    "Type": "Event",
+    "GUID": "{B1877829-4ADC-4FC2-B751-1164663D0F19}",
+    "Language": "SFX",
+    "Hash": "{16CB41EF-37F0-12FC-1555-F9FA09C964AB}",
+    "ObjectPath": "Play_SFX_Paso_Tierra",
+    "ShortName": "Play_SFX_Paso_Tierra",
+    "Path": "Event/Play_SFX_Paso_Tierra.bnk",
+    "Media": [
+     {
+      "Id": "115876505",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\Paso_Bosque_Tierra.wav",
+      "Path": "Media/115876505.wem",
+      "CachePath": "86/{86A500D8-0666-7E56-6EFF-6EAA6ABB924B}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "1222254363",
+      "Name": "Play_SFX_Paso_Tierra",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Paso_Tierra",
+      "GUID": "{B1877829-4ADC-4FC2-B751-1164663D0F19}",
+      "MaxAttenuation": "15",
+      "DurationType": "OneShot",
+      "DurationMin": "0.36",
+      "DurationMax": "0.36",
+      "MediaRefs": [
+       {
+        "Id": "115876505"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{435BCD15-D43F-DE88-CE3C-A84835B4719C}"
+ }
+}

@@ -3812,6 +3812,64 @@ MonoBehaviour:
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!1 &271721176
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 271721178}
+  - component: {fileID: 271721177}
+  m_Layer: 0
+  m_Name: AudioSFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &271721177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271721176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a38645a3cb239ff41b9bfd0c80904cf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Pokimun.Audio.AudioLobby
+  emisores:
+  - objeto: estanque de lava
+    evento: Play_SFX_Amb_Lava
+  - objeto: estanque de agua
+    evento: Play_SFX_Amb_Estanque
+  - objeto: Portal combate
+    evento: Play_SFX_Amb_Portal
+  - objeto: Portal busqueda
+    evento: Play_SFX_Amb_Portal
+  pasoPorDefecto: Play_SFX_Paso_Piedra
+  narracion: Play_VO_Narracion_Hydros
+  duracionNarracion: 12.2
+  retrasoNarracion: 3.5
+  narrarUnaVez: 1
+--- !u!4 &271721178
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271721176}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.69204, y: 1.55, z: 4.41729}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &284025493
 GameObject:
   m_ObjectHideFlags: 0
@@ -14170,6 +14228,87 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1208042231}
   m_Mesh: {fileID: 4300000, guid: a7f938b43a0c3b2439f5c4aa9b14fbe4, type: 2}
+--- !u!1 &1210142052
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1210142054}
+  - component: {fileID: 1210142053}
+  m_Layer: 0
+  m_Name: Musica
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1210142053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210142052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45f92bc4af6a7454ab6e559b8ddebd78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Pokimun.Audio.MusicaSantuario
+  playMusica:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: d8fc3ebb3c75f7f41b7b4e2b45ad6499, type: 2}
+  fundidoEntrada: 2
+  fundidoSalida: 2
+  esperarSalidaAnterior: 1
+  oyente: {fileID: 0}
+  zonas:
+  - nombre: Ignis
+    centro: {fileID: 765562569}
+    parametro:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: e44da14ef36ffa84189f4c27b2f96e45, type: 2}
+    radioInterior: 3
+    radioExterior: 15
+    valorActual: 0
+  - nombre: Hydros
+    centro: {fileID: 1363935468}
+    parametro:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 425fb1dca47e5b742b3d7e8677a0a036, type: 2}
+    radioInterior: 3
+    radioExterior: 15
+    valorActual: 0
+  - nombre: Portal
+    centro: {fileID: 642550591}
+    parametro:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 7e391351f25c3ec458d75097ac7db3cb, type: 2}
+    radioInterior: 3
+    radioExterior: 12
+    valorActual: 0
+  suavizado: 2
+--- !u!4 &1210142054
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210142052}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.69204, y: 1.55, z: 4.41729}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1214356044
 GameObject:
   m_ObjectHideFlags: 0
@@ -26254,3 +26393,5 @@ SceneRoots:
   - {fileID: 1047913606}
   - {fileID: 1017105317}
   - {fileID: 1230608897}
+  - {fileID: 1210142054}
+  - {fileID: 271721178}

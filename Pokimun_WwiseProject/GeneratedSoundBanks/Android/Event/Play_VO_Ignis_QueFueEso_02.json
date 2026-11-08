@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Android",
+  "BasePlatform": "Android",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "3552061610",
+    "Type": "Event",
+    "GUID": "{5F2E11C8-7434-4D69-94BC-70BBE104E732}",
+    "Language": "SFX",
+    "Hash": "{53331E12-38B1-B4FD-CED0-1874AC350539}",
+    "ObjectPath": "Play_VO_Ignis_QueFueEso_02",
+    "ShortName": "Play_VO_Ignis_QueFueEso_02",
+    "Path": "Event/Play_VO_Ignis_QueFueEso_02.bnk",
+    "Media": [
+     {
+      "Id": "674934255",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\Voces\\VO_Que_Fue_Eso_02.wav",
+      "Path": "Media/674934255.wem",
+      "CachePath": "9C/{9C90EF6A-2AF6-8333-BC48-71A8CFD0C7FA}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "3552061610",
+      "Name": "Play_VO_Ignis_QueFueEso_02",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_VO_Ignis_QueFueEso_02",
+      "GUID": "{5F2E11C8-7434-4D69-94BC-70BBE104E732}",
+      "MaxAttenuation": "35",
+      "DurationType": "OneShot",
+      "DurationMin": "1.3",
+      "DurationMax": "1.3",
+      "MediaRefs": [
+       {
+        "Id": "674934255"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{3E9116EA-F364-3E09-C7E3-077680F1D9EA}"
+ }
+}

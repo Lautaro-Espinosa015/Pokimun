@@ -1,0 +1,3 @@
+Event	ID	Name			Wwise Object Path	Notes
+	1074601027	Play_SFX_Puerta_Cobertizo			\SFX_TP\Play_SFX_Puerta_Cobertizo	
+

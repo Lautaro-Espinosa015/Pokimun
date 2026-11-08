@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "2682628225",
+    "Type": "Event",
+    "GUID": "{C9DE18E2-0AAE-400B-BC62-D9998DCDEA8A}",
+    "Language": "SFX",
+    "Hash": "{46531DC5-51E5-A402-0A24-629E8B465C5E}",
+    "ObjectPath": "Play_VO_Ignis_CreoQueSeFue",
+    "ShortName": "Play_VO_Ignis_CreoQueSeFue",
+    "Path": "Event/Play_VO_Ignis_CreoQueSeFue.bnk",
+    "Media": [
+     {
+      "Id": "292070102",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\Voces\\VO_Creo_Que_Se_Fue_No_Hagas_Ruido.wav",
+      "Path": "Media/292070102.wem",
+      "CachePath": "76/{76D67DC0-996B-CA11-8404-73083913D7AC}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "2682628225",
+      "Name": "Play_VO_Ignis_CreoQueSeFue",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_VO_Ignis_CreoQueSeFue",
+      "GUID": "{C9DE18E2-0AAE-400B-BC62-D9998DCDEA8A}",
+      "MaxAttenuation": "35",
+      "DurationType": "OneShot",
+      "DurationMin": "2.54",
+      "DurationMax": "2.54",
+      "MediaRefs": [
+       {
+        "Id": "292070102"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{5F0E5488-544F-A88A-86EE-0B473A2E790B}"
+ }
+}

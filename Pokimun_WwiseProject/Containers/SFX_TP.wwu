@@ -1,0 +1,759 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}" SchemaVersion="133">
+	<Containers>
+		<WorkUnit Name="SFX_TP" ID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="Ambientes_3D" ID="{D4A2DE6A-7350-4D5E-982D-2117801E2EF8}" ShortID="704923749">
+					<ChildrenList>
+						<Sound Name="SFX_Amb_Lava" ID="{1695E971-AE2C-4245-A613-8E20FD9AE178}" ShortID="933418596">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Ambiente_Loop" ID="{B65EB0E9-6D5A-4D0D-A0F9-62A6406AC8DC}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Ambiente" ID="{04900290-D162-4533-8865-0149FDB569D1}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="lava" ID="{72F70321-67F5-4167-A21A-68D212ED1805}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\lava.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="77211226"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="lava" ID="{72F70321-67F5-4167-A21A-68D212ED1805}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Amb_Estanque" ID="{1C6117BB-EB93-4950-9D7D-F8C5DA2F40DC}" ShortID="120205473">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Ambiente_Loop" ID="{B65EB0E9-6D5A-4D0D-A0F9-62A6406AC8DC}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Ambiente" ID="{04900290-D162-4533-8865-0149FDB569D1}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_02_Estanque_Hydros" ID="{5CD339D2-FA76-4538-A4DE-DF5CF192E038}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\SFX_02_Estanque_Hydros.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="19225019"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_02_Estanque_Hydros" ID="{5CD339D2-FA76-4538-A4DE-DF5CF192E038}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Amb_Portal" ID="{83EE6033-0921-4D09-AB9E-F8D9BB29BF20}" ShortID="959316402">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>4</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Ambiente_Loop" ID="{B65EB0E9-6D5A-4D0D-A0F9-62A6406AC8DC}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Ambiente" ID="{04900290-D162-4533-8865-0149FDB569D1}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_06_Portales" ID="{FCE0BF41-6705-4FE5-BBF1-BEE61FECA39F}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\SFX_06_Portales.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="982974950"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_06_Portales" ID="{FCE0BF41-6705-4FE5-BBF1-BEE61FECA39F}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Pasos" ID="{8085A7CA-F92A-49D6-8B89-DCE704E77E99}" ShortID="249749960">
+					<ChildrenList>
+						<Sound Name="SFX_Paso_Piedra" ID="{200448EA-79D5-437F-9FCD-B2D11621170E}" ShortID="970791840">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Pasos" ID="{BBE84A5C-81B7-44E1-B8E1-33BDA769DFB6}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Paso_Lobby_Piedra" ID="{2D15D736-42B8-4C20-8BAC-A76E6B40911D}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\Paso_Lobby_Piedra.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="244396589"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Paso_Lobby_Piedra" ID="{2D15D736-42B8-4C20-8BAC-A76E6B40911D}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Paso_Tierra" ID="{0A56A7C4-8948-4507-8F0C-11B95602A1A7}" ShortID="655351751">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-4</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Pasos" ID="{BBE84A5C-81B7-44E1-B8E1-33BDA769DFB6}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Paso_Bosque_Tierra" ID="{4F0C81C6-B8D4-4EF2-A3E2-297C6616585A}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\Paso_Bosque_Tierra.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="115876505"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Paso_Bosque_Tierra" ID="{4F0C81C6-B8D4-4EF2-A3E2-297C6616585A}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Paso_Madera" ID="{40FA397D-72EE-4026-92C0-E7C08F06C5D9}" ShortID="677313473">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Pasos" ID="{BBE84A5C-81B7-44E1-B8E1-33BDA769DFB6}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Paso_Cobertizo_Madera" ID="{0421A8D3-B1CE-4D32-9A75-89DBFD5509F4}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\Paso_Cobertizo_Madera.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="812861179"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Paso_Cobertizo_Madera" ID="{0421A8D3-B1CE-4D32-9A75-89DBFD5509F4}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Paso_Charco" ID="{4BC842B2-EDFA-483C-8494-CEA420A2E943}" ShortID="607600698">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Pasos" ID="{BBE84A5C-81B7-44E1-B8E1-33BDA769DFB6}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_12_Pisada_Charco" ID="{B16CA55C-D63D-4778-A767-C835D23F40A8}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\SFX_12_Pisada_Charco.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="208585800"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_12_Pisada_Charco" ID="{B16CA55C-D63D-4778-A767-C835D23F40A8}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Interacciones_3D" ID="{315138D0-C2FA-4F18-8C0D-B21C77C332AF}" ShortID="461631864">
+					<ChildrenList>
+						<Sound Name="SFX_Caja_Madera" ID="{760DAC0B-91C6-4B55-AF99-58CFE4651F13}" ShortID="851140765">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Interaccion" ID="{9A3C34CD-A94A-46E7-9F62-BC42CFB7976C}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_10_Abrir_Caja_Madera" ID="{BC77371F-A895-4341-9BAE-A588493B8FF8}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\SFX_10_Abrir_Caja_Madera.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="243635217"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_10_Abrir_Caja_Madera" ID="{BC77371F-A895-4341-9BAE-A588493B8FF8}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Puerta_Cobertizo" ID="{2ACB6DA3-9BD2-4401-98FC-6281BD7E321B}" ShortID="624791075">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Interaccion" ID="{9A3C34CD-A94A-46E7-9F62-BC42CFB7976C}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_Cobertizo_Abrir_Puerta" ID="{E13567D3-2DD9-4298-8A76-B17A3753DC3A}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\SFX_Cobertizo_Abrir_Puerta.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="269963342"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_Cobertizo_Abrir_Puerta" ID="{E13567D3-2DD9-4298-8A76-B17A3753DC3A}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Arbusto" ID="{474F4FCF-1A4B-4842-8A16-FB4759FB7993}" ShortID="598208069">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Interaccion" ID="{9A3C34CD-A94A-46E7-9F62-BC42CFB7976C}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_Entrar_Arbusto" ID="{51240F65-3D53-40B3-B6A4-B7CB79406E24}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\SFX_Entrar_Arbusto.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="866291977"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_Entrar_Arbusto" ID="{51240F65-3D53-40B3-B6A4-B7CB79406E24}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Encontrar_Ignis" ID="{073F7DE7-14E5-431C-B092-A270D344B862}" ShortID="914521971">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Interaccion" ID="{9A3C34CD-A94A-46E7-9F62-BC42CFB7976C}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_11_Encontrar_Ignis" ID="{119AC029-77A1-4115-BDBC-90894753305E}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\SFX_11_Encontrar_Ignis.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="949778294"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_11_Encontrar_Ignis" ID="{119AC029-77A1-4115-BDBC-90894753305E}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Extradiegeticos_2D" ID="{2C7C14A9-FA7A-4ADD-969D-FEF1A759F612}" ShortID="794410270">
+					<ChildrenList>
+						<Sound Name="SFX_Cruzar_Portal" ID="{F1E7FDC7-D11C-4AB6-AD60-6D8508107A00}" ShortID="843838458">
+							<PropertyList>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_Cruzar_Portal" ID="{B62790E9-9FF1-495B-BBA2-F40D827A0211}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\SFX_Cruzar_Portal.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="48817789"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_Cruzar_Portal" ID="{B62790E9-9FF1-495B-BBA2-F40D827A0211}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Transicion_Escena" ID="{923D219D-80B7-4C31-81D9-0F74BD6B49C0}" ShortID="834757551">
+							<PropertyList>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_14_Transicion_Escenas" ID="{6442A473-565B-4B71-9752-50A685001414}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\SFX_14_Transicion_Escenas.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="990577288"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_14_Transicion_Escenas" ID="{6442A473-565B-4B71-9752-50A685001414}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Narracion_Hydros" ID="{04A8A9AF-A3CF-4545-8B23-5CA11E77E890}" ShortID="537104586">
+							<PropertyList>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Voces" ID="{8A389AC0-8F01-41B2-87A7-3EF71BF226D2}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_13_Voz_Hydros" ID="{4E6B8D30-DAED-4EB2-82AE-161E493E8529}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\SFX_13_Voz_Hydros.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="751495042"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_13_Voz_Hydros" ID="{4E6B8D30-DAED-4EB2-82AE-161E493E8529}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Voces_Ignis_3D" ID="{A17535ED-709D-4BA6-91BE-E0FC1294C92F}" ShortID="816407983">
+					<ChildrenList>
+						<Sound Name="VO_Ignis_QueFueEso_01" ID="{46CF1635-B2A9-4FA0-B18B-58A91A2B28E4}" ShortID="840080574">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Voz_Ignis" ID="{5BF2AB3E-93C4-4D65-B392-E112AFCE8C7F}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Voces" ID="{8A389AC0-8F01-41B2-87A7-3EF71BF226D2}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Que_Fue_Eso_01" ID="{7F33FFD4-75F2-41A3-80D6-4B47E300C036}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\Voces\VO_Que_Fue_Eso_01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="746569954"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Que_Fue_Eso_01" ID="{7F33FFD4-75F2-41A3-80D6-4B47E300C036}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Ignis_QueFueEso_02" ID="{9D2D83D2-4930-45E9-BD33-35098C19338C}" ShortID="639771961">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Voz_Ignis" ID="{5BF2AB3E-93C4-4D65-B392-E112AFCE8C7F}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Voces" ID="{8A389AC0-8F01-41B2-87A7-3EF71BF226D2}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Que_Fue_Eso_02" ID="{DB1080F5-E033-4A79-B0DB-68C93D2139B9}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\Voces\VO_Que_Fue_Eso_02.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="674934255"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Que_Fue_Eso_02" ID="{DB1080F5-E033-4A79-B0DB-68C93D2139B9}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Ignis_CreoQueSeFue" ID="{DD0C5611-1824-4FC8-A9C5-B7BDE1D0937C}" ShortID="483622146">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Voz_Ignis" ID="{5BF2AB3E-93C4-4D65-B392-E112AFCE8C7F}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Voces" ID="{8A389AC0-8F01-41B2-87A7-3EF71BF226D2}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Creo_Que_Se_Fue_No_Hagas_Ruido" ID="{38E84C0E-EDAF-45B5-9176-9C9FC33D4B0A}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\Voces\VO_Creo_Que_Se_Fue_No_Hagas_Ruido.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="292070102"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Creo_Que_Se_Fue_No_Hagas_Ruido" ID="{38E84C0E-EDAF-45B5-9176-9C9FC33D4B0A}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Ignis_Respiracion" ID="{8D94A679-3244-433F-BF4B-93B89E3F7722}" ShortID="267627256">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Voz_Ignis" ID="{5BF2AB3E-93C4-4D65-B392-E112AFCE8C7F}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Voces" ID="{8A389AC0-8F01-41B2-87A7-3EF71BF226D2}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Respiracion" ID="{F4B51119-0E5B-4034-ADD0-C14B9F5F4C9B}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\Voces\VO_Respiracion.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1031697434"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Respiracion" ID="{F4B51119-0E5B-4034-ADD0-C14B9F5F4C9B}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Ignis_Risa" ID="{446321B4-BCBB-46C0-A1ED-13101A1979BE}" ShortID="12721764">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Voz_Ignis" ID="{5BF2AB3E-93C4-4D65-B392-E112AFCE8C7F}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Voces" ID="{8A389AC0-8F01-41B2-87A7-3EF71BF226D2}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Risa" ID="{C89B09AB-C0DE-4BB7-8973-88484C8DDCD2}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\Voces\VO_Risa.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="944743368"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Risa" ID="{C89B09AB-C0DE-4BB7-8973-88484C8DDCD2}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Ignis_MeEncontro" ID="{46AA2EF2-212E-4469-A738-5F593073789F}" ShortID="669496827">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Voz_Ignis" ID="{5BF2AB3E-93C4-4D65-B392-E112AFCE8C7F}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Voces" ID="{8A389AC0-8F01-41B2-87A7-3EF71BF226D2}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Me_Encontro" ID="{567AFC6E-250A-4D47-B982-7EB5F3D9A12F}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\Voces\VO_Me_Encontro.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="12842504"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Me_Encontro" ID="{567AFC6E-250A-4D47-B982-7EB5F3D9A12F}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Voces_Hydros_2D" ID="{104FC1CB-67F1-4E5B-9C23-5215A5C976EB}" ShortID="96676380">
+					<ChildrenList>
+						<Sound Name="VO_Hydros_DondeEstas" ID="{C0DC1EB6-2D58-48E7-A9FE-D9F9328C96F2}" ShortID="128902461">
+							<PropertyList>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Voces" ID="{8A389AC0-8F01-41B2-87A7-3EF71BF226D2}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Donde_Estas" ID="{D815CCE0-09F7-4651-BC4D-79CFA39FE408}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\Voces\VO_Donde_Estas.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="761897860"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Donde_Estas" ID="{D815CCE0-09F7-4651-BC4D-79CFA39FE408}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Hydros_SeQueEstasAqui" ID="{73E69E6F-7983-42B9-B337-79FF3E3B4AF0}" ShortID="318421828">
+							<PropertyList>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Voces" ID="{8A389AC0-8F01-41B2-87A7-3EF71BF226D2}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Se_Que_Estas_Aqui" ID="{72A7AE66-1B01-4E52-B1BE-A8420DF40B18}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\Voces\VO_Se_Que_Estas_Aqui.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="83293030"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Se_Que_Estas_Aqui" ID="{72A7AE66-1B01-4E52-B1BE-A8420DF40B18}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Hydros_TeEncontre" ID="{B2BA3B0C-4014-41A4-87BD-DA3376E3FBF7}" ShortID="886990827">
+							<PropertyList>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Voces" ID="{8A389AC0-8F01-41B2-87A7-3EF71BF226D2}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Te_Encontre" ID="{CA1C93C8-1822-4FCA-9ECD-E2E235AE405D}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\Voces\VO_Te_Encontre.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="729069662"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Te_Encontre" ID="{CA1C93C8-1822-4FCA-9ECD-E2E235AE405D}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
+	</Containers>
+</WwiseDocument>

@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "3166420804",
+    "Type": "Event",
+    "GUID": "{95BDB9EA-AD3F-43A0-B717-D6C22A3E49E8}",
+    "Language": "SFX",
+    "Hash": "{5048CB75-ADE6-D402-3605-F59B4CEA16B1}",
+    "ObjectPath": "Play_SFX_Caja_Madera",
+    "ShortName": "Play_SFX_Caja_Madera",
+    "Path": "Event/Play_SFX_Caja_Madera.bnk",
+    "Media": [
+     {
+      "Id": "243635217",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\SFX_10_Abrir_Caja_Madera.wav",
+      "Path": "Media/243635217.wem",
+      "CachePath": "2F/{2F160E91-E865-DDFA-BDEC-751CBC03AE25}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "3166420804",
+      "Name": "Play_SFX_Caja_Madera",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Caja_Madera",
+      "GUID": "{95BDB9EA-AD3F-43A0-B717-D6C22A3E49E8}",
+      "MaxAttenuation": "30",
+      "DurationType": "OneShot",
+      "DurationMin": "1.58",
+      "DurationMax": "1.58",
+      "MediaRefs": [
+       {
+        "Id": "243635217"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{77F8F128-A1DC-931F-6DD3-42B3681DF88C}"
+ }
+}

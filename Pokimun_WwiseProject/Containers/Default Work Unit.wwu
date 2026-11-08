@@ -1,6 +1,784 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{5AA0BE30-8ECB-48AA-8918-BF96A34AA86B}" SchemaVersion="133">
 	<Containers>
-		<WorkUnit Name="Default Work Unit" ID="{5AA0BE30-8ECB-48AA-8918-BF96A34AA86B}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{5AA0BE30-8ECB-48AA-8918-BF96A34AA86B}" PersistMode="Standalone">
+			<ChildrenList>
+				<MusicPlaylistContainer Name="Santuario" ID="{143F86E3-9A5E-4D01-84FC-32144D863270}" ShortID="1031607260">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+						</Reference>
+						<Reference Name="PlaylistRoot">
+							<Custom>
+								<MusicPlaylistItem Name="" ID="{E3E663AC-BAEC-49E9-BCB9-0C78DF074984}" ShortID="307689248">
+									<PropertyList>
+										<Property Name="LoopCount" Type="int16" Value="0"/>
+									</PropertyList>
+									<ChildrenList>
+										<MusicPlaylistItem Name="" ID="{48D80A50-50C3-4F3C-8490-D959AC8D6162}" ShortID="786854822">
+											<PropertyList>
+												<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Segment">
+													<ObjectRef Name="Santuario_Segmento" ID="{A7DB5A5C-1D03-4591-BF3D-CE37457A62A7}" WorkUnitID="{5AA0BE30-8ECB-48AA-8918-BF96A34AA86B}"/>
+												</Reference>
+											</ReferenceList>
+										</MusicPlaylistItem>
+									</ChildrenList>
+								</MusicPlaylistItem>
+							</Custom>
+						</Reference>
+						<Reference Name="TransitionRoot">
+							<Custom>
+								<MusicTransition Name="Root" ID="{6598D1FF-B7BD-4005-B196-9DDD25B4A7A8}">
+									<PropertyList>
+										<Property Name="IsFolder" Type="bool" Value="True"/>
+									</PropertyList>
+									<ChildrenList>
+										<MusicTransition Name="Transition" ID="{6CC6099E-7C54-45D2-9AD1-3CB8AD20BCA9}">
+											<TransitionInfo/>
+										</MusicTransition>
+									</ChildrenList>
+									<TransitionInfo/>
+								</MusicTransition>
+							</Custom>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<MusicSegment Name="Santuario_Segmento" ID="{A7DB5A5C-1D03-4591-BF3D-CE37457A62A7}" ShortID="10778439">
+							<PropertyList>
+								<Property Name="EndPosition" Type="Real64" Value="26692.7209718981"/>
+								<Property Name="OverrideClockSettings" Type="bool" Value="True"/>
+								<Property Name="Tempo" Type="Real64" Value="72"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicTrack Name="MUS_Santuario_Capa1_Base" ID="{58240576-B4E4-4660-B3B1-3024F1F503AB}" ShortID="469167841">
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{D28CD5DE-9870-43E8-8ECA-15F731B9F2CB}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="MUS_Santuario_Capa1_Base" ID="{1EC1CC0D-883F-4805-80B3-EEC2B11824DC}">
+											<Language>SFX</Language>
+											<AudioFile>MUS_Santuario_Capa1_Base.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="572292764"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<MusicTrackSequence Name="" ID="{5E198AE4-FBC1-4170-80E3-60285A292C8A}">
+												<ObjectLists>
+													<ObjectList Name="Clips">
+														<MusicClip Name="MUS_Santuario_Capa1_Base" ID="{9D160F14-3810-434E-B57A-C8EF7EEC99CB}">
+															<PropertyList>
+																<Property Name="EndTrimOffset" Type="Real64" Value="26666.6666666667"/>
+																<Property Name="FadeInMode" Type="int16" Value="0"/>
+																<Property Name="FadeOutMode" Type="int16" Value="0"/>
+															</PropertyList>
+															<AudioSourceRef Name="MUS_Santuario_Capa1_Base" ID="{1EC1CC0D-883F-4805-80B3-EEC2B11824DC}"/>
+														</MusicClip>
+													</ObjectList>
+												</ObjectLists>
+											</MusicTrackSequence>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+								<MusicTrack Name="MUS_Santuario_Capa2_Ignis" ID="{3C269C29-4D02-488B-9028-067B4F3EB20B}" ShortID="902093647">
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{C2B5BAB3-7579-45F3-9D22-F0176ECDFCB9}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="MUS_Santuario_Capa2_Ignis" ID="{F8992E1C-A60C-4D04-B1E9-F7E493EC8C8A}">
+											<Language>SFX</Language>
+											<AudioFile>MUS_Santuario_Capa2_Ignis.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="383086334"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<RTPC Name="" ID="{2CA33A8E-5438-4A53-8A6F-736A35D78BA0}" ShortID="279348060">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Cercania_Ignis" ID="{4905C940-7E1F-43CE-96B4-827A9611D6A9}" WorkUnitID="{9F40EC5E-E328-4252-91AF-9D5A6D8C318F}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{10452F31-9CFE-4A6E-B168-C8EB32D872FF}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</ObjectList>
+										<ObjectList Name="Sequences">
+											<MusicTrackSequence Name="" ID="{2A78E7C6-774B-4E79-8AFA-8B9694F45FA1}">
+												<ObjectLists>
+													<ObjectList Name="Clips">
+														<MusicClip Name="MUS_Santuario_Capa2_Ignis" ID="{C12B4AA1-304E-4740-B8D1-AE869A24F6B0}">
+															<PropertyList>
+																<Property Name="EndTrimOffset" Type="Real64" Value="26666.6666666667"/>
+																<Property Name="FadeInMode" Type="int16" Value="0"/>
+																<Property Name="FadeOutMode" Type="int16" Value="0"/>
+															</PropertyList>
+															<AudioSourceRef Name="MUS_Santuario_Capa2_Ignis" ID="{F8992E1C-A60C-4D04-B1E9-F7E493EC8C8A}"/>
+														</MusicClip>
+													</ObjectList>
+												</ObjectLists>
+											</MusicTrackSequence>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+								<MusicTrack Name="MUS_Santuario_Capa3_Hydros" ID="{E11F65BD-AE77-4FB0-BF3C-0103F1AB1F61}" ShortID="663841783">
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{C0B4E8E9-3B45-44CF-9379-AF5D943D507A}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="MUS_Santuario_Capa3_Hydros" ID="{7093FDC1-45E5-4E43-81E5-4C0C9F32DC75}">
+											<Language>SFX</Language>
+											<AudioFile>MUS_Santuario_Capa3_Hydros.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="781127160"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<RTPC Name="" ID="{C5D1D570-6038-4276-8EDA-9DA093B25251}" ShortID="1059287898">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Cercania_Hydros" ID="{924DCD08-4595-4954-8132-5A88EDB439A7}" WorkUnitID="{9F40EC5E-E328-4252-91AF-9D5A6D8C318F}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{7C1A8530-58C7-4271-B383-F69E8C83FB97}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</ObjectList>
+										<ObjectList Name="Sequences">
+											<MusicTrackSequence Name="" ID="{B639E4DB-A440-45C2-9C91-0594DC453351}">
+												<ObjectLists>
+													<ObjectList Name="Clips">
+														<MusicClip Name="MUS_Santuario_Capa3_Hydros" ID="{40C523D4-E2F0-411F-B306-9B81AEEC95FB}">
+															<PropertyList>
+																<Property Name="EndTrimOffset" Type="Real64" Value="26666.6666666667"/>
+																<Property Name="FadeInMode" Type="int16" Value="0"/>
+																<Property Name="FadeOutMode" Type="int16" Value="0"/>
+															</PropertyList>
+															<AudioSourceRef Name="MUS_Santuario_Capa3_Hydros" ID="{7093FDC1-45E5-4E43-81E5-4C0C9F32DC75}"/>
+														</MusicClip>
+													</ObjectList>
+												</ObjectLists>
+											</MusicTrackSequence>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+								<MusicTrack Name="MUS_Santuario_Capa4_Melodia" ID="{F6A167E8-BD57-4A36-88B2-3D0002BBEF6E}" ShortID="826109659">
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{2A6A6BC0-BE8B-4BEA-B3BE-24A63C8B0773}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="MUS_Santuario_Capa4_Melodia" ID="{77101342-9D54-4913-AE09-BBA754D7AD0B}">
+											<Language>SFX</Language>
+											<AudioFile>MUS_Santuario_Capa4_Melodia.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="410114439"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<RTPC Name="" ID="{52BC8AF9-7ABF-4D9F-AD10-EC078DB1E56D}" ShortID="205939486">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Cercania_Portal" ID="{D9733650-5372-43FA-8B23-B850BCB6C6FC}" WorkUnitID="{9F40EC5E-E328-4252-91AF-9D5A6D8C318F}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{B7E83413-EF50-466F-A44F-A46F441D3A48}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</ObjectList>
+										<ObjectList Name="Sequences">
+											<MusicTrackSequence Name="" ID="{11843D6C-8A17-4134-B6B8-B64CC8983398}">
+												<ObjectLists>
+													<ObjectList Name="Clips">
+														<MusicClip Name="MUS_Santuario_Capa4_Melodia" ID="{08A205DA-4D02-4949-B72B-E1A2F3659118}">
+															<PropertyList>
+																<Property Name="EndTrimOffset" Type="Real64" Value="26666.6666666667"/>
+																<Property Name="FadeInMode" Type="int16" Value="0"/>
+																<Property Name="FadeOutMode" Type="int16" Value="0"/>
+															</PropertyList>
+															<AudioSourceRef Name="MUS_Santuario_Capa4_Melodia" ID="{77101342-9D54-4913-AE09-BBA754D7AD0B}"/>
+														</MusicClip>
+													</ObjectList>
+												</ObjectLists>
+											</MusicTrackSequence>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="Cues">
+									<MusicCue Name="Entry Cue" ID="{419D3434-6DF8-445C-89DD-A78C0BA9475B}"/>
+									<MusicCue Name="Exit Cue" ID="{AE17DDA9-758A-4E9A-A7DF-617CFB21F83B}">
+										<PropertyList>
+											<Property Name="CueType" Type="int16" Value="1"/>
+											<Property Name="TimeMs" Type="Real64" Value="26692.7209718981"/>
+										</PropertyList>
+									</MusicCue>
+								</ObjectList>
+							</ObjectLists>
+						</MusicSegment>
+					</ChildrenList>
+				</MusicPlaylistContainer>
+				<MusicSwitchContainer Name="Busqueda_Musica" ID="{6EA1B565-DA6B-40BA-9774-B962955ED596}" ShortID="871643199">
+					<PropertyList>
+						<Property Name="Tempo" Type="Real64" Value="96"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+						</Reference>
+						<Reference Name="TransitionRoot">
+							<Custom>
+								<MusicTransition Name="Root" ID="{7CF0C697-27A9-41F0-97DD-F00097FF3A7D}">
+									<PropertyList>
+										<Property Name="IsFolder" Type="bool" Value="True"/>
+									</PropertyList>
+									<ChildrenList>
+										<MusicTransition Name="Transition" ID="{78C262A0-2621-4168-80A7-B11834EB2D35}">
+											<PropertyList>
+												<Property Name="ExitSourceAt" Type="int16" Value="2"/>
+											</PropertyList>
+											<TransitionInfo/>
+										</MusicTransition>
+									</ChildrenList>
+									<TransitionInfo/>
+								</MusicTransition>
+							</Custom>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<MusicPlaylistContainer Name="Exploracion" ID="{6E958C8C-7800-460A-9058-6BD68CD3BFCF}" ShortID="786560115">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+								<Reference Name="PlaylistRoot">
+									<Custom>
+										<MusicPlaylistItem Name="" ID="{BEEC41C0-D934-421C-AD0C-D5D72BF1D68D}" ShortID="716706132">
+											<PropertyList>
+												<Property Name="LoopCount" Type="int16" Value="0"/>
+											</PropertyList>
+											<ChildrenList>
+												<MusicPlaylistItem Name="" ID="{7FB5E50E-1362-4287-B9A8-036E53499D8F}" ShortID="76302375">
+													<PropertyList>
+														<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Segment">
+															<ObjectRef Name="MUS_Busqueda_Exploracion" ID="{187A6370-5BAF-417A-9778-BB2A3EB1D455}" WorkUnitID="{5AA0BE30-8ECB-48AA-8918-BF96A34AA86B}"/>
+														</Reference>
+													</ReferenceList>
+												</MusicPlaylistItem>
+											</ChildrenList>
+										</MusicPlaylistItem>
+									</Custom>
+								</Reference>
+								<Reference Name="TransitionRoot">
+									<Custom>
+										<MusicTransition Name="Root" ID="{30ED31A1-1F02-41B1-A9A1-83B68978790C}">
+											<PropertyList>
+												<Property Name="IsFolder" Type="bool" Value="True"/>
+											</PropertyList>
+											<ChildrenList>
+												<MusicTransition Name="Transition" ID="{200E4904-E397-4C8D-9DA7-538DB50EDCEC}">
+													<TransitionInfo/>
+												</MusicTransition>
+											</ChildrenList>
+											<TransitionInfo/>
+										</MusicTransition>
+									</Custom>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicSegment Name="MUS_Busqueda_Exploracion" ID="{187A6370-5BAF-417A-9778-BB2A3EB1D455}" ShortID="519456882">
+									<PropertyList>
+										<Property Name="EndPosition" Type="Real64" Value="20000"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<MusicTrack Name="MUS_Busqueda_Exploracion" ID="{D458FA6C-EBCC-4E33-A80F-4155205CB371}" ShortID="148643965">
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{D37448F9-10A4-4701-9A55-885F12185136}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="MUS_Busqueda_Exploracion" ID="{DC7C3634-3020-4218-89C8-68012CC928D1}">
+													<Language>SFX</Language>
+													<AudioFile>MUS_Busqueda_Exploracion.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="323876694"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<MusicTrackSequence Name="" ID="{AE29B177-4AD4-4D18-B1E8-982EEA2B4094}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<MusicClip Name="MUS_Busqueda_Exploracion" ID="{F01EEE51-81C7-48E0-82EA-A1EE9FE0E92D}">
+																	<PropertyList>
+																		<Property Name="EndTrimOffset" Type="Real64" Value="20000"/>
+																		<Property Name="FadeInMode" Type="int16" Value="0"/>
+																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																	</PropertyList>
+																	<AudioSourceRef Name="MUS_Busqueda_Exploracion" ID="{DC7C3634-3020-4218-89C8-68012CC928D1}"/>
+																</MusicClip>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Cues">
+											<MusicCue Name="Entry Cue" ID="{6E7430CF-2D56-44B1-96D8-9D74D4B4FE11}"/>
+											<MusicCue Name="Exit Cue" ID="{61E0E561-8DC2-4F61-8070-E807645FAFE2}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="1"/>
+													<Property Name="TimeMs" Type="Real64" Value="20000"/>
+												</PropertyList>
+											</MusicCue>
+										</ObjectList>
+									</ObjectLists>
+								</MusicSegment>
+							</ChildrenList>
+						</MusicPlaylistContainer>
+						<MusicPlaylistContainer Name="Tension" ID="{915BF7DA-1196-49DF-AEE5-38A037805CB1}" ShortID="902211889">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+								<Reference Name="PlaylistRoot">
+									<Custom>
+										<MusicPlaylistItem Name="" ID="{04D191AA-C77D-477B-A9D8-379FDB144460}" ShortID="466382449">
+											<PropertyList>
+												<Property Name="LoopCount" Type="int16" Value="0"/>
+											</PropertyList>
+											<ChildrenList>
+												<MusicPlaylistItem Name="" ID="{D7375719-943B-4EF7-8D11-6C62C7FE9FF5}" ShortID="601568354">
+													<PropertyList>
+														<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Segment">
+															<ObjectRef Name="MUS_Busqueda_Tension" ID="{20DCB6BE-BEBA-4B52-BAB3-00BCA602D186}" WorkUnitID="{5AA0BE30-8ECB-48AA-8918-BF96A34AA86B}"/>
+														</Reference>
+													</ReferenceList>
+												</MusicPlaylistItem>
+											</ChildrenList>
+										</MusicPlaylistItem>
+									</Custom>
+								</Reference>
+								<Reference Name="TransitionRoot">
+									<Custom>
+										<MusicTransition Name="Root" ID="{1EE7C115-E42C-4FB4-94F7-346958502E89}">
+											<PropertyList>
+												<Property Name="IsFolder" Type="bool" Value="True"/>
+											</PropertyList>
+											<ChildrenList>
+												<MusicTransition Name="Transition" ID="{10C9451C-304A-49A4-AD40-2D6A8FBF9DBF}">
+													<TransitionInfo/>
+												</MusicTransition>
+											</ChildrenList>
+											<TransitionInfo/>
+										</MusicTransition>
+									</Custom>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicSegment Name="MUS_Busqueda_Tension" ID="{20DCB6BE-BEBA-4B52-BAB3-00BCA602D186}" ShortID="438803048">
+									<PropertyList>
+										<Property Name="EndPosition" Type="Real64" Value="10000"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<MusicTrack Name="MUS_Busqueda_Tension" ID="{EE9D0F60-2E0F-461C-85A6-99455A577457}" ShortID="54365367">
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{A6BC4664-F2D6-48F9-9D7A-5F45FE3B55D2}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="MUS_Busqueda_Tension" ID="{145DFE81-50C1-40BD-81A2-8E2D36685B83}">
+													<Language>SFX</Language>
+													<AudioFile>MUS_Busqueda_Tension.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="799157270"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<MusicTrackSequence Name="" ID="{257E0F1F-EBDE-42B0-B09E-EDAC955322CE}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<MusicClip Name="MUS_Busqueda_Tension" ID="{7B81CD7E-947B-44D7-970B-CB2EA66A2790}">
+																	<PropertyList>
+																		<Property Name="EndTrimOffset" Type="Real64" Value="10000"/>
+																		<Property Name="FadeInMode" Type="int16" Value="0"/>
+																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																	</PropertyList>
+																	<AudioSourceRef Name="MUS_Busqueda_Tension" ID="{145DFE81-50C1-40BD-81A2-8E2D36685B83}"/>
+																</MusicClip>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Cues">
+											<MusicCue Name="Entry Cue" ID="{E04D001F-3754-460A-B44A-73E4DB359CB7}"/>
+											<MusicCue Name="Exit Cue" ID="{7EBE594D-48AC-402C-9C61-3A87BC063281}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="1"/>
+													<Property Name="TimeMs" Type="Real64" Value="10000"/>
+												</PropertyList>
+											</MusicCue>
+										</ObjectList>
+									</ObjectLists>
+								</MusicSegment>
+							</ChildrenList>
+						</MusicPlaylistContainer>
+						<MusicSegment Name="Hallazgo" ID="{82F24E6F-760F-4EBD-962F-66C0FAE9A4CB}" ShortID="232407999">
+							<PropertyList>
+								<Property Name="EndPosition" Type="Real64" Value="7500"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicTrack Name="MUS_Busqueda_Hallazgo" ID="{D5D24F3E-A6E5-4DF0-98C4-1724315C68FF}" ShortID="543521423">
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{60F64496-DF14-4B61-A591-2C84D69C11C8}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="MUS_Busqueda_Hallazgo" ID="{83F785B4-81CB-46CF-A9DD-0DFF70354F7C}">
+											<Language>SFX</Language>
+											<AudioFile>MUS_Busqueda_Hallazgo.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="350880768"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<MusicTrackSequence Name="" ID="{E7E9B64D-3E17-488F-82AF-3EE61DA357CB}">
+												<ObjectLists>
+													<ObjectList Name="Clips">
+														<MusicClip Name="MUS_Busqueda_Hallazgo" ID="{0266A572-430F-458B-8DB8-9FD5A8D60DBE}">
+															<PropertyList>
+																<Property Name="EndTrimOffset" Type="Real64" Value="7500"/>
+																<Property Name="FadeInMode" Type="int16" Value="0"/>
+																<Property Name="FadeOutMode" Type="int16" Value="0"/>
+															</PropertyList>
+															<AudioSourceRef Name="MUS_Busqueda_Hallazgo" ID="{83F785B4-81CB-46CF-A9DD-0DFF70354F7C}"/>
+														</MusicClip>
+													</ObjectList>
+												</ObjectLists>
+											</MusicTrackSequence>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="Cues">
+									<MusicCue Name="Entry Cue" ID="{C98A7601-2B6F-4739-959E-44CD90975F4D}"/>
+									<MusicCue Name="Exit Cue" ID="{AE202FEC-8E98-4CDF-AF21-98A55F36282C}">
+										<PropertyList>
+											<Property Name="CueType" Type="int16" Value="1"/>
+											<Property Name="TimeMs" Type="Real64" Value="5065.01095690285"/>
+										</PropertyList>
+									</MusicCue>
+								</ObjectList>
+							</ObjectLists>
+						</MusicSegment>
+					</ChildrenList>
+					<ObjectLists>
+						<ObjectList Name="Arguments">
+							<PluginInnerObject Name="" ID="{345893C8-CE14-419A-9831-8C13870D62F4}" PluginName="MusicArgumentsSlot" CompanyID="0" PluginID="89">
+								<ReferenceList>
+									<Reference Name="Argument">
+										<ObjectRef Name="Busqueda" ID="{9324366C-927D-49B3-809A-C50133677C48}" WorkUnitID="{ABA9382C-56EA-4C7B-A7E1-58F385D30781}"/>
+									</Reference>
+								</ReferenceList>
+							</PluginInnerObject>
+						</ObjectList>
+						<ObjectList Name="Entries">
+							<MultiSwitchEntry Name="" ID="{1E9A7A3C-C40B-43CF-A071-E58AE8198E2D}">
+								<ReferenceList>
+									<Reference Name="AudioNode">
+										<ObjectRef Name="Exploracion" ID="{6E958C8C-7800-460A-9058-6BD68CD3BFCF}" WorkUnitID="{5AA0BE30-8ECB-48AA-8918-BF96A34AA86B}"/>
+									</Reference>
+								</ReferenceList>
+								<ObjectLists>
+									<ObjectList Name="EntryPath">
+										<PluginInnerObject Name="" ID="{2F917AE9-A7A8-4B6B-9DF4-4917CA0B4816}" PluginName="EntryPathSlot" CompanyID="0" PluginID="88">
+											<ReferenceList>
+												<Reference Name="EntryPathObject">
+													<ObjectRef Name="Explorando" ID="{049367BC-7045-43E8-94A7-8910FF43FFCA}" WorkUnitID="{ABA9382C-56EA-4C7B-A7E1-58F385D30781}"/>
+												</Reference>
+											</ReferenceList>
+										</PluginInnerObject>
+									</ObjectList>
+								</ObjectLists>
+							</MultiSwitchEntry>
+							<MultiSwitchEntry Name="" ID="{C3EEE71C-916E-40B5-AFD4-76D2330D6AAB}">
+								<ReferenceList>
+									<Reference Name="AudioNode">
+										<ObjectRef Name="Hallazgo" ID="{82F24E6F-760F-4EBD-962F-66C0FAE9A4CB}" WorkUnitID="{5AA0BE30-8ECB-48AA-8918-BF96A34AA86B}"/>
+									</Reference>
+								</ReferenceList>
+								<ObjectLists>
+									<ObjectList Name="EntryPath">
+										<PluginInnerObject Name="" ID="{2E3E2685-EB96-482E-979B-BE79230BECBE}" PluginName="EntryPathSlot" CompanyID="0" PluginID="88">
+											<ReferenceList>
+												<Reference Name="EntryPathObject">
+													<ObjectRef Name="Hallazgo" ID="{A6FB3F63-1BA9-48A9-8DB3-76BD4EFF6235}" WorkUnitID="{ABA9382C-56EA-4C7B-A7E1-58F385D30781}"/>
+												</Reference>
+											</ReferenceList>
+										</PluginInnerObject>
+									</ObjectList>
+								</ObjectLists>
+							</MultiSwitchEntry>
+							<MultiSwitchEntry Name="" ID="{422595E7-5685-4615-AE85-605431CD4315}">
+								<ReferenceList>
+									<Reference Name="AudioNode">
+										<ObjectRef Name="Tension" ID="{915BF7DA-1196-49DF-AEE5-38A037805CB1}" WorkUnitID="{5AA0BE30-8ECB-48AA-8918-BF96A34AA86B}"/>
+									</Reference>
+								</ReferenceList>
+								<ObjectLists>
+									<ObjectList Name="EntryPath">
+										<PluginInnerObject Name="" ID="{7BE0B07A-E870-4906-A750-712CA6E203C1}" PluginName="EntryPathSlot" CompanyID="0" PluginID="88">
+											<ReferenceList>
+												<Reference Name="EntryPathObject">
+													<ObjectRef Name="Tension" ID="{AEB62DBE-B2BC-4E0A-B8B3-3190F0A606D1}" WorkUnitID="{ABA9382C-56EA-4C7B-A7E1-58F385D30781}"/>
+												</Reference>
+											</ReferenceList>
+										</PluginInnerObject>
+									</ObjectList>
+								</ObjectLists>
+							</MultiSwitchEntry>
+							<MultiSwitchEntry Name="" ID="{692998BD-0331-4911-8C1B-6AAD324DB320}">
+								<ReferenceList>
+									<Reference Name="AudioNode">
+										<ObjectRef Name="Exploracion" ID="{6E958C8C-7800-460A-9058-6BD68CD3BFCF}" WorkUnitID="{5AA0BE30-8ECB-48AA-8918-BF96A34AA86B}"/>
+									</Reference>
+								</ReferenceList>
+								<ObjectLists>
+									<ObjectList Name="EntryPath">
+										<PluginInnerObject Name="" ID="{86825082-E4D0-481A-BB0B-A145535658EB}" PluginName="EntryPathSlot" CompanyID="0" PluginID="88">
+											<ReferenceList>
+												<Reference Name="EntryPathObject">
+													<ObjectRef Name="None" ID="{C259F0B9-1475-4363-AED3-D8B9AE330BF8}" WorkUnitID="{ABA9382C-56EA-4C7B-A7E1-58F385D30781}"/>
+												</Reference>
+											</ReferenceList>
+										</PluginInnerObject>
+									</ObjectList>
+								</ObjectLists>
+							</MultiSwitchEntry>
+						</ObjectList>
+					</ObjectLists>
+				</MusicSwitchContainer>
+			</ChildrenList>
+		</WorkUnit>
 	</Containers>
 </WwiseDocument>

@@ -1,0 +1,3 @@
+Event	ID	Name			Wwise Object Path	Notes
+	3552061610	Play_VO_Ignis_QueFueEso_02			\SFX_TP\Play_VO_Ignis_QueFueEso_02	
+

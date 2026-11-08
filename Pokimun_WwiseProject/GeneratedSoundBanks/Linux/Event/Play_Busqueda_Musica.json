@@ -1,0 +1,147 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Linux",
+  "BasePlatform": "Linux",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "648912767",
+    "Type": "Event",
+    "GUID": "{0A4EF816-FCD9-4847-B5DE-13D94648F38B}",
+    "Language": "SFX",
+    "Hash": "{85841DF7-E994-0022-1E10-05D34B3A0541}",
+    "ObjectPath": "Play_Busqueda_Musica",
+    "ShortName": "Play_Busqueda_Musica",
+    "Path": "Event/Play_Busqueda_Musica.bnk",
+    "Media": [
+     {
+      "Id": "323876694",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MUS_Busqueda_Exploracion.wav",
+      "Path": "Media/323876694.wem",
+      "CachePath": "D0/{D098D35B-CFAE-5311-C8CA-005D585F50C3}.wem"
+     },
+     {
+      "Id": "350880768",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MUS_Busqueda_Hallazgo.wav",
+      "Path": "Media/350880768.wem",
+      "CachePath": "37/{37178CE8-228E-149D-9E39-726BF773015D}.wem"
+     },
+     {
+      "Id": "799157270",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MUS_Busqueda_Tension.wav",
+      "Path": "Media/799157270.wem",
+      "CachePath": "C6/{C691CE7B-DD3C-5A76-4E05-80DAA952D9C0}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "648912767",
+      "Name": "Play_Busqueda_Musica",
+      "ObjectPath": "\\Events\\Default Work Unit\\Play_Busqueda_Musica",
+      "GUID": "{0A4EF816-FCD9-4847-B5DE-13D94648F38B}",
+      "DurationType": "Infinite",
+      "SwitchContainers": [
+       {
+        "SwitchValue": {
+         "GroupType": "State",
+         "GroupId": "2923807541",
+         "Id": "2877940427",
+         "GUID": "{049367BC-7045-43E8-94A7-8910FF43FFCA}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "323876694"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "State",
+         "GroupId": "2923807541",
+         "Id": "2559230583",
+         "GUID": "{A6FB3F63-1BA9-48A9-8DB3-76BD4EFF6235}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "350880768"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "State",
+         "GroupId": "2923807541",
+         "Id": "1571361561",
+         "GUID": "{AEB62DBE-B2BC-4E0A-B8B3-3190F0A606D1}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "799157270"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "State",
+         "GroupId": "2923807541",
+         "Id": "748895195",
+         "GUID": "{C259F0B9-1475-4363-AED3-D8B9AE330BF8}"
+        },
+        "MediaRefs": [
+         {
+          "Id": "323876694"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "StateGroups": [
+     {
+      "Id": "2923807541",
+      "Name": "Busqueda",
+      "ObjectPath": "\\States\\Default Work Unit\\Busqueda",
+      "GUID": "{9324366C-927D-49B3-809A-C50133677C48}",
+      "States": [
+       {
+        "Id": "748895195",
+        "Name": "None",
+        "ObjectPath": "\\States\\Default Work Unit\\Busqueda\\None",
+        "GUID": "{C259F0B9-1475-4363-AED3-D8B9AE330BF8}"
+       },
+       {
+        "Id": "1571361561",
+        "Name": "Tension",
+        "ObjectPath": "\\States\\Default Work Unit\\Busqueda\\Tension",
+        "GUID": "{AEB62DBE-B2BC-4E0A-B8B3-3190F0A606D1}"
+       },
+       {
+        "Id": "2559230583",
+        "Name": "Hallazgo",
+        "ObjectPath": "\\States\\Default Work Unit\\Busqueda\\Hallazgo",
+        "GUID": "{A6FB3F63-1BA9-48A9-8DB3-76BD4EFF6235}"
+       },
+       {
+        "Id": "2877940427",
+        "Name": "Explorando",
+        "ObjectPath": "\\States\\Default Work Unit\\Busqueda\\Explorando",
+        "GUID": "{049367BC-7045-43E8-94A7-8910FF43FFCA}"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{16EA79AA-8AF5-D3B1-ED09-7F4396574C09}"
+ }
+}

@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{9F40EC5E-E328-4252-91AF-9D5A6D8C318F}" SchemaVersion="133">
 	<GameParameters>
-		<WorkUnit Name="Default Work Unit" ID="{9F40EC5E-E328-4252-91AF-9D5A6D8C318F}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{9F40EC5E-E328-4252-91AF-9D5A6D8C318F}" PersistMode="Standalone">
+			<ChildrenList>
+				<GameParameter Name="Cercania_Ignis" ID="{4905C940-7E1F-43CE-96B4-827A9611D6A9}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="0"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="Cercania_Hydros" ID="{924DCD08-4595-4954-8132-5A88EDB439A7}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="0"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="Cercania_Portal" ID="{D9733650-5372-43FA-8B23-B850BCB6C6FC}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="0"/>
+					</PropertyList>
+				</GameParameter>
+			</ChildrenList>
+		</WorkUnit>
 	</GameParameters>
 </WwiseDocument>

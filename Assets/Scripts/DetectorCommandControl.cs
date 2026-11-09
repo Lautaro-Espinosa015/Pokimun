@@ -171,6 +171,16 @@ public class DetectorCommandControl : MonoBehaviour
 
         comandosMenu["salir del juego"] = () => FindFirstObjectByType<PauseManager>()?.SalirJuego();
         comandosMenu["cerrar juego"] = () => FindFirstObjectByType<PauseManager>()?.SalirJuego();
+        if (gestorNivel != null)
+        {
+            comandosMenu["salir del juego"] = gestorNivel.SalirDelJuego;
+            comandosMenu["cerrar juego"] = gestorNivel.SalirDelJuego;
+            comandosMenu["volver al lobby"] = gestorNivel.VolverAlLobby;
+            comandosMenu["menú principal"] = gestorNivel.VolverAlMenu;
+            comandosMenu["menu principal"] = gestorNivel.VolverAlMenu;
+            comandosMenu["cancelar conexión"] = gestorNivel.CancelarSala;
+            comandosMenu["cancelar conexion"] = gestorNivel.CancelarSala;
+        }
         
         string[] palabrasNumeros = { "cero", "diez", "veinte", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa", "cien" };
         for (int i = 0; i <= 10; i++)
@@ -239,6 +249,8 @@ public class DetectorCommandControl : MonoBehaviour
             }
             if (comandosMenu.TryGetValue(frase.texto, out Action accionMenu))
             {
+                if (!Application.isFocused || gestorNivel == null || frase.inicioUtc < gestorNivel.InicioPanelVozUtc ||
+                    !ComandoVisible(frase.texto, accionMenu)) continue;
                 Debug.Log($"[Voz] Ejecutando acción de menú: {frase.texto}", this);
                 accionMenu.Invoke();
                 continue;
@@ -269,6 +281,29 @@ public class DetectorCommandControl : MonoBehaviour
             gestorNivel.IntentarRegistrarAccion(AccionTurno.Defensa(), "teclado D/0");
         else if (k.aKey.wasPressedThisFrame)
             gestorNivel.IntentarAtaqueManual(critico, "teclado A");
+    }
+
+    private bool ComandoVisible(string frase, Action accion)
+    {
+        if (frase is "pausa" or "pausar" or "pos" or "pause")
+            return gestorNivel.EnBatalla && !gestorNivel.Pausado;
+        if (accion == (Action)gestorNivel.SalirDelJuego || accion == (Action)gestorNivel.VolverAlLobby)
+            return gestorNivel.Pausado || gestorNivel.EnResultados;
+        if (accion == (Action)gestorNivel.VolverAlMenu)
+            return gestorNivel.Pausado || gestorNivel.EnResultados || gestorNivel.EnSelector;
+        if (accion == (Action)gestorNivel.IniciarPartida)
+        {
+            bool solitario = frase is "solitario" or "jugar en solitario" or "singol pleyer" or "single player" or "alon" or "alone";
+            return solitario ? gestorNivel.EnSelector && !gestorNivel.ConexionOcupada :
+                gestorNivel.EnResultados && !gestorNivel.EnLinea;
+        }
+        if (frase is "cancelar conexión" or "cancelar conexion")
+            return gestorNivel.EnSelector && gestorNivel.ConexionOcupada;
+        if (frase is "reanudar" or "continuar" or "quitar pausa" or "risiom" or "resume" or "continue" ||
+            frase.StartsWith("efectos ") || frase.StartsWith("efe equis ") ||
+            frase.StartsWith("musica ") || frase.StartsWith("música "))
+            return gestorNivel.Pausado;
+        return gestorNivel.EnSelector && !gestorNivel.ConexionOcupada;
     }
 
     private static bool Escribiendo()

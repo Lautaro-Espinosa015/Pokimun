@@ -9,12 +9,14 @@ public sealed class ControlesAndroid : MonoBehaviour
     private readonly System.Collections.Generic.List<Button> acciones = new System.Collections.Generic.List<Button>();
     private RectTransform zonaSegura;
     private Rect ultimaZona;
+    private Button botonPausa;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
 #endif
     private static void Iniciar()
     {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         SceneManager.sceneLoaded -= AlCargar;
         SceneManager.sceneLoaded += AlCargar;
         Crear();
@@ -61,6 +63,7 @@ public sealed class ControlesAndroid : MonoBehaviour
         CrearBoton("Cura", 0, () => Registrar(AccionTurno.Curar()));
         CrearBoton("Ataque", 210, () => gestor?.IntentarAtaqueManual());
         var pausa = CrearBoton("Pausa", 0, () => FindFirstObjectByType<PauseManager>()?.Pausar());
+        botonPausa = pausa;
         acciones.Remove(pausa);
         var rectPausa = (RectTransform)pausa.transform;
         rectPausa.anchorMin = rectPausa.anchorMax = new Vector2(1, 0);
@@ -101,7 +104,13 @@ public sealed class ControlesAndroid : MonoBehaviour
     private void Update()
     {
         if (Screen.safeArea != ultimaZona) ActualizarZona();
-        foreach (var boton in acciones) boton.interactable = gestor != null && gestor.PuedeRecibirAcciones;
+        bool enCombate = gestor != null && gestor.EnBatalla && !gestor.Pausado;
+        botonPausa.gameObject.SetActive(enCombate);
+        foreach (var boton in acciones)
+        {
+            boton.gameObject.SetActive(enCombate);
+            boton.interactable = enCombate && gestor.PuedeRecibirAcciones;
+        }
     }
 
     private void ActualizarZona()

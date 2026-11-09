@@ -10,6 +10,7 @@ public class ControladorVozMenu : MonoBehaviour
 
     private GestorVozMultiplataforma voz;
     private Dictionary<string, Action> comandosMenu = new Dictionary<string, Action>();
+    private readonly HashSet<string> comandosPrincipal = new HashSet<string>();
 
     private void OnEnable()
     {
@@ -68,6 +69,9 @@ public class ControladorVozMenu : MonoBehaviour
         comandosMenu.Add("return", () => menuManager.Volver());
         comandosMenu.Add("exit", () => menuManager.Salir());
         comandosMenu.Add("quit", () => menuManager.Salir());
+        comandosPrincipal.Clear();
+        comandosPrincipal.UnionWith(comandosMenu.Keys);
+        comandosPrincipal.ExceptWith(new[] { "volver", "regresar", "atras", "atrás", "back", "return" });
 
         // Comandos de Pantalla Completa
         Action togglePC = () => {
@@ -134,6 +138,9 @@ public class ControladorVozMenu : MonoBehaviour
     private void AlReconocerFrase(GestorVozMultiplataforma.ComandoReconocido resultado)
     {
         string frase = resultado.texto;
+        if (!Application.isFocused || resultado.inicioUtc < menuManager.InicioPanelUtc) return;
+        bool principal = menuManager.menuPrincipal != null && menuManager.menuPrincipal.activeInHierarchy;
+        if (principal != comandosPrincipal.Contains(frase)) return;
         Debug.Log($"[ControladorVozMenu] Comando reconocido: '{frase}'");
 
         // Si la frase que escuchó está en nuestra lista de comandos, ejecuta la acción

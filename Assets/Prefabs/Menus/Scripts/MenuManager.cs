@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +10,7 @@ public class MenuManager : MonoBehaviour
     public GameObject menuOpciones;
     public GameObject menuTutorial;
     public GameObject menuCreditos;
+    public DateTime InicioPanelUtc { get; private set; } = DateTime.UtcNow;
     #endregion
 
     private AudioSource[] audiosEnLoop;
@@ -84,6 +86,7 @@ public class MenuManager : MonoBehaviour
     // Método robusto para evitar overlapping y bugs visuales
     private void MostrarPanel(GameObject panelDestino)
     {
+        InicioPanelUtc = DateTime.UtcNow;
         // 1. Apagamos TODOS los paneles primero
         if (menuPrincipal) menuPrincipal.SetActive(false);
         if (menuOpciones) menuOpciones.SetActive(false);

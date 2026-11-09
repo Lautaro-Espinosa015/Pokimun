@@ -47,13 +47,21 @@ public class GestorNivel : MonoBehaviour
     private GestorRedRelay relay;
     private readonly List<AccionTurno> planLocal = new List<AccionTurno>(2);
     private ResultadoRonda resolucion;
+    private MensajeCombate turnoPendiente;
     private bool enLinea, pausado, esMiTurno;
-    private int participanteLocal;
+    private bool selectorOcupado;
     private int bloqueosJugadorLocal;
     private int bloqueosJugadorRemoto;
     private string idPartida;
+    private const int LimiteCombate = 300;
+    private double venceEn;
 
     public bool EnLinea => enLinea;
+    public bool Pausado => pausado;
+    public bool EnSelector => estadoActual == EstadoJuego.EsperandoInicio;
+    public bool ConexionOcupada => relay != null && relay.ConexionOcupada;
+    public bool EnResultados => estadoActual == EstadoJuego.FinDePartida;
+    public DateTime InicioPanelVozUtc { get; private set; } = DateTime.UtcNow;
     public bool EnBatalla => estadoActual != EstadoJuego.EsperandoInicio && estadoActual != EstadoJuego.FinDePartida;
     public bool PuedeRecibirAcciones => estadoActual == EstadoJuego.TurnoJugador && !pausado &&
         Time.timeScale > 0 && planLocal.Count < ReglasCombate.AccionesPorRonda;
@@ -129,6 +137,8 @@ public class GestorNivel : MonoBehaviour
     private void MostrarSelector()
     {
         estadoActual = EstadoJuego.EsperandoInicio;
+        selectorOcupado = false;
+        InicioPanelVozUtc = DateTime.UtcNow;
         feedback.MostrarSala(IniciarPartida, CrearSala, UnirseSala, CancelarSala, VolverAlMenu);
     }
 
@@ -142,31 +152,36 @@ public class GestorNivel : MonoBehaviour
         if (relay == null) { EstadoSala("La escena no tiene GestorRedRelay.", false); return; }
         _ = relay.UnirseComoCliente(codigo);
     }
-    private void CancelarSala()
+    public void CancelarSala()
     {
         relay?.CancelarConexion();
-        feedback.ActualizarSala("Conexión cancelada. Puedes jugar en solitario o crear otra sala.", false);
+        EstadoSala("Conexión cancelada. Puedes jugar en solitario o crear otra sala.", false);
     }
     private void EstadoSala(string mensaje, bool ocupada)
     {
-        if (estadoActual == EstadoJuego.EsperandoInicio) feedback.ActualizarSala(mensaje, ocupada);
+        if (!EnSelector) return;
+        if (selectorOcupado != ocupada) InicioPanelVozUtc = DateTime.UtcNow;
+        selectorOcupado = ocupada;
+        feedback.ActualizarSala(mensaje, ocupada);
     }
 
     public void IniciarPartida()
     {
-        if (feedback == null || (EnBatalla && enLinea)) return;
+        if (feedback == null || EnBatalla) return;
         relay?.CancelarConexion();
         if (!ReferenciasValidas()) return;
-        PrepararPartida(false, 0);
+        PrepararPartida(false);
         AbrirRonda(1);
     }
 
-    private void PrepararPartida(bool online, int local)
+    private void PrepararPartida(bool online)
     {
         StopAllCoroutines();
         enLinea = online;
-        participanteLocal = local;
+        turnoPendiente = null;
         pausado = false;
+        InicioPanelVozUtc = DateTime.UtcNow;
+        venceEn = Time.realtimeSinceStartupAsDouble + LimiteCombate;
         Time.timeScale = 1;
         esMiTurno = !online || relay.EsHost;
         bloqueosJugadorLocal = 0;
@@ -182,8 +197,8 @@ public class GestorNivel : MonoBehaviour
         tiempoResultado = Mathf.Max(1, tiempoResultado);
         vidaJugador.ReiniciarVida();
         vidaEnemigo.ReiniciarVida();
-        vidaJugador.barraVida.AsignarNombre(participanteLocal == 0 ? "HYDROS · TÚ" : "HYDROS · RIVAL");
-        vidaEnemigo.barraVida.AsignarNombre(participanteLocal == 1 ? "IGNIS · TÚ" : online ? "IGNIS · RIVAL" : "IGNIS · CPU");
+        vidaJugador.barraVida.AsignarNombre("HYDROS · TÚ");
+        vidaEnemigo.barraVida.AsignarNombre(online ? "IGNIS · RIVAL" : "IGNIS · CPU");
         FinalizarAnimaciones();
         efectoVisualJugador?.QuitarTodosLosEfectos();
         efectoVisualEnemigo?.QuitarTodosLosEfectos();
@@ -192,7 +207,31 @@ public class GestorNivel : MonoBehaviour
         Log($"INICIO modo={(online ? "multijugador" : "solo")} local={NombreLocal} rondas={maxTurnos}");
     }
 
-    private string NombreLocal => participanteLocal == 0 ? "HYDROS" : "IGNIS";
+    private string NombreLocal => "HYDROS";
+
+    private void Update()
+    {
+        if (!EnBatalla || venceEn == 0 || Time.realtimeSinceStartupAsDouble < venceEn ||
+            (enLinea && !relay.EsHost)) return;
+        if (enLinea && !relay.Enviar(new MensajeCombate {
+            tipo = "fin_por_tiempo", vidaJugador = vidaJugador.vidaActual, vidaRival = vidaEnemigo.vidaActual
+        }))
+        {
+            CancelarPartida("No se pudo comunicar el resultado al rival.");
+            return;
+        }
+        TerminarPorTiempo();
+    }
+
+    private void TerminarPorTiempo()
+    {
+        StopAllCoroutines();
+        venceEn = 0;
+        int diferencia = vidaJugador.vidaActual.CompareTo(vidaEnemigo.vidaActual);
+        TerminarPartida(diferencia == 0 ? ResultadoPartida.Empate :
+            diferencia > 0 ? ResultadoPartida.GanaJugador : ResultadoPartida.GanaRival,
+            "Se agotó el límite de cinco minutos.");
+    }
 
     private void AbrirRonda(int ronda)
     {
@@ -355,6 +394,9 @@ public class GestorNivel : MonoBehaviour
         {
             AbrirRonda(turnoActual);
         }
+        var pendiente = turnoPendiente;
+        turnoPendiente = null;
+        if (pendiente != null) RecibirMensaje(pendiente);
     }
 
     private IEnumerator PresentarAccion(AccionTurno accion, ControladorAnimaciones animador, string nombre, int numero, bool rival)
@@ -383,6 +425,7 @@ public class GestorNivel : MonoBehaviour
         if (!ReferenciasValidas()) return;
         var inicio = new MensajeCombate {
             tipo = "inicio", ronda = 1, maxRondas = maxTurnos, danioBase = danioBase,
+            segundosLimite = LimiteCombate,
             vidaMaxJugador = vidaJugador.maxVida, vidaMaxRival = vidaEnemigo.maxVida,
             multiplicadorCritico = multiplicadorDanioGrito, reduccionDefensa = factorReduccionDefensa,
             segundosAtaque = tiempoFeedbackAtaque, segundosDefensa = tiempoFeedbackDefensa, segundosResultado = tiempoResultado
@@ -390,7 +433,7 @@ public class GestorNivel : MonoBehaviour
         
         if (estadoActual == EstadoJuego.EsperandoInicio)
         {
-            PrepararPartida(true, 0);
+            PrepararPartida(true);
             if (!relay.Enviar(inicio)) { CancelarPartida("No se pudo iniciar la partida con el rival."); return; }
             AbrirRonda(1);
         }
@@ -414,14 +457,33 @@ public class GestorNivel : MonoBehaviour
             tiempoFeedbackAtaque = m.segundosAtaque;
             tiempoFeedbackDefensa = m.segundosDefensa;
             tiempoResultado = m.segundosResultado;
-            vidaJugador.maxVida = m.vidaMaxJugador;
-            vidaEnemigo.maxVida = m.vidaMaxRival;
-            PrepararPartida(true, 1);
+            vidaJugador.maxVida = m.vidaMaxRival;
+            vidaEnemigo.maxVida = m.vidaMaxJugador;
+            PrepararPartida(true);
             AbrirRonda(1);
             return;
         }
         if (!enLinea) return;
-        if (m.tipo == "turno" && !esMiTurno && m.ronda == turnoActual)
+        if (!relay.EsHost && m.tipo == "fin_por_tiempo" && EnBatalla && venceEn > 0)
+        {
+            if (m.vidaRival < 0 || m.vidaRival > vidaJugador.maxVida ||
+                m.vidaJugador < 0 || m.vidaJugador > vidaEnemigo.maxVida)
+            {
+                CancelarPartida("El resultado por tiempo contiene puntos de vida inválidos.");
+                return;
+            }
+            vidaJugador.EstablecerVida(m.vidaRival);
+            vidaEnemigo.EstablecerVida(m.vidaJugador);
+            TerminarPorTiempo();
+            return;
+        }
+        if (m.tipo == "turno" && esMiTurno && estadoActual == EstadoJuego.ResolviendoAccion &&
+            m.ronda == turnoActual + (relay.EsHost ? 0 : 1))
+        {
+            turnoPendiente ??= m;
+            return;
+        }
+        if (m.tipo == "turno" && estadoActual == EstadoJuego.TurnoRival && !esMiTurno && m.ronda == turnoActual)
         {
             if (!ReglasCombate.PlanValido(m.jugador, m.ronda)) { CancelarPartida("El rival envió un plan de acciones inválido."); return; }
             if (!VidaCoincide(m)) { CancelarPartida("Los puntos de vida no coinciden entre los equipos."); return; }
@@ -429,7 +491,7 @@ public class GestorNivel : MonoBehaviour
         }
     }
 
-    private static bool ConfiguracionValida(MensajeCombate m) => m.ronda == 1 && m.maxRondas > 0 && m.maxRondas <= 1000 &&
+    private static bool ConfiguracionValida(MensajeCombate m) => m.ronda == 1 && m.segundosLimite == LimiteCombate && m.maxRondas > 0 && m.maxRondas <= 1000 &&
         m.danioBase >= 0 && m.danioBase <= 100000 && m.vidaMaxJugador > 0 && m.vidaMaxRival > 0 &&
         m.multiplicadorCritico >= 1 && m.multiplicadorCritico <= 100 && m.reduccionDefensa >= 0 && m.reduccionDefensa <= 1 &&
         m.segundosAtaque >= 4 && m.segundosAtaque <= 30 && m.segundosDefensa >= .5f && m.segundosDefensa <= 30 &&
@@ -448,6 +510,7 @@ public class GestorNivel : MonoBehaviour
     }
     private void TerminarPartida(ResultadoPartida resultado, string motivo)
     {
+        InicioPanelVozUtc = DateTime.UtcNow;
         estadoActual = EstadoJuego.FinDePartida;
         Time.timeScale = 1;
         pausado = false;
@@ -509,6 +572,7 @@ public class GestorNivel : MonoBehaviour
 
     public void EstablecerPausa(bool pausa)
     {
+        InicioPanelVozUtc = DateTime.UtcNow;
         pausado = pausa;
         feedback?.MostrarInterfaz(!pausa);
         if (!pausa) InicioVentanaEntradaUtc = DateTime.UtcNow;

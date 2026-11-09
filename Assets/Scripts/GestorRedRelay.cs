@@ -13,7 +13,9 @@ using UnityEngine;
 [Serializable]
 public class MensajeCombate
 {
-    public int version = 1;
+    public const int VersionActual = 2;
+    public int version = VersionActual;
+    public int segundosLimite;
     public string tipo;
     public string partida;
     public int ronda;
@@ -29,6 +31,7 @@ public class MensajeCombate
 /// </summary>
 public class GestorRedRelay : MonoBehaviour
 {
+    // Conservar el canal para poder avisar a las versiones anteriores de la incompatibilidad.
     private const string Canal = "Pokimun.Combate.v1";
     private const int MaxBytes = 16384;
     private NetworkManager red;
@@ -62,6 +65,7 @@ public class GestorRedRelay : MonoBehaviour
     public event Action OnRivalListo;
     public event Action<MensajeCombate> OnMensaje;
     public event Action<string> OnConexionPerdida;
+    public bool ConexionOcupada => ocupado || (red != null && red.IsListening);
     public bool EsHost => red != null && red.IsHost;
     public bool Conectado => red != null && red.IsListening;
     public string IdPartida => partida;
@@ -241,7 +245,7 @@ public class GestorRedRelay : MonoBehaviour
             reader.ReadValueSafe(out string json);
             Debug.Log($"[Red] RECIBIDO de {remitente}: {json}", this);
             var mensaje = JsonUtility.FromJson<MensajeCombate>(json);
-            if (mensaje == null || mensaje.version != 1) { ErrorConexion("La otra copia del juego usa una versión de combate diferente."); return; }
+            if (mensaje == null || mensaje.version != MensajeCombate.VersionActual) { ErrorConexion("La otra copia del juego usa una versión de combate diferente."); return; }
             if (EsHost && mensaje.tipo == "listo")
             {
                 // Si el cliente nos vuelve a decir "listo", significa que no recibió nuestro "inicio".

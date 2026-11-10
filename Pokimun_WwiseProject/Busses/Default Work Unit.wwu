@@ -18,6 +18,61 @@
 									</ValueList>
 								</Property>
 							</PropertyList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<RTPC Name="" ID="{F26B5DBC-935B-4C36-8437-5F0057B8CF37}" ShortID="357712782">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="BusVolume"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="Volumen_Musica" ID="{8849DFB5-0E16-4169-AA6C-53B207C5E6D7}" WorkUnitID="{9F40EC5E-E328-4252-91AF-9D5A6D8C318F}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{F76CE071-0CD6-4429-B84E-6CDF3E9D1646}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="3"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>-200</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>10</XPos>
+																<YPos>-20</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>25</XPos>
+																<YPos>-12</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>50</XPos>
+																<YPos>-6</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>75</XPos>
+																<YPos>-2.5</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>0</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</ObjectList>
+							</ObjectLists>
 						</Bus>
 						<Bus Name="Ambiente" ID="{04900290-D162-4533-8865-0149FDB569D1}">
 							<PropertyList>
@@ -27,15 +82,126 @@
 									</ValueList>
 								</Property>
 							</PropertyList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<RTPC Name="" ID="{0A969F31-8902-492B-9426-414F98CD95E0}" ShortID="171973069">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="BusVolume"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="Volumen_Efectos" ID="{B8E21989-CCEB-4792-AA5B-EB8EF4D98148}" WorkUnitID="{9F40EC5E-E328-4252-91AF-9D5A6D8C318F}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{97077C69-3948-4FF4-9D2C-4B98050D1FFD}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="3"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>-200</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>10</XPos>
+																<YPos>-20</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>25</XPos>
+																<YPos>-12</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>50</XPos>
+																<YPos>-6</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>75</XPos>
+																<YPos>-2.5</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>0</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</ObjectList>
+							</ObjectLists>
 						</Bus>
-						<Bus Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}"/>
+						<Bus Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}">
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<RTPC Name="" ID="{DF43B9CE-E9B3-4DB6-A97F-B7357D472282}" ShortID="433938499">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="BusVolume"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="Volumen_Efectos" ID="{B8E21989-CCEB-4792-AA5B-EB8EF4D98148}" WorkUnitID="{9F40EC5E-E328-4252-91AF-9D5A6D8C318F}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{D2EAD529-2BF6-4DA2-A403-273067CC4AB2}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="3"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>-200</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>10</XPos>
+																<YPos>-20</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>25</XPos>
+																<YPos>-12</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>50</XPos>
+																<YPos>-6</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>75</XPos>
+																<YPos>-2.5</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>0</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</ObjectList>
+							</ObjectLists>
+						</Bus>
 						<Bus Name="Voces" ID="{8A389AC0-8F01-41B2-87A7-3EF71BF226D2}">
 							<DuckingList>
 								<DuckItem>
 									<BusRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}"/>
 									<DuckingParam>
-										<Volume>-6</Volume>
-										<FadeInTime>1</FadeInTime>
+										<Volume>-10</Volume>
+										<FadeInTime>1.5</FadeInTime>
 										<FadeOutTime>0.300000011920929</FadeOutTime>
 										<FadeCurve>FadeLinear</FadeCurve>
 									</DuckingParam>

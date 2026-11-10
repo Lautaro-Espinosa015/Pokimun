@@ -10,7 +10,7 @@
     "Type": "Event",
     "GUID": "{0C426354-8FC9-4C38-B9CC-CCAF5DDC49A0}",
     "Language": "SFX",
-    "Hash": "{FE8680E5-2431-B357-A40E-FAE446B2C72B}",
+    "Hash": "{5E6F0D8B-631A-1EEC-5E46-E314A8143228}",
     "ObjectPath": "Play_SFX_Arbusto",
     "ShortName": "Play_SFX_Arbusto",
     "Path": "Event/Play_SFX_Arbusto.bnk",
@@ -20,9 +20,9 @@
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Loose",
-      "ShortName": "TP_SFX\\SFX_Entrar_Arbusto.wav",
+      "ShortName": "TP_SFX\\SFX_Entrar_Arbusto_V3.wav",
       "Path": "Media/866291977.wem",
-      "CachePath": "40/{40A78E2A-65C1-BBDA-A656-70A0093C0EB3}.wem"
+      "CachePath": "09/{099B8B50-3297-1CE5-D724-E9B224C628C3}.wem"
      }
     ],
     "Events": [
@@ -33,8 +33,8 @@
       "GUID": "{0C426354-8FC9-4C38-B9CC-CCAF5DDC49A0}",
       "MaxAttenuation": "30",
       "DurationType": "OneShot",
-      "DurationMin": "1.16",
-      "DurationMax": "1.16",
+      "DurationMin": "1.33",
+      "DurationMax": "1.33",
       "MediaRefs": [
        {
         "Id": "866291977"
@@ -44,6 +44,6 @@
     ]
    }
   ],
-  "FileHash": "{9C89AE3B-4DE8-7D71-327F-6884B24980D2}"
+  "FileHash": "{A8F8903E-CC7E-D1D1-EEC9-C984AC3E218C}"
  }
 }

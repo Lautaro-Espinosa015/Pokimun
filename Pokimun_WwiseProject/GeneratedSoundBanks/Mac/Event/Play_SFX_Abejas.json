@@ -1,0 +1,47 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Mac",
+  "BasePlatform": "Mac",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "1852705226",
+    "Type": "Event",
+    "GUID": "{74B3C9A8-BF0E-4C4E-802B-530E5B3669F1}",
+    "Language": "SFX",
+    "Hash": "{5307039D-198F-FB39-15B6-274A977AEEBD}",
+    "ObjectPath": "Play_SFX_Abejas",
+    "ShortName": "Play_SFX_Abejas",
+    "Path": "Event/Play_SFX_Abejas.bnk",
+    "Media": [
+     {
+      "Id": "1014463266",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\SFX_Abejas_Loop.wav",
+      "Path": "Media/1014463266.wem",
+      "CachePath": "A4/{A496C7BF-1505-C502-7D69-14EF86447CAF}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "1852705226",
+      "Name": "Play_SFX_Abejas",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Abejas",
+      "GUID": "{74B3C9A8-BF0E-4C4E-802B-530E5B3669F1}",
+      "MaxAttenuation": "9",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "1014463266"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{BA1A305E-B5C4-305A-049E-383D04594E7F}"
+ }
+}

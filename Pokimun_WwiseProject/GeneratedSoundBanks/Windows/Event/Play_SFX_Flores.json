@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "3357915403",
+    "Type": "Event",
+    "GUID": "{8EAFA937-3FF2-43A2-859C-3A720153F0D8}",
+    "Language": "SFX",
+    "Hash": "{37ECC1EB-3486-7469-E02D-4CC568ACEB07}",
+    "ObjectPath": "Play_SFX_Flores",
+    "ShortName": "Play_SFX_Flores",
+    "Path": "Event/Play_SFX_Flores.bnk",
+    "Media": [
+     {
+      "Id": "854660518",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\SFX_Roce_Flores_V2.wav",
+      "Path": "Media/854660518.wem",
+      "CachePath": "08/{085E51F1-D840-7570-32C6-3BD485DD953D}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "3357915403",
+      "Name": "Play_SFX_Flores",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Flores",
+      "GUID": "{8EAFA937-3FF2-43A2-859C-3A720153F0D8}",
+      "MaxAttenuation": "30",
+      "DurationType": "OneShot",
+      "DurationMin": "0.98",
+      "DurationMax": "0.98",
+      "MediaRefs": [
+       {
+        "Id": "854660518"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{A9C34D93-32A5-FAF3-DF31-095F9498C8B6}"
+ }
+}

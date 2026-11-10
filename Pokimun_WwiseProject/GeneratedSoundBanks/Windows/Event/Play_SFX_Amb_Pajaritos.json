@@ -1,0 +1,46 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "1653395690",
+    "Type": "Event",
+    "GUID": "{6EB05133-0644-466B-A287-0F5562EF836E}",
+    "Language": "SFX",
+    "Hash": "{9403F2FF-CA85-DF36-6F6A-A285D0CB4DB4}",
+    "ObjectPath": "Play_SFX_Amb_Pajaritos",
+    "ShortName": "Play_SFX_Amb_Pajaritos",
+    "Path": "Event/Play_SFX_Amb_Pajaritos.bnk",
+    "Media": [
+     {
+      "Id": "483038076",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\SFX_Pajaritos_Loop.wav",
+      "Path": "Media/483038076.wem",
+      "CachePath": "2D/{2D8639F5-6394-368A-5582-652BEB860457}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "1653395690",
+      "Name": "Play_SFX_Amb_Pajaritos",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Amb_Pajaritos",
+      "GUID": "{6EB05133-0644-466B-A287-0F5562EF836E}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "483038076"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{903FDFAF-4E5F-566A-DE4D-D3C21FEEF2CC}"
+ }
+}

@@ -7,6 +7,10 @@ State	ID	Name	State Group			Notes
 	2559230583	Hallazgo	Busqueda			
 	2877940427	Explorando	Busqueda			
 
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	1416053179	Volumen_Efectos			\Default Work Unit\Volumen_Efectos	
+	2975884740	Volumen_Musica			\Default Work Unit\Volumen_Musica	
+
 Audio Bus	ID	Name			Wwise Object Path	Notes
 	393239870	SFX			\Default Work Unit\Main Audio Bus\SFX	
 	1730564739	Musica			\Default Work Unit\Main Audio Bus\Musica	

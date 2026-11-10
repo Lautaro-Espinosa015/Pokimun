@@ -8,7 +8,9 @@ namespace Pokimun.Audio
     /// <summary>
     /// SFX y voces de la escena BusquedaIgnis:
     ///  - Portal de regreso (loop 3D) y pasos: tierra (bosque), madera (cobertizo), charco (afuera de la puerta).
-    ///  - Puerta del cobertizo al salir, caja de madera con E, follaje al atravesar arbustos.
+    ///  - Locución de Lautaro al iniciar el nivel.
+    ///  - Puerta del cobertizo al abrirse (PuertaCobertizo), cofres con E, follaje al atravesar arbustos y roce suave entre flores y plantas (RoceVegetacion).
+    ///  - Ambiente: abejas sobre algunas flores (3D) y pájaros de fondo (2D).
     ///  - Voces de Ignis (3D, desde su escondite) y de Hydros (2D), y el hallazgo.
     /// </summary>
     public sealed class AudioBusqueda : MonoBehaviour
@@ -30,7 +32,31 @@ namespace Pokimun.Audio
         public string eventoCaja = "Play_SFX_Caja_Madera";
         public string eventoArbusto = "Play_SFX_Arbusto";
         public string eventoEncontrar = "Play_SFX_Encontrar_Ignis";
-        public float radioArbusto = 1.4f;
+        public float radioArbusto = 1.3f;
+        [Tooltip("Comienzos de nombre de los arbustos (los de escondite, los de referencia y el follaje alrededor)")]
+        public string[] nombresArbusto = { "Arbusto Escondite", "Arbusto de referencia", "Cobertura Escondite" };
+
+        [Header("Locución de Lautaro (voz en off de Hydros) al iniciar el nivel")]
+        public string narracion = "Play_VO_Narracion_Hydros";
+        public float duracionNarracion = 12.2f;
+        [Tooltip("Segundos de espera al entrar, para no pisar la transición ni el fade-in de la música")]
+        public float retrasoNarracion = 3.5f;
+        [Tooltip("Solo la primera vez que se entra al nivel en la sesión (no se repite al reiniciar la búsqueda)")]
+        public bool narrarUnaVez = true;
+        private static bool yaNarrado;
+
+        [Header("Flores")]
+        public string eventoFlores = "Play_SFX_Flores";
+        [Tooltip("Comienzos de nombre de flores y plantas bajas (Grass_v1_2 / v1_3 tienen flores; v1_1 / v2_1 son matas de hojas)")]
+        public string[] nombresFlor = { "Flor", "Grass_v1_1", "Grass_v1_2", "Grass_v1_3", "Grass_v2_1" };
+        public float radioFlor = 0.9f;
+
+        [Header("Ambiente")]
+        public string eventoAbejas = "Play_SFX_Abejas";
+        [Tooltip("Zumbido de abejas (3D, loop) sobre algunas flores: jardín de flores y dos matas con flores del claro")]
+        public Vector3[] posicionesAbejas = { new Vector3(-12.1f, 0.6f, 12.2f), new Vector3(7.4f, 0.5f, 1.0f), new Vector3(1.0f, 0.4f, 4.6f) };
+        [Tooltip("Pájaros de fondo (2D, loop, bajito)")]
+        public string eventoPajaritos = "Play_SFX_Amb_Pajaritos";
 
         [Header("Voces de Ignis (3D)")]
         public string[] vozQueFueEso = { "Play_VO_Ignis_QueFueEso_01", "Play_VO_Ignis_QueFueEso_02" };
@@ -45,12 +71,11 @@ namespace Pokimun.Audio
         public string vozTeEncontre = "Play_VO_Hydros_TeEncontre";
         public Vector2 intervaloBuscando = new Vector2(22f, 38f);
 
-        private readonly List<Transform> arbustos = new List<Transform>();
-        private readonly HashSet<Transform> dentroArbusto = new HashSet<Transform>();
         private readonly List<Transform> cajas = new List<Transform>();
         private GameObject puerta;
+        private PuertaCobertizo puertaVisual;
         private bool estabaIniciada, cerca, avisoCerca;
-        private float proximaRespiracion, proximaBusqueda, ultimoArbusto, ultimaCaja, ultimoQueFue, ultimoSeFue;
+        private float proximaRespiracion, proximaBusqueda, ultimaCaja, ultimoQueFue, ultimoSeFue;
 
         private void Start()
         {
@@ -77,12 +102,31 @@ namespace Pokimun.Audio
             Vector3 suma = Vector3.zero; int puertas = 0;
             foreach (var t in FindObjectsByType<Transform>(FindObjectsSortMode.None))
             {
-                if (t.name.StartsWith("Arbusto Escondite")) arbustos.Add(t);
-                else if (t.name == "Caja de madera") cajas.Add(t);
+                if (t.name == "Caja de madera") cajas.Add(t);
                 else if (t.name == "Marco de puerta") { suma += t.position; puertas++; }
             }
             puerta = new GameObject("Emisor puerta cobertizo");
             puerta.transform.position = puertas > 0 ? suma / puertas : posicionCharco;
+            // Puerta visible del cobertizo: suena cuando se abre al acercarse (si no está en la escena, se crea)
+            puertaVisual = FindFirstObjectByType<PuertaCobertizo>();
+            if (puertaVisual == null && puertas >= 2)
+                puertaVisual = new GameObject("Puerta cobertizo").AddComponent<PuertaCobertizo>();
+            if (puertaVisual != null) puertaVisual.evento = eventoPuerta;
+
+            // Roce con la vegetación: arbustos (follaje) y flores / plantas bajas (roce suave)
+            var roce = gameObject.AddComponent<RoceVegetacion>();
+            roce.jugador = jugador != null ? jugador.transform : null;
+            roce.grupos = new[]
+            {
+                new RoceVegetacion.Grupo { nombre = "Arbustos", prefijos = nombresArbusto, evento = eventoArbusto, radio = radioArbusto, intervaloMinimo = 0.8f },
+                new RoceVegetacion.Grupo { nombre = "Flores y plantas", prefijos = nombresFlor, evento = eventoFlores, radio = radioFlor, intervaloMinimo = 0.6f },
+            };
+
+            // Ambiente: abejas sobre algunas flores (3D) y pájaros de fondo (2D)
+            for (int i = 0; i < posicionesAbejas.Length; i++)
+                RoceVegetacion.EmisorEn("Abejas " + (i + 1), posicionesAbejas[i], eventoAbejas, transform);
+            if (!string.IsNullOrEmpty(eventoPajaritos))
+                RoceVegetacion.EmisorEn("Ambiente pajaritos", transform.position, eventoPajaritos, transform);
 
             if (gestor != null)
             {
@@ -91,6 +135,14 @@ namespace Pokimun.Audio
                 gestor.CambioEscondite += AlCambiarEscondite;
             }
             proximaBusqueda = Time.time + Random.Range(intervaloBuscando.x, intervaloBuscando.y);
+            if (!narrarUnaVez || !yaNarrado) Invoke(nameof(Narrar), retrasoNarracion);
+        }
+
+        private void Narrar()
+        {
+            yaNarrado = true;
+            AudioTP.Voz(narracion, AudioGlobal.Asegurar().gameObject, duracionNarracion, forzar: true);
+            proximaBusqueda = Mathf.Max(proximaBusqueda, Time.time + duracionNarracion + 5f);
         }
 
         private void OnDestroy()
@@ -105,25 +157,12 @@ namespace Pokimun.Audio
             Vector3 pj = gestor.jugador.transform.position;
             var partida = gestor.Partida;
 
-            // Puerta: al salir del cobertizo empieza la búsqueda
+            // Puerta: si no hay puerta visible, suena al salir del cobertizo (cuando empieza la búsqueda)
             bool iniciada = partida != null && partida.Iniciada;
-            if (iniciada && !estabaIniciada) AudioTP.Post(eventoPuerta, puerta);
+            if (iniciada && !estabaIniciada && puertaVisual == null) AudioTP.Post(eventoPuerta, puerta);
             estabaIniciada = iniciada;
 
-            // Arbustos: al atravesarlos
-            foreach (var a in arbustos)
-            {
-                Vector3 d = a.position - pj; d.y = 0;
-                bool dentro = d.sqrMagnitude < radioArbusto * radioArbusto;
-                if (dentro && !dentroArbusto.Contains(a))
-                {
-                    dentroArbusto.Add(a);
-                    if (Time.time - ultimoArbusto > 0.8f) { ultimoArbusto = Time.time; AudioTP.Post(eventoArbusto, a.gameObject); }
-                }
-                else if (!dentro) dentroArbusto.Remove(a);
-            }
-
-            // Caja de madera: E mirándola de cerca
+            // Caja de madera (cofre): E mirándola de cerca
             var teclado = Keyboard.current;
             if (teclado != null && teclado.eKey.wasPressedThisFrame && !gestor.jugador.Bloqueado && Time.time - ultimaCaja > 1.5f)
             {
@@ -132,7 +171,11 @@ namespace Pokimun.Audio
                 {
                     Vector3 hacia = c.position - cam.transform.position;
                     if (hacia.magnitude < 3f && Vector3.Angle(cam.transform.forward, hacia) < 30f)
-                    { ultimaCaja = Time.time; AudioTP.Post(eventoCaja, c.gameObject); break; }
+                    {
+                        ultimaCaja = Time.time; AudioTP.Post(eventoCaja, c.gameObject);
+                        var cofre = c.GetComponent<AparienciaCofre>(); if (cofre != null) cofre.Abrir();
+                        break;
+                    }
                 }
             }
 

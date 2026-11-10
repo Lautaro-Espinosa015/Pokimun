@@ -10,10 +10,15 @@
 								<Property Name="3DSpatialization" Type="int16" Value="1"/>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>4</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Attenuation">
-									<ObjectRef Name="Att_Ambiente_Loop" ID="{B65EB0E9-6D5A-4D0D-A0F9-62A6406AC8DC}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+									<ObjectRef Name="Att_Lava" ID="{A34E45F0-35A6-455D-9C92-21C821775267}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
 								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
@@ -48,7 +53,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Attenuation">
-									<ObjectRef Name="Att_Ambiente_Loop" ID="{B65EB0E9-6D5A-4D0D-A0F9-62A6406AC8DC}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+									<ObjectRef Name="Att_Estanque" ID="{215BDE31-DF19-4036-B794-6B82F0E57E0C}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
 								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
@@ -103,6 +108,76 @@
 							</ChildrenList>
 							<ActiveSourceList>
 								<ActiveSource Name="SFX_06_Portales" ID="{FCE0BF41-6705-4FE5-BBF1-BEE61FECA39F}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Abejas" ID="{32B947AB-1A5E-4F52-BC36-031269258ACC}" ShortID="495325018">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Abejas" ID="{A8C07801-1EFB-4547-B217-E4722B68A1E8}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Ambiente" ID="{04900290-D162-4533-8865-0149FDB569D1}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_Abejas_Loop" ID="{4DD1E8EF-E698-4376-8AE1-B1E2F4760DA5}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\SFX_Abejas_Loop.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1014463266"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_Abejas_Loop" ID="{4DD1E8EF-E698-4376-8AE1-B1E2F4760DA5}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Ambiente_2D" ID="{F1C36BEC-84FA-4746-884E-24B63AA717A6}" ShortID="1634853471">
+					<ChildrenList>
+						<Sound Name="SFX_Amb_Pajaritos" ID="{EEE54770-177C-49F5-85ED-B401CD688A7F}" ShortID="589462941">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-8</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Ambiente" ID="{04900290-D162-4533-8865-0149FDB569D1}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_Pajaritos_Loop" ID="{492218C8-EE98-4C42-8A31-3E95EB9619CF}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\SFX_Pajaritos_Loop.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="483038076"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_Pajaritos_Loop" ID="{492218C8-EE98-4C42-8A31-3E95EB9619CF}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
@@ -319,16 +394,45 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<AudioFileSource Name="SFX_Entrar_Arbusto" ID="{51240F65-3D53-40B3-B6A4-B7CB79406E24}">
+								<AudioFileSource Name="SFX_Entrar_Arbusto_V3" ID="{51240F65-3D53-40B3-B6A4-B7CB79406E24}">
 									<Language>SFX</Language>
-									<AudioFile>TP_SFX\SFX_Entrar_Arbusto.wav</AudioFile>
+									<AudioFile>TP_SFX\SFX_Entrar_Arbusto_V3.wav</AudioFile>
 									<MediaIDList>
 										<MediaID ID="866291977"/>
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
 							<ActiveSourceList>
-								<ActiveSource Name="SFX_Entrar_Arbusto" ID="{51240F65-3D53-40B3-B6A4-B7CB79406E24}" Platform="Linked"/>
+								<ActiveSource Name="SFX_Entrar_Arbusto_V3" ID="{51240F65-3D53-40B3-B6A4-B7CB79406E24}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Flores" ID="{F1AC3E89-616E-4F2F-872D-5DB20BE4E99F}" ShortID="224829375">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Interaccion" ID="{9A3C34CD-A94A-46E7-9F62-BC42CFB7976C}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_Roce_Flores_V2" ID="{01D900A4-2AA0-4A86-96BF-307B89CC51FA}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\SFX_Roce_Flores_V2.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="854660518"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_Roce_Flores_V2" ID="{01D900A4-2AA0-4A86-96BF-307B89CC51FA}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="SFX_Encontrar_Ignis" ID="{073F7DE7-14E5-431C-B092-A270D344B862}" ShortID="914521971">

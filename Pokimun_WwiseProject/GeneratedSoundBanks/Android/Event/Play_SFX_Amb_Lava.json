@@ -10,7 +10,7 @@
     "Type": "Event",
     "GUID": "{E4AEEBED-B57D-4721-9C19-1E22F664B08A}",
     "Language": "SFX",
-    "Hash": "{1C88964B-CFDB-5468-0A63-FCDA3B149101}",
+    "Hash": "{A761AAFD-5FF4-C987-E4E9-C7C32F86C16F}",
     "ObjectPath": "Play_SFX_Amb_Lava",
     "ShortName": "Play_SFX_Amb_Lava",
     "Path": "Event/Play_SFX_Amb_Lava.bnk",
@@ -31,7 +31,7 @@
       "Name": "Play_SFX_Amb_Lava",
       "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Amb_Lava",
       "GUID": "{E4AEEBED-B57D-4721-9C19-1E22F664B08A}",
-      "MaxAttenuation": "25",
+      "MaxAttenuation": "20",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -42,6 +42,6 @@
     ]
    }
   ],
-  "FileHash": "{DEE773BE-F668-8FF3-F5D7-53C9AC4280E1}"
+  "FileHash": "{50F233D9-FD81-5F5C-57BC-C0EB6DC05BBE}"
  }
 }

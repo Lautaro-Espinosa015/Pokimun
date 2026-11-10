@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}",
     "Language": "SFX",
-    "Hash": "{5E9DC614-9B0A-3CDE-9534-FF8283D3CABF}",
+    "Hash": "{5D0B8B5A-156A-B674-1DD3-E4D440FA18B0}",
     "ObjectPath": "Init",
     "ShortName": "Init",
     "Path": "Init.bnk",
@@ -97,6 +97,18 @@
       "GUID": "{4905C940-7E1F-43CE-96B4-827A9611D6A9}"
      },
      {
+      "Id": "1416053179",
+      "Name": "Volumen_Efectos",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Volumen_Efectos",
+      "GUID": "{B8E21989-CCEB-4792-AA5B-EB8EF4D98148}"
+     },
+     {
+      "Id": "2975884740",
+      "Name": "Volumen_Musica",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Volumen_Musica",
+      "GUID": "{8849DFB5-0E16-4169-AA6C-53B207C5E6D7}"
+     },
+     {
       "Id": "3006859328",
       "Name": "Cercania_Portal",
       "ObjectPath": "\\Game Parameters\\Default Work Unit\\Cercania_Portal",
@@ -139,6 +151,6 @@
     ]
    }
   ],
-  "FileHash": "{8A78418C-6AF2-C827-0490-88E9E6BFDDED}"
+  "FileHash": "{0897C2BB-ACD8-7A16-5A18-762073784630}"
  }
 }

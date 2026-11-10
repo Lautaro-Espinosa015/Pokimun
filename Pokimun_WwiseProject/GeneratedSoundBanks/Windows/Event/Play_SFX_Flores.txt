@@ -1,0 +1,3 @@
+Event	ID	Name			Wwise Object Path	Notes
+	3357915403	Play_SFX_Flores			\SFX_TP\Play_SFX_Flores	
+

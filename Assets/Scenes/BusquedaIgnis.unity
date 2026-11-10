@@ -3051,6 +3051,7 @@ GameObject:
   - component: {fileID: 134143288}
   - component: {fileID: 134143287}
   - component: {fileID: 134143290}
+  - component: {fileID: 134143291}
   m_Layer: 0
   m_Name: Caja de madera
   m_TagString: Untagged
@@ -3080,7 +3081,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 134143285}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3171,6 +3172,24 @@ MonoBehaviour:
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &134143291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134143285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf9c6a64be938ad409b17ef7a04601a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Pokimun.Audio.AparienciaCofre
+  madera: {r: 0.45, g: 0.27, b: 0.13, a: 1}
+  metal: {r: 0.22, g: 0.22, b: 0.24, a: 1}
+  ocultarListones: 1
+  frenteHaciaMasZ: 1
+  anguloApertura: 65
+  tiempoAbierto: 2.5
 --- !u!1 &138038042
 GameObject:
   m_ObjectHideFlags: 0
@@ -20828,6 +20847,7 @@ GameObject:
   - component: {fileID: 831989836}
   - component: {fileID: 831989835}
   - component: {fileID: 831989838}
+  - component: {fileID: 831989839}
   m_Layer: 0
   m_Name: Caja de madera
   m_TagString: Untagged
@@ -20857,7 +20877,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 831989833}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -20948,6 +20968,24 @@ MonoBehaviour:
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &831989839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 831989833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf9c6a64be938ad409b17ef7a04601a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Pokimun.Audio.AparienciaCofre
+  madera: {r: 0.45, g: 0.27, b: 0.13, a: 1}
+  metal: {r: 0.22, g: 0.22, b: 0.24, a: 1}
+  ocultarListones: 1
+  frenteHaciaMasZ: 1
+  anguloApertura: 65
+  tiempoAbierto: 2.5
 --- !u!1001 &832576838
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23276,7 +23314,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 909609451}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -26810,7 +26848,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1035061554}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -30813,6 +30851,13 @@ MonoBehaviour:
   eventoArbusto: Play_SFX_Arbusto
   eventoEncontrar: Play_SFX_Encontrar_Ignis
   radioArbusto: 1.4
+  narracion: Play_VO_Narracion_Hydros
+  duracionNarracion: 12.2
+  retrasoNarracion: 3.5
+  narrarUnaVez: 1
+  eventoFlores: Play_SFX_Flores
+  prefijoFlor: Flor
+  radioFlor: 0.9
   vozQueFueEso:
   - Play_VO_Ignis_QueFueEso_01
   - Play_VO_Ignis_QueFueEso_02
@@ -47473,7 +47518,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1822224949}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -53666,7 +53711,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2091498034}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

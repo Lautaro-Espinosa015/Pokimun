@@ -10,7 +10,7 @@
     "Type": "Event",
     "GUID": "{ADB3182C-C6AD-4AF0-A9FB-CAFB2B827EDA}",
     "Language": "SFX",
-    "Hash": "{C12377A4-084D-8BBB-66CC-A25256A997B4}",
+    "Hash": "{6607961A-E242-1CDD-DEA0-59A9ACA42890}",
     "ObjectPath": "Play_SFX_Amb_Estanque",
     "ShortName": "Play_SFX_Amb_Estanque",
     "Path": "Event/Play_SFX_Amb_Estanque.bnk",
@@ -31,7 +31,7 @@
       "Name": "Play_SFX_Amb_Estanque",
       "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Amb_Estanque",
       "GUID": "{ADB3182C-C6AD-4AF0-A9FB-CAFB2B827EDA}",
-      "MaxAttenuation": "25",
+      "MaxAttenuation": "12",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -42,6 +42,6 @@
     ]
    }
   ],
-  "FileHash": "{BFFF0EEE-13F5-B643-DEE3-583EF1C343DF}"
+  "FileHash": "{9DB73D79-23AB-3209-7D01-428F121B4062}"
  }
 }

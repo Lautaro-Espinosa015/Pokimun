@@ -15,13 +15,16 @@ namespace AK
     {
         static const AkUniqueID PLAY_BUSQUEDA_MUSICA = 648912767U;
         static const AkUniqueID PLAY_SANTUARIO = 31360628U;
+        static const AkUniqueID PLAY_SFX_ABEJAS = 1852705226U;
         static const AkUniqueID PLAY_SFX_AMB_ESTANQUE = 812184897U;
         static const AkUniqueID PLAY_SFX_AMB_LAVA = 2777385883U;
+        static const AkUniqueID PLAY_SFX_AMB_PAJARITOS = 1653395690U;
         static const AkUniqueID PLAY_SFX_AMB_PORTAL = 3662618071U;
         static const AkUniqueID PLAY_SFX_ARBUSTO = 360461692U;
         static const AkUniqueID PLAY_SFX_CAJA_MADERA = 3166420804U;
         static const AkUniqueID PLAY_SFX_CRUZAR_PORTAL = 1855160254U;
         static const AkUniqueID PLAY_SFX_ENCONTRAR_IGNIS = 2112017441U;
+        static const AkUniqueID PLAY_SFX_FLORES = 3357915403U;
         static const AkUniqueID PLAY_SFX_PASO_CHARCO = 623870794U;
         static const AkUniqueID PLAY_SFX_PASO_MADERA = 937325180U;
         static const AkUniqueID PLAY_SFX_PASO_PIEDRA = 58055313U;
@@ -62,6 +65,8 @@ namespace AK
         static const AkUniqueID CERCANIA_HYDROS = 377172175U;
         static const AkUniqueID CERCANIA_IGNIS = 928867836U;
         static const AkUniqueID CERCANIA_PORTAL = 3006859328U;
+        static const AkUniqueID VOLUMEN_EFECTOS = 1416053179U;
+        static const AkUniqueID VOLUMEN_MUSICA = 2975884740U;
     } // namespace GAME_PARAMETERS
 
     namespace BUSSES

@@ -256,6 +256,39 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_SFX_Flores" ID="{8EAFA937-3FF2-43A2-859C-3A720153F0D8}">
+					<ChildrenList>
+						<Action Name="" ID="{2C8E8C4D-7B08-4A54-9AA8-A3BCBE4B72D6}" ShortID="653642838">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Flores" ID="{F1AC3E89-616E-4F2F-872D-5DB20BE4E99F}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Abejas" ID="{74B3C9A8-BF0E-4C4E-802B-530E5B3669F1}">
+					<ChildrenList>
+						<Action Name="" ID="{DD106B02-DF88-486B-9447-9E6A0372424E}" ShortID="1494083854">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Abejas" ID="{32B947AB-1A5E-4F52-BC36-031269258ACC}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Amb_Pajaritos" ID="{6EB05133-0644-466B-A287-0F5562EF836E}">
+					<ChildrenList>
+						<Action Name="" ID="{9F5CC4EF-1D91-41B0-B4E8-864BA32542B1}" ShortID="939773820">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Amb_Pajaritos" ID="{EEE54770-177C-49F5-85ED-B401CD688A7F}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

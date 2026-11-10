@@ -5,7 +5,7 @@ namespace Pokimun.Audio
 {
     /// <summary>
     /// SFX de la escena Lobby. Se agrega un solo componente y configura todo por nombre de objeto:
-    /// emisores 3D en loop (lava, estanque, portales), pasos sobre piedra y la narración de Hydros.
+    /// emisores 3D en loop (lava, estanque, portales), pasos sobre piedra, roce con las flores, abejas en el jardín azul y (cuando se grabe) la bienvenida.
     /// </summary>
     public sealed class AudioLobby : MonoBehaviour
     {
@@ -28,14 +28,24 @@ namespace Pokimun.Audio
         [Header("Pasos")]
         public string pasoPorDefecto = "Play_SFX_Paso_Piedra";
 
-        [Header("Narración (voz en off de Hydros)")]
-        public string narracion = "Play_VO_Narracion_Hydros";
-        public float duracionNarracion = 12.2f;
+        [Header("Jardines")]
+        [Tooltip("Roce suave al pasar junto a las flores de las jardineras")]
+        public string eventoFlores = "Play_SFX_Flores";
+        public string[] nombresFlor = { "Flor" };
+        public float radioFlor = 1.1f;
+        public string eventoAbejas = "Play_SFX_Abejas";
+        [Tooltip("Zumbido de abejas (3D, loop) sobre el jardín azul")]
+        public Vector3[] posicionesAbejas = { new Vector3(-11.8f, 0.7f, -3f) };
+
+        [Header("Bienvenida del Lobby (pendiente de grabar)")]
+        [Tooltip("Evento de Wwise de la locución de bienvenida. Vacío = no suena nada.")]
+        public string bienvenida = "";
+        public float duracionBienvenida = 10f;
         [Tooltip("Segundos de espera al entrar, para no pisar la transición ni el fade-in de la música")]
-        public float retrasoNarracion = 3.5f;
+        public float retrasoBienvenida = 3.5f;
         [Tooltip("Solo la primera vez que se entra al Lobby en la sesión")]
-        public bool narrarUnaVez = true;
-        private static bool yaNarrado;
+        public bool bienvenidaUnaVez = true;
+        private static bool yaBienvenida;
 
         private void Start()
         {
@@ -50,13 +60,20 @@ namespace Pokimun.Audio
             if (jugador != null && jugador.GetComponent<PasosJugador>() == null)
                 jugador.gameObject.AddComponent<PasosJugador>().eventoPorDefecto = pasoPorDefecto;
 
-            if (!narrarUnaVez || !yaNarrado) Invoke(nameof(Narrar), retrasoNarracion);
+            var roce = gameObject.AddComponent<RoceVegetacion>();
+            roce.jugador = jugador != null ? jugador.transform : null;
+            roce.grupos = new[] { new RoceVegetacion.Grupo { nombre = "Flores", prefijos = nombresFlor, evento = eventoFlores, radio = radioFlor, intervaloMinimo = 0.6f } };
+            for (int i = 0; i < posicionesAbejas.Length; i++)
+                RoceVegetacion.EmisorEn("Abejas " + (i + 1), posicionesAbejas[i], eventoAbejas, transform);
+
+            if (!string.IsNullOrEmpty(bienvenida) && (!bienvenidaUnaVez || !yaBienvenida))
+                Invoke(nameof(DarBienvenida), retrasoBienvenida);
         }
 
-        private void Narrar()
+        private void DarBienvenida()
         {
-            yaNarrado = true;
-            AudioTP.Voz(narracion, AudioGlobal.Asegurar().gameObject, duracionNarracion, forzar: true);
+            yaBienvenida = true;
+            AudioTP.Voz(bienvenida, AudioGlobal.Asegurar().gameObject, duracionBienvenida, forzar: true);
         }
     }
 }

@@ -1,3 +1,4 @@
+using Pokimun.Audio;
 using System;
 using System.Collections;
 using TMPro;
@@ -9,14 +10,10 @@ using UnityEngine.UI;
 /// <summary>Presentación del combate. No decide ni aplica daño.</summary>
 public class FeedbackAtaqueUI : MonoBehaviour
 {
-    [Header("Sonidos de Resultados")]
-    public AudioClip audioVictoria;
-    public AudioClip audioDerrota;
-    public AudioClip audioEmpate;
-    public AudioClip musicaEscenario;
-    
-    private AudioSource audioSourceUI;
-    private AudioSource audioSourceEscenario;
+    private const string MusicaCombate = "Play_Musica_Combate";
+    private const string TensionCombate = "Tension_Combate";
+    private uint musicaEnCurso;
+    private uint resultadoEnCurso;
 
     private GameObject raiz, hud, sala, final;
     private RectTransform tarjeta;
@@ -36,58 +33,26 @@ public class FeedbackAtaqueUI : MonoBehaviour
     public Sprite botonSprite;
     public TMP_FontAsset fuentePersonalizada;
 
-    private void Awake()
-    {
-        audioSourceUI = gameObject.AddComponent<AudioSource>();
-        audioSourceUI.playOnAwake = false;
-        audioSourceUI.spatialBlend = 0f; // Sonido 2D
-
-        audioSourceEscenario = gameObject.AddComponent<AudioSource>();
-        audioSourceEscenario.playOnAwake = false;
-        audioSourceEscenario.spatialBlend = 0f; // Sonido 2D
-        audioSourceEscenario.loop = true;
-    }
-
     private void Start()
     {
-        if (musicaEscenario != null)
-        {
-            audioSourceEscenario.clip = musicaEscenario;
-            audioSourceEscenario.Play();
-        }
+        AudioGlobal.Asegurar();
+        IniciarMusicaBatalla();
     }
 
-    private void Update()
+    public void IniciarMusicaBatalla()
     {
-        if (audioSourceEscenario != null)
-        {
-            // Multiplicamos por 0.3f para que la música del combate suene más baja (como si estuviera en 10 por defecto)
-            // Esto balancea el volumen con el menú principal y permite que los efectos destaquen mucho más.
-            audioSourceEscenario.volume = PlayerPrefs.GetFloat("VolumenMusica", 0.35f) * 0.3f;
-        }
-        if (audioSourceUI != null)
-        {
-            // Los efectos se mantienen a escala completa
-            audioSourceUI.volume = PlayerPrefs.GetFloat("VolumenEfectos", 0.85f);
-        }
+        DetenerAudio(ref resultadoEnCurso);
+        if (musicaEnCurso == 0)
+            musicaEnCurso = AudioTP.Post(MusicaCombate, gameObject);
+        if (musicaEnCurso != 0)
+            AkUnitySoundEngine.SetRTPCValue(TensionCombate, 0f, gameObject);
     }
 
     public void ActualizarMusicaBatalla(int vidaJugador, int vidaMaxJugador, int vidaEnemigo, int vidaMaxEnemigo)
     {
-        if (audioSourceEscenario == null || !audioSourceEscenario.isPlaying) return;
-
-        float pctJugador = (float)vidaJugador / vidaMaxJugador;
-        float pctEnemigo = (float)vidaEnemigo / vidaMaxEnemigo;
-
-        // Acelerar la música un 7% si alguno de los dos tiene 30% o menos de vida
-        if (pctJugador <= 0.3f || pctEnemigo <= 0.3f)
-        {
-            audioSourceEscenario.pitch = 1.07f;
-        }
-        else
-        {
-            audioSourceEscenario.pitch = 1.0f;
-        }
+        if (musicaEnCurso == 0) return;
+        bool pocaVida = (float)vidaJugador / vidaMaxJugador <= .3f || (float)vidaEnemigo / vidaMaxEnemigo <= .3f;
+        AkUnitySoundEngine.SetRTPCValue(TensionCombate, pocaVida ? 100f : 0f, gameObject);
     }
 
     public void ActualizarEstado(int ronda, int maxRondas, string personaje, string mensaje, string plan)
@@ -227,21 +192,9 @@ public class FeedbackAtaqueUI : MonoBehaviour
         OcultarSala();
         if (final != null) Destroy(final);
 
-        if (audioSourceEscenario != null)
-        {
-            audioSourceEscenario.Stop();
-        }
-
-        if (audioSourceUI != null)
-        {
-            AudioClip clip = empate ? audioEmpate : (victoria ? audioVictoria : audioDerrota);
-            if (clip == null && empate) clip = audioDerrota; // Fallback
-            if (clip != null)
-            {
-                audioSourceUI.clip = clip;
-                audioSourceUI.Play();
-            }
-        }
+        DetenerAudio(ref musicaEnCurso);
+        DetenerAudio(ref resultadoEnCurso);
+        resultadoEnCurso = AudioTP.Post(victoria && !empate ? "Play_SFX_Victoria" : "Play_SFX_Derrota", gameObject);
         final = Modal("Resultado de la partida", new Vector2(660, 480), out Transform panel);
         Texto(panel, titulo, new Vector2(0, 160), new Vector2(590, 75), 44).color = Oro;
         Texto(panel, detalle, new Vector2(0, 50), new Vector2(570, 125), 26);
@@ -451,5 +404,17 @@ public class FeedbackAtaqueUI : MonoBehaviour
         rutina = null;
     }
 
-    private void OnDestroy() { if (raiz != null) Destroy(raiz); }
+    private void OnDestroy()
+    {
+        DetenerAudio(ref musicaEnCurso);
+        DetenerAudio(ref resultadoEnCurso);
+        if (raiz != null) Destroy(raiz);
+    }
+
+    private static void DetenerAudio(ref uint reproduccion)
+    {
+        if (reproduccion != 0 && AkUnitySoundEngine.IsInitialized())
+            AkUnitySoundEngine.StopPlayingID(reproduccion);
+        reproduccion = 0;
+    }
 }

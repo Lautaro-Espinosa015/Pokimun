@@ -1,0 +1,6 @@
+Event	ID	Name			Wwise Object Path	Notes
+	2724899152	Play_Musica_Combate			\SFX_TP\Play_Musica_Combate	
+
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	3164412753	Tension_Combate			\Default Work Unit\Tension_Combate	
+

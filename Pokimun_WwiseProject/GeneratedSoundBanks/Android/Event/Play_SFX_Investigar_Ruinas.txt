@@ -1,0 +1,3 @@
+Event	ID	Name			Wwise Object Path	Notes
+	2981783141	Play_SFX_Investigar_Ruinas			\SFX_TP\Play_SFX_Investigar_Ruinas	
+

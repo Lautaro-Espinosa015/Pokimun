@@ -1,0 +1,48 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Android",
+  "BasePlatform": "Android",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "912481021",
+    "Type": "Event",
+    "GUID": "{835016E1-FD99-4A56-A76A-9D8B1AFF1069}",
+    "Language": "SFX",
+    "Hash": "{759CC0C8-5871-D07A-A54D-94D3785AAD53}",
+    "ObjectPath": "Play_SFX_Victoria",
+    "ShortName": "Play_SFX_Victoria",
+    "Path": "Event/Play_SFX_Victoria.bnk",
+    "Media": [
+     {
+      "Id": "1846112106",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MenuCombate\\victoria.wav",
+      "Path": "Media/1846112106.wem",
+      "CachePath": "64/{642674AD-314A-9FE0-6664-50FAC0565550}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "912481021",
+      "Name": "Play_SFX_Victoria",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Victoria",
+      "GUID": "{835016E1-FD99-4A56-A76A-9D8B1AFF1069}",
+      "DurationType": "OneShot",
+      "DurationMin": "4.667211",
+      "DurationMax": "4.667211",
+      "MediaRefs": [
+       {
+        "Id": "1846112106"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{2D6D7215-88B4-8DDA-2713-4A147921BC01}"
+ }
+}

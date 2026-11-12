@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "3571711126",
+    "Type": "Event",
+    "GUID": "{B62CF3DB-E9BB-4E10-9E51-BF9BE510D3C2}",
+    "Language": "SFX",
+    "Hash": "{4FF23C14-DEA1-9413-F4AB-8D438B90B119}",
+    "ObjectPath": "Play_SFX_Ignis_Critico",
+    "ShortName": "Play_SFX_Ignis_Critico",
+    "Path": "Event/Play_SFX_Ignis_Critico.bnk",
+    "Media": [
+     {
+      "Id": "1846112105",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MenuCombate\\CriticoFuego.wav",
+      "Path": "Media/1846112105.wem",
+      "CachePath": "B9/{B96277B4-3123-7767-40E0-794F755A0603}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "3571711126",
+      "Name": "Play_SFX_Ignis_Critico",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Ignis_Critico",
+      "GUID": "{B62CF3DB-E9BB-4E10-9E51-BF9BE510D3C2}",
+      "MaxAttenuation": "30",
+      "DurationType": "OneShot",
+      "DurationMin": "2.8995693",
+      "DurationMax": "2.8995693",
+      "MediaRefs": [
+       {
+        "Id": "1846112105"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{2F46858B-C64D-EC3E-C06F-DE362CC25327}"
+ }
+}

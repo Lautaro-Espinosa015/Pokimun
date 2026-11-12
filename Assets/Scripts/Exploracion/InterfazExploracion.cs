@@ -137,9 +137,11 @@ namespace Pokimun.Exploracion
             Transform panel = Modal("PAUSA", 640);
             PanelVolumenPausa.Crear(panel, new Vector2(0, 120), true);
             CrearBoton(panel, "Reanudar", new Vector2(.5f, .5f), new Vector2(0, -20), new Vector2(390, 55), () => gestor.EstablecerPausa(false));
-            CrearBoton(panel, "Volver al lobby", new Vector2(.5f, .5f), new Vector2(0, -85), new Vector2(390, 55), () => gestor.Cargar("Lobby"));
-            CrearBoton(panel, "Menú principal", new Vector2(.5f, .5f), new Vector2(0, -150), new Vector2(390, 55), () => gestor.Cargar("Menus"));
-            CrearBoton(panel, "Salir del juego", new Vector2(.5f, .5f), new Vector2(0, -215), new Vector2(390, 55), Salir);
+            if (gestor.busqueda)
+                CrearBoton(panel, "Volver al lobby", new Vector2(.5f, .5f), new Vector2(0, -85), new Vector2(390, 55), () => gestor.Cargar("Lobby"));
+            float yMenu = gestor.busqueda ? -150 : -85;
+            CrearBoton(panel, "Menú principal", new Vector2(.5f, .5f), new Vector2(0, yMenu), new Vector2(390, 55), () => gestor.Cargar("Menus"));
+            CrearBoton(panel, "Salir del juego", new Vector2(.5f, .5f), new Vector2(0, yMenu - 65), new Vector2(390, 55), Salir);
         }
         public void MostrarResultado()
         {

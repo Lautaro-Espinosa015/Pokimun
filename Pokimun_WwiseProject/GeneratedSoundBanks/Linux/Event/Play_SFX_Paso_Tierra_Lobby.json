@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Linux",
+  "BasePlatform": "Linux",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "1957232046",
+    "Type": "Event",
+    "GUID": "{79972582-BD93-4D31-9603-810A6AD5ED29}",
+    "Language": "SFX",
+    "Hash": "{59677477-CC49-0BD5-9721-1A6FC755A5D8}",
+    "ObjectPath": "Play_SFX_Paso_Tierra_Lobby",
+    "ShortName": "Play_SFX_Paso_Tierra_Lobby",
+    "Path": "Event/Play_SFX_Paso_Tierra_Lobby.bnk",
+    "Media": [
+     {
+      "Id": "1846112113",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\Paso_Lobby_Tierra.wav",
+      "Path": "Media/1846112113.wem",
+      "CachePath": "3B/{3B9F16A4-E106-CA99-6431-2F72029BF869}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "1957232046",
+      "Name": "Play_SFX_Paso_Tierra_Lobby",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Paso_Tierra_Lobby",
+      "GUID": "{79972582-BD93-4D31-9603-810A6AD5ED29}",
+      "MaxAttenuation": "15",
+      "DurationType": "OneShot",
+      "DurationMin": "0.36",
+      "DurationMax": "0.36",
+      "MediaRefs": [
+       {
+        "Id": "1846112113"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{C22A1C6F-99F4-1D4E-677A-3162EFC3E8C2}"
+ }
+}

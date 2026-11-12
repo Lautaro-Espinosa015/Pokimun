@@ -1,0 +1,48 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Android",
+  "BasePlatform": "Android",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "3684542512",
+    "Type": "Event",
+    "GUID": "{46F0EC4C-AFA0-4D47-A567-AEAA91D2D4CD}",
+    "Language": "SFX",
+    "Hash": "{02373B94-3E06-E350-3FF8-8E2C019499D6}",
+    "ObjectPath": "Play_SFX_Menu_Hover",
+    "ShortName": "Play_SFX_Menu_Hover",
+    "Path": "Event/Play_SFX_Menu_Hover.bnk",
+    "Media": [
+     {
+      "Id": "1846112108",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MenuCombate\\SFX_Menu_Hover.wav",
+      "Path": "Media/1846112108.wem",
+      "CachePath": "75/{758065DC-3B83-5FEA-C833-86026BE668AA}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "3684542512",
+      "Name": "Play_SFX_Menu_Hover",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Menu_Hover",
+      "GUID": "{46F0EC4C-AFA0-4D47-A567-AEAA91D2D4CD}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.084",
+      "DurationMax": "0.084",
+      "MediaRefs": [
+       {
+        "Id": "1846112108"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{0FF20DEC-0358-B276-4D98-7DB2D79AE276}"
+ }
+}

@@ -139,6 +139,21 @@
 							</ObjectLists>
 						</Bus>
 						<Bus Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}">
+							<ChildrenList>
+								<Bus Name="UI_Hover" ID="{B3AA35DD-8B22-444B-854E-3A212F90BAB0}">
+									<DuckingList>
+										<DuckItem>
+											<BusRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}"/>
+											<DuckingParam>
+												<Volume>-2</Volume>
+												<FadeInTime>0.15</FadeInTime>
+												<FadeOutTime>0.025</FadeOutTime>
+												<FadeCurve>FadeLinear</FadeCurve>
+											</DuckingParam>
+										</DuckItem>
+									</DuckingList>
+								</Bus>
+							</ChildrenList>
 							<ObjectLists>
 								<ObjectList Name="RTPC">
 									<RTPC Name="" ID="{DF43B9CE-E9B3-4DB6-A97F-B7357D472282}" ShortID="433938499">

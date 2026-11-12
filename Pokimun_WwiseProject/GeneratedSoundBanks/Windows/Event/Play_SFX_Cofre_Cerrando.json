@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "353404058",
+    "Type": "Event",
+    "GUID": "{9F248FA2-2559-4328-AE4C-A3976B0B9856}",
+    "Language": "SFX",
+    "Hash": "{B022E814-F200-A529-A347-1AF81D9D5C48}",
+    "ObjectPath": "Play_SFX_Cofre_Cerrando",
+    "ShortName": "Play_SFX_Cofre_Cerrando",
+    "Path": "Event/Play_SFX_Cofre_Cerrando.bnk",
+    "Media": [
+     {
+      "Id": "1846112114",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\Cofre_Cerrando.wav",
+      "Path": "Media/1846112114.wem",
+      "CachePath": "24/{240E550C-77C6-35BF-3310-16B9828AC56B}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "353404058",
+      "Name": "Play_SFX_Cofre_Cerrando",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Cofre_Cerrando",
+      "GUID": "{9F248FA2-2559-4328-AE4C-A3976B0B9856}",
+      "MaxAttenuation": "30",
+      "DurationType": "OneShot",
+      "DurationMin": "1.11",
+      "DurationMax": "1.11",
+      "MediaRefs": [
+       {
+        "Id": "1846112114"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{401D92B1-800A-7CEF-20A0-1E4D3D15A782}"
+ }
+}

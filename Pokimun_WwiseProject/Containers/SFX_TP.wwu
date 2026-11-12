@@ -252,6 +252,40 @@
 								<ActiveSource Name="Paso_Bosque_Tierra" ID="{4F0C81C6-B8D4-4EF2-A3E2-297C6616585A}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="SFX_Paso_Tierra_Lobby" ID="{3A07E357-1CF2-4225-B76A-96C6743CD441}" ShortID="1846112013">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-4</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Pasos" ID="{BBE84A5C-81B7-44E1-B8E1-33BDA769DFB6}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Paso_Lobby_Tierra" ID="{6F34A86C-8D23-48B5-958C-C3027FD813E2}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\Paso_Lobby_Tierra.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1846112113"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Paso_Lobby_Tierra" ID="{6F34A86C-8D23-48B5-958C-C3027FD813E2}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 						<Sound Name="SFX_Paso_Madera" ID="{40FA397D-72EE-4026-92C0-E7C08F06C5D9}" ShortID="677313473">
 							<PropertyList>
 								<Property Name="3DSpatialization" Type="int16" Value="1"/>
@@ -348,6 +382,35 @@
 								<ActiveSource Name="SFX_10_Abrir_Caja_Madera" ID="{BC77371F-A895-4341-9BAE-A588493B8FF8}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="SFX_Cofre_Cerrando" ID="{B78CE89A-6D86-45B3-9F28-869F8726E9E4}" ShortID="1846112014">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Interaccion" ID="{9A3C34CD-A94A-46E7-9F62-BC42CFB7976C}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Cofre_Cerrando" ID="{A6608507-A36F-4227-B72A-1ECA45DFEEDB}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\Cofre_Cerrando.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1846112114"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Cofre_Cerrando" ID="{A6608507-A36F-4227-B72A-1ECA45DFEEDB}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 						<Sound Name="SFX_Puerta_Cobertizo" ID="{2ACB6DA3-9BD2-4401-98FC-6281BD7E321B}" ShortID="624791075">
 							<PropertyList>
 								<Property Name="3DSpatialization" Type="int16" Value="1"/>
@@ -379,6 +442,11 @@
 						</Sound>
 						<Sound Name="SFX_Arbusto" ID="{474F4FCF-1A4B-4842-8A16-FB4759FB7993}" ShortID="598208069">
 							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-10</Value>
+									</ValueList>
+								</Property>
 								<Property Name="3DSpatialization" Type="int16" Value="1"/>
 								<Property Name="OverridePositioning" Type="bool" Value="True"/>
 							</PropertyList>
@@ -408,6 +476,11 @@
 						</Sound>
 						<Sound Name="SFX_Flores" ID="{F1AC3E89-616E-4F2F-872D-5DB20BE4E99F}" ShortID="224829375">
 							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-13</Value>
+									</ValueList>
+								</Property>
 								<Property Name="3DSpatialization" Type="int16" Value="1"/>
 								<Property Name="OverridePositioning" Type="bool" Value="True"/>
 							</PropertyList>
@@ -556,6 +629,31 @@
 							</ChildrenList>
 							<ActiveSourceList>
 								<ActiveSource Name="SFX_13_Voz_Hydros" ID="{4E6B8D30-DAED-4EB2-82AE-161E493E8529}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="VO_Bienvenida_Lobby" ID="{0D8A3FB3-8A45-44EA-A8A6-8647E35CC6A7}" ShortID="1846112012">
+							<PropertyList>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Voces" ID="{8A389AC0-8F01-41B2-87A7-3EF71BF226D2}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="VO_Bienvenida_Lobby" ID="{41ED6BA9-E55B-4358-A4A3-65E6C0DAEA26}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\VO_Bienvenida_Lobby.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1846112112"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="VO_Bienvenida_Lobby" ID="{41ED6BA9-E55B-4358-A4A3-65E6C0DAEA26}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
@@ -853,6 +951,381 @@
 							</ChildrenList>
 							<ActiveSourceList>
 								<ActiveSource Name="VO_Te_Encontre" ID="{CA1C93C8-1822-4FCA-9ECD-E2E235AE405D}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="MenuCombate" ID="{FFD66952-65E8-4FDF-9951-32D6D158B73A}" ShortID="1846112900">
+					<ChildrenList>
+						<Sound Name="Musica_Menu" ID="{B2F6ACC6-BE2F-463E-A5CD-710FFAFC8520}" ShortID="1846112000">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>3.5</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Vorbis Auto Detect High" ID="{6F6A99BE-4FD1-49D3-89AF-54BE30CA1588}" WorkUnitID="{F6B2880C-85E5-47FA-A126-645B5DFD9ACC}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Menu_Music" ID="{E71A5493-79E7-479E-8039-0E817569E9C3}">
+									<Language>SFX</Language>
+									<AudioFile>MenuCombate\Menu_Music.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1846112100"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Menu_Music" ID="{E71A5493-79E7-479E-8039-0E817569E9C3}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Musica_Combate" ID="{6E5F0F33-CD84-4A5E-B939-CB481F4AEC25}" ShortID="1846112001">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-10.5</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Vorbis Auto Detect High" ID="{6F6A99BE-4FD1-49D3-89AF-54BE30CA1588}" WorkUnitID="{F6B2880C-85E5-47FA-A126-645B5DFD9ACC}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Escenario" ID="{F7C1E7C8-312F-4881-9639-67CC2BE04970}">
+									<Language>SFX</Language>
+									<AudioFile>MenuCombate\Escenario.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1846112101"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<RTPC Name="" ID="{55DE18AB-4E81-4E81-905A-C5BD1EC67452}" ShortID="1846112901">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="Pitch"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="Tension_Combate" ID="{F26F39A0-795A-4116-9EA1-6F5D5F6A552B}" WorkUnitID="{9F40EC5E-E328-4252-91AF-9D5A6D8C318F}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{FAE20EA3-A0E7-4C7A-A1B8-DFED8CD355B5}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="3"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>0</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>117</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="Escenario" ID="{F7C1E7C8-312F-4881-9639-67CC2BE04970}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Hydros_Basico" ID="{A390C72D-CCBA-45A5-BBEF-086BB7FF2295}" ShortID="1846112002">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Interaccion" ID="{9A3C34CD-A94A-46E7-9F62-BC42CFB7976C}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="BasicoAgua" ID="{E447A577-2579-4E71-9158-A8A527B59854}">
+									<Language>SFX</Language>
+									<AudioFile>MenuCombate\BasicoAgua.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1846112102"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="BasicoAgua" ID="{E447A577-2579-4E71-9158-A8A527B59854}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Hydros_Critico" ID="{0244B1F2-0E4B-48B7-9F95-02EC41335B33}" ShortID="1846112003">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Interaccion" ID="{9A3C34CD-A94A-46E7-9F62-BC42CFB7976C}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="CriticoAgua" ID="{D0D0520E-87D3-4A4D-B9AA-85CEDA725425}">
+									<Language>SFX</Language>
+									<AudioFile>MenuCombate\CriticoAgua.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1846112103"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="CriticoAgua" ID="{D0D0520E-87D3-4A4D-B9AA-85CEDA725425}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Ignis_Basico" ID="{E53D3676-1B87-44BE-8A47-5B5646CAB8BD}" ShortID="1846112004">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Interaccion" ID="{9A3C34CD-A94A-46E7-9F62-BC42CFB7976C}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="BasicoFuego" ID="{F5AF1CD3-0D40-4472-B964-FEF8A56FF2E0}">
+									<Language>SFX</Language>
+									<AudioFile>MenuCombate\BasicoFuego.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1846112104"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="BasicoFuego" ID="{F5AF1CD3-0D40-4472-B964-FEF8A56FF2E0}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Ignis_Critico" ID="{B51BCFC9-991C-4168-B970-F3F6BDD1CCE4}" ShortID="1846112005">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Interaccion" ID="{9A3C34CD-A94A-46E7-9F62-BC42CFB7976C}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="CriticoFuego" ID="{8245A070-4053-4991-A70F-51701BB9C504}">
+									<Language>SFX</Language>
+									<AudioFile>MenuCombate\CriticoFuego.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1846112105"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="CriticoFuego" ID="{8245A070-4053-4991-A70F-51701BB9C504}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Victoria" ID="{868CD22D-35F7-4149-B6FA-EF800A5C4C91}" ShortID="1846112006">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="victoria" ID="{27A1D729-E5D7-4A0C-896A-ADBFDCC19EA5}">
+									<Language>SFX</Language>
+									<AudioFile>MenuCombate\victoria.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1846112106"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="victoria" ID="{27A1D729-E5D7-4A0C-896A-ADBFDCC19EA5}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Derrota" ID="{CD7A4309-4E14-4766-B67E-A1B06E69CDB9}" ShortID="1846112007">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="derrota" ID="{E1FAD9C5-CC4D-40D3-A4FE-EE0E4479C6EC}">
+									<Language>SFX</Language>
+									<AudioFile>MenuCombate\derrota.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1846112107"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="derrota" ID="{E1FAD9C5-CC4D-40D3-A4FE-EE0E4479C6EC}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Menu_Hover" ID="{97E454F3-19B9-4262-A71D-499B3001507A}" ShortID="1846112008">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="UI_Hover" ID="{B3AA35DD-8B22-444B-854E-3A212F90BAB0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_Menu_Hover" ID="{157A597A-2ED0-49AD-B0B6-EE19786E910B}">
+									<Language>SFX</Language>
+									<AudioFile>MenuCombate\SFX_Menu_Hover.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1846112108"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_Menu_Hover" ID="{157A597A-2ED0-49AD-B0B6-EE19786E910B}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Menu_Click" ID="{F13DDF3D-3AE0-41A5-A447-4E6874E2ADD4}" ShortID="1846112009">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_Menu_Click" ID="{FA8BECE5-C401-4AB9-ABF3-4DA662C6DABB}">
+									<Language>SFX</Language>
+									<AudioFile>MenuCombate\SFX_Menu_Click.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1846112109"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_Menu_Click" ID="{FA8BECE5-C401-4AB9-ABF3-4DA662C6DABB}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Investigar" ID="{B6819127-E786-4490-8FF3-E24635B43F22}" ShortID="1846112910">
+					<ChildrenList>
+						<Sound Name="SFX_Investigar_Tronco" ID="{4B5892AA-0006-4966-803C-1836EC0ACAAA}" ShortID="1846112010">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>4</Value>
+									</ValueList>
+								</Property>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Interaccion" ID="{9A3C34CD-A94A-46E7-9F62-BC42CFB7976C}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_Investigar_Tronco" ID="{56A568E1-C2F4-49E1-8A24-49EA5F0DBCAA}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\SFX_Investigar_Tronco.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1846112110"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_Investigar_Tronco" ID="{56A568E1-C2F4-49E1-8A24-49EA5F0DBCAA}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Investigar_Ruinas" ID="{7FB7C57A-7D53-4A8F-AC4A-9E43A63431CD}" ShortID="1846112011">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>4</Value>
+									</ValueList>
+								</Property>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Att_Interaccion" ID="{9A3C34CD-A94A-46E7-9F62-BC42CFB7976C}" WorkUnitID="{003062FD-3D98-405A-A87B-DDB746589A77}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_Investigar_Ruinas" ID="{6DE6C034-AFAD-47B6-958F-223034A6BD86}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\SFX_Investigar_Ruinas.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1846112111"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_Investigar_Ruinas" ID="{6DE6C034-AFAD-47B6-958F-223034A6BD86}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>

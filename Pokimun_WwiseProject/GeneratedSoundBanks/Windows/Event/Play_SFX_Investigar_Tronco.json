@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "4068898756",
+    "Type": "Event",
+    "GUID": "{94DF503D-E3BC-44CF-9B55-5DE0DD2F4CD7}",
+    "Language": "SFX",
+    "Hash": "{E835D8D0-569C-2AC3-EFA4-9782DD5E9422}",
+    "ObjectPath": "Play_SFX_Investigar_Tronco",
+    "ShortName": "Play_SFX_Investigar_Tronco",
+    "Path": "Event/Play_SFX_Investigar_Tronco.bnk",
+    "Media": [
+     {
+      "Id": "1846112110",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\SFX_Investigar_Tronco.wav",
+      "Path": "Media/1846112110.wem",
+      "CachePath": "FF/{FF9D7D6B-9419-C57D-8436-B14DDC80B68A}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "4068898756",
+      "Name": "Play_SFX_Investigar_Tronco",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Investigar_Tronco",
+      "GUID": "{94DF503D-E3BC-44CF-9B55-5DE0DD2F4CD7}",
+      "MaxAttenuation": "30",
+      "DurationType": "OneShot",
+      "DurationMin": "0.16375",
+      "DurationMax": "0.16375",
+      "MediaRefs": [
+       {
+        "Id": "1846112110"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{40D1B2B7-5F52-6D6A-748D-E97181510EAA}"
+ }
+}

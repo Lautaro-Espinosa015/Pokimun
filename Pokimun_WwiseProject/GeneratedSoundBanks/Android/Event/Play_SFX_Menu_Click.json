@@ -1,0 +1,48 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Android",
+  "BasePlatform": "Android",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "3815411322",
+    "Type": "Event",
+    "GUID": "{B3D518F3-CA20-4D23-87A3-F8ACF860D9F8}",
+    "Language": "SFX",
+    "Hash": "{347E06EE-1D2B-FD93-719B-3B54DD94C6BA}",
+    "ObjectPath": "Play_SFX_Menu_Click",
+    "ShortName": "Play_SFX_Menu_Click",
+    "Path": "Event/Play_SFX_Menu_Click.bnk",
+    "Media": [
+     {
+      "Id": "1846112109",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MenuCombate\\SFX_Menu_Click.wav",
+      "Path": "Media/1846112109.wem",
+      "CachePath": "92/{92E5EAE4-8E24-D809-C3D2-A6F1EBF5FCBA}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "3815411322",
+      "Name": "Play_SFX_Menu_Click",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Menu_Click",
+      "GUID": "{B3D518F3-CA20-4D23-87A3-F8ACF860D9F8}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.168",
+      "DurationMax": "0.168",
+      "MediaRefs": [
+       {
+        "Id": "1846112109"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{1DEA9C85-AA8C-E6E4-9FD3-C34E152A1E48}"
+ }
+}

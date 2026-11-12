@@ -1,0 +1,3 @@
+Event	ID	Name			Wwise Object Path	Notes
+	2880806792	Play_VO_Bienvenida_Lobby			\SFX_TP\Play_VO_Bienvenida_Lobby	
+

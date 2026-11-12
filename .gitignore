@@ -35,3 +35,6 @@ Thumbs.db
 
 # Informes, notas y diagnósticos locales del asistente.
 /.local-codex/
+
+# Sesiones y grabaciones de trabajo de REAPER.
+/ReaperLocal/

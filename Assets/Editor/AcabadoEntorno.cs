@@ -415,8 +415,8 @@ public static class AcabadoEntorno
         if (raiz == null) raiz = new GameObject("Iluminación del santuario");
         Luz("Agua", new Vector3(-7.3f, .8f, 3.3f), new Color(.28f, .7f, 1), 8, 18, raiz.transform, true);
         Luz("Lava", new Vector3(7.3f, .8f, 3.3f), new Color(1, .37f, .11f), 7, 18, raiz.transform, false);
-        Luz("Portal combate", new Vector3(6, 2.1f, 12.9f), new Color(1, .42f, .12f), 6, 16, raiz.transform, false);
-        Luz("Portal búsqueda", new Vector3(-6, 2.1f, 12.9f), new Color(.2f, .68f, 1), 6, 16, raiz.transform, false);
+        Luz("Portal combate", new Vector3(6, 2.1f, 12.9f), new Color(1, .42f, .12f), 2.5f, 7, raiz.transform, false);
+        Luz("Portal búsqueda", new Vector3(-6, 2.1f, 12.9f), new Color(.2f, .68f, 1), 2.5f, 7, raiz.transform, false);
         foreach (string personaje in new[] { "Hydros", "Ignis" })
         {
             bool esAgua = personaje == "Hydros";
@@ -451,10 +451,24 @@ public static class AcabadoEntorno
                 string ruta = Carpeta + "/Emisión " + r.name + ".mat";
                 var emisor = AssetDatabase.LoadAssetAtPath<Material>(ruta);
                 if (emisor == null) { emisor = new Material(original); AssetDatabase.CreateAsset(emisor, ruta); }
-                emisor.EnableKeyword("_EMISSION");
-                Color c = r.name.Contains("lava") || r.name.Contains("combate") ? new Color(1, .25f, .04f) : new Color(.06f, .6f, 1);
-                emisor.SetColor("_EmissionColor", c * .9f);
-                if (emisor.mainTexture != null) emisor.SetTexture("_EmissionMap", emisor.mainTexture);
+                if (r.name.StartsWith("Portal "))
+                {
+                    bool combate = r.name == "Portal combate";
+                    emisor.shader = Shader.Find("Pokimun/Portal Santuario");
+                    emisor.DisableKeyword("_EMISSION");
+                    emisor.DisableKeyword("_SPECULARHIGHLIGHTS_OFF");
+                    emisor.globalIlluminationFlags = MaterialGlobalIlluminationFlags.None;
+                    emisor.SetColor("_BaseColor", combate
+                        ? new Color(.85f, .31f, .065f) : new Color(.065f, .54f, .83f));
+                    emisor.SetFloat("_Agua", combate ? 0f : 1f);
+                }
+                else
+                {
+                    emisor.EnableKeyword("_EMISSION");
+                    Color c = r.name.Contains("lava") ? new Color(1, .25f, .04f) : new Color(.06f, .6f, 1);
+                    emisor.SetColor("_EmissionColor", c * .9f);
+                    if (emisor.mainTexture != null) emisor.SetTexture("_EmissionMap", emisor.mainTexture);
+                }
                 r.sharedMaterial = emisor; EditorUtility.SetDirty(emisor);
             }
         }

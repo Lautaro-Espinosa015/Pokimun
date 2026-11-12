@@ -5,14 +5,15 @@ namespace Pokimun.Audio
 {
     /// <summary>
     /// Zona que cambia el sonido de los pasos (madera, charco...).
-    /// Usa los límites de un Collider o, si no hay, un radio alrededor del objeto.
+    /// Usa los límites de un Collider, la huella de un Renderer o un radio alrededor del objeto.
     /// Opcionalmente dibuja un charco simple para que la zona se vea.
     /// </summary>
     public sealed class ZonaSuperficie : MonoBehaviour
     {
         public string eventoPaso = "Play_SFX_Paso_Madera";
         [Tooltip("Si se asigna, la zona es el volumen de este collider")] public Collider limite;
-        [Tooltip("Si no hay collider: radio horizontal en metros")] public float radio = 1.5f;
+        [Tooltip("Huella horizontal para superficies visuales sin collider")] public Renderer superficie;
+        [Tooltip("Radio horizontal si no hay collider ni superficie")] public float radio = 1.5f;
         [Tooltip("Mayor prioridad gana cuando hay zonas superpuestas")] public int prioridad = 0;
         public bool dibujarCharco;
 
@@ -45,6 +46,12 @@ namespace Pokimun.Audio
         public bool Contiene(Vector3 p)
         {
             if (limite != null) return limite.bounds.Contains(p + Vector3.up * 0.5f);
+            if (superficie != null)
+            {
+                Bounds huella = superficie.bounds;
+                return p.x >= huella.min.x && p.x <= huella.max.x &&
+                    p.z >= huella.min.z && p.z <= huella.max.z;
+            }
             Vector3 d = p - transform.position; d.y = 0;
             return d.sqrMagnitude <= radio * radio;
         }
@@ -62,6 +69,7 @@ namespace Pokimun.Audio
         {
             Gizmos.color = new Color(0.3f, 0.8f, 1f, 0.6f);
             if (limite != null) Gizmos.DrawWireCube(limite.bounds.center, limite.bounds.size);
+            else if (superficie != null) Gizmos.DrawWireCube(superficie.bounds.center, superficie.bounds.size);
             else Gizmos.DrawWireSphere(transform.position, radio);
         }
 #endif

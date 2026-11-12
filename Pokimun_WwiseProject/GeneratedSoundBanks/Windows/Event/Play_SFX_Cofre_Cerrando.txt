@@ -1,0 +1,3 @@
+Event	ID	Name			Wwise Object Path	Notes
+	353404058	Play_SFX_Cofre_Cerrando			\SFX_TP\Play_SFX_Cofre_Cerrando	
+

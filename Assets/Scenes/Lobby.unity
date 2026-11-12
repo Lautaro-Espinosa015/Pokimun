@@ -3851,10 +3851,10 @@ MonoBehaviour:
   - objeto: Portal busqueda
     evento: Play_SFX_Amb_Portal
   pasoPorDefecto: Play_SFX_Paso_Piedra
-  narracion: Play_VO_Narracion_Hydros
-  duracionNarracion: 12.2
-  retrasoNarracion: 3.5
-  narrarUnaVez: 1
+  bienvenida: Play_VO_Bienvenida_Lobby
+  duracionBienvenida: 6.02
+  retrasoBienvenida: 3.5
+  bienvenidaUnaVez: 1
 --- !u!4 &271721178
 Transform:
   m_ObjectHideFlags: 0

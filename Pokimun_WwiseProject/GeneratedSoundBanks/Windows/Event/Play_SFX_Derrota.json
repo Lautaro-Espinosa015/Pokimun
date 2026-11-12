@@ -1,0 +1,48 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "3670198271",
+    "Type": "Event",
+    "GUID": "{00C7C59F-093B-4AC1-B652-57AB95DF3A25}",
+    "Language": "SFX",
+    "Hash": "{E507FC3B-F956-4005-EAD3-3E5129DB845A}",
+    "ObjectPath": "Play_SFX_Derrota",
+    "ShortName": "Play_SFX_Derrota",
+    "Path": "Event/Play_SFX_Derrota.bnk",
+    "Media": [
+     {
+      "Id": "1846112107",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MenuCombate\\derrota.wav",
+      "Path": "Media/1846112107.wem",
+      "CachePath": "98/{98917FA5-DA22-311B-F854-9C214009215C}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "3670198271",
+      "Name": "Play_SFX_Derrota",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Derrota",
+      "GUID": "{00C7C59F-093B-4AC1-B652-57AB95DF3A25}",
+      "DurationType": "OneShot",
+      "DurationMin": "5.8746486",
+      "DurationMax": "5.8746486",
+      "MediaRefs": [
+       {
+        "Id": "1846112107"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{90B82E58-5159-36E5-41A0-7DD9F0CFB4B3}"
+ }
+}

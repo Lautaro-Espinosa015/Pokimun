@@ -14,6 +14,8 @@ namespace AK
     namespace EVENTS
     {
         static const AkUniqueID PLAY_BUSQUEDA_MUSICA = 648912767U;
+        static const AkUniqueID PLAY_MUSICA_COMBATE = 2724899152U;
+        static const AkUniqueID PLAY_MUSICA_MENU = 4098647122U;
         static const AkUniqueID PLAY_SANTUARIO = 31360628U;
         static const AkUniqueID PLAY_SFX_ABEJAS = 1852705226U;
         static const AkUniqueID PLAY_SFX_AMB_ESTANQUE = 812184897U;
@@ -22,15 +24,28 @@ namespace AK
         static const AkUniqueID PLAY_SFX_AMB_PORTAL = 3662618071U;
         static const AkUniqueID PLAY_SFX_ARBUSTO = 360461692U;
         static const AkUniqueID PLAY_SFX_CAJA_MADERA = 3166420804U;
+        static const AkUniqueID PLAY_SFX_COFRE_CERRANDO = 353404058U;
         static const AkUniqueID PLAY_SFX_CRUZAR_PORTAL = 1855160254U;
+        static const AkUniqueID PLAY_SFX_DERROTA = 3670198271U;
         static const AkUniqueID PLAY_SFX_ENCONTRAR_IGNIS = 2112017441U;
         static const AkUniqueID PLAY_SFX_FLORES = 3357915403U;
+        static const AkUniqueID PLAY_SFX_HYDROS_BASICO = 2448267779U;
+        static const AkUniqueID PLAY_SFX_HYDROS_CRITICO = 1579340361U;
+        static const AkUniqueID PLAY_SFX_IGNIS_BASICO = 3661531062U;
+        static const AkUniqueID PLAY_SFX_IGNIS_CRITICO = 3571711126U;
+        static const AkUniqueID PLAY_SFX_INVESTIGAR_RUINAS = 2981783141U;
+        static const AkUniqueID PLAY_SFX_INVESTIGAR_TRONCO = 4068898756U;
+        static const AkUniqueID PLAY_SFX_MENU_CLICK = 3815411322U;
+        static const AkUniqueID PLAY_SFX_MENU_HOVER = 3684542512U;
         static const AkUniqueID PLAY_SFX_PASO_CHARCO = 623870794U;
         static const AkUniqueID PLAY_SFX_PASO_MADERA = 937325180U;
         static const AkUniqueID PLAY_SFX_PASO_PIEDRA = 58055313U;
         static const AkUniqueID PLAY_SFX_PASO_TIERRA = 1222254363U;
+        static const AkUniqueID PLAY_SFX_PASO_TIERRA_LOBBY = 1957232046U;
         static const AkUniqueID PLAY_SFX_PUERTA_COBERTIZO = 1074601027U;
         static const AkUniqueID PLAY_SFX_TRANSICION_ESCENA = 2096821206U;
+        static const AkUniqueID PLAY_SFX_VICTORIA = 912481021U;
+        static const AkUniqueID PLAY_VO_BIENVENIDA_LOBBY = 2880806792U;
         static const AkUniqueID PLAY_VO_HYDROS_DONDEESTAS = 3030975400U;
         static const AkUniqueID PLAY_VO_HYDROS_SEQUEESTASAQUI = 1632893959U;
         static const AkUniqueID PLAY_VO_HYDROS_TEENCONTRE = 1893805273U;
@@ -65,6 +80,7 @@ namespace AK
         static const AkUniqueID CERCANIA_HYDROS = 377172175U;
         static const AkUniqueID CERCANIA_IGNIS = 928867836U;
         static const AkUniqueID CERCANIA_PORTAL = 3006859328U;
+        static const AkUniqueID TENSION_COMBATE = 3164412753U;
         static const AkUniqueID VOLUMEN_EFECTOS = 1416053179U;
         static const AkUniqueID VOLUMEN_MUSICA = 2975884740U;
     } // namespace GAME_PARAMETERS
@@ -75,6 +91,7 @@ namespace AK
         static const AkUniqueID MAIN_AUDIO_BUS = 2246998526U;
         static const AkUniqueID MUSICA = 1730564739U;
         static const AkUniqueID SFX = 393239870U;
+        static const AkUniqueID UI_HOVER = 2118900976U;
         static const AkUniqueID VOCES = 3071032539U;
     } // namespace BUSSES
 

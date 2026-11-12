@@ -10,7 +10,7 @@
     "Type": "Event",
     "GUID": "{8EAFA937-3FF2-43A2-859C-3A720153F0D8}",
     "Language": "SFX",
-    "Hash": "{37ECC1EB-3486-7469-E02D-4CC568ACEB07}",
+    "Hash": "{316596FC-A6DC-9E9F-3A68-6695451DCE8B}",
     "ObjectPath": "Play_SFX_Flores",
     "ShortName": "Play_SFX_Flores",
     "Path": "Event/Play_SFX_Flores.bnk",
@@ -44,6 +44,6 @@
     ]
    }
   ],
-  "FileHash": "{BBEE91FD-9455-70A8-F2DB-8F2399AC6303}"
+  "FileHash": "{9372789F-7320-2C3A-9414-081C8204E72B}"
  }
 }

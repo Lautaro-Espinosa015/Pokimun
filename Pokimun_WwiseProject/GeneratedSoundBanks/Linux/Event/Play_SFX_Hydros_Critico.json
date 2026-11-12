@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Linux",
+  "BasePlatform": "Linux",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "1579340361",
+    "Type": "Event",
+    "GUID": "{C7ADA777-8E11-4721-B47E-B8429F0AD2AC}",
+    "Language": "SFX",
+    "Hash": "{5A24DAAA-B4D2-2B40-3214-628ABFA29E4D}",
+    "ObjectPath": "Play_SFX_Hydros_Critico",
+    "ShortName": "Play_SFX_Hydros_Critico",
+    "Path": "Event/Play_SFX_Hydros_Critico.bnk",
+    "Media": [
+     {
+      "Id": "1846112103",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MenuCombate\\CriticoAgua.wav",
+      "Path": "Media/1846112103.wem",
+      "CachePath": "06/{066994EA-C495-5BDB-1116-1426C59E355F}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "1579340361",
+      "Name": "Play_SFX_Hydros_Critico",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Hydros_Critico",
+      "GUID": "{C7ADA777-8E11-4721-B47E-B8429F0AD2AC}",
+      "MaxAttenuation": "30",
+      "DurationType": "OneShot",
+      "DurationMin": "8.034104",
+      "DurationMax": "8.034104",
+      "MediaRefs": [
+       {
+        "Id": "1846112103"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{D15049EF-8B19-C8A9-08A8-94D728522B4F}"
+ }
+}

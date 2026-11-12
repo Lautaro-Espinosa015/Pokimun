@@ -1,0 +1,46 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Android",
+  "BasePlatform": "Android",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "4098647122",
+    "Type": "Event",
+    "GUID": "{7CBCADFB-F94C-4AEA-8B28-E7ABBF3723CA}",
+    "Language": "SFX",
+    "Hash": "{CF005BD5-19C5-FC96-A13C-AE7335C6F65A}",
+    "ObjectPath": "Play_Musica_Menu",
+    "ShortName": "Play_Musica_Menu",
+    "Path": "Event/Play_Musica_Menu.bnk",
+    "Media": [
+     {
+      "Id": "1846112100",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MenuCombate\\Menu_Music.wav",
+      "Path": "Media/1846112100.wem",
+      "CachePath": "3F/{3FC7F3A6-7BB2-AC18-0657-167611615185}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "4098647122",
+      "Name": "Play_Musica_Menu",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_Musica_Menu",
+      "GUID": "{7CBCADFB-F94C-4AEA-8B28-E7ABBF3723CA}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "1846112100"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{B99B44C4-BE43-5441-EE17-19D142DFDB60}"
+ }
+}

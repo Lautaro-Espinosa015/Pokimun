@@ -1,0 +1,3 @@
+Event	ID	Name			Wwise Object Path	Notes
+	4068898756	Play_SFX_Investigar_Tronco			\SFX_TP\Play_SFX_Investigar_Tronco	
+

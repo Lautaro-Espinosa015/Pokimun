@@ -27,7 +27,15 @@ namespace Pokimun.Audio
         private Coroutine animacion;
 
         private void OnEnable() => Construir();
-        private void OnDisable() => Destruir();
+        private void OnDisable()
+        {
+            if (animacion != null)
+            {
+                StopCoroutine(animacion);
+                animacion = null;
+            }
+            Destruir();
+        }
 
         private void Construir()
         {
@@ -70,11 +78,11 @@ namespace Pokimun.Audio
         }
 
         /// <summary>Levanta la tapa, la deja abierta un momento y la vuelve a cerrar.</summary>
-        public void Abrir()
+        public bool Abrir()
         {
-            if (bisagra == null || !Application.isPlaying) return;
-            if (animacion != null) StopCoroutine(animacion);
+            if (bisagra == null || !Application.isPlaying || animacion != null) return false;
             animacion = StartCoroutine(AnimarTapa());
+            return true;
         }
 
         private IEnumerator AnimarTapa()
@@ -82,6 +90,7 @@ namespace Pokimun.Audio
             float signo = frenteHaciaMasZ ? -1f : 1f;
             yield return Rotar(0f, anguloApertura * signo, 0.45f);
             yield return new WaitForSeconds(tiempoAbierto);
+            AudioTP.Post("Play_SFX_Cofre_Cerrando", gameObject);
             yield return Rotar(anguloApertura * signo, 0f, 0.6f);
             animacion = null;
         }

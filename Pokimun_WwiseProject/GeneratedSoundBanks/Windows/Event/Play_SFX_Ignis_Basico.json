@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "3661531062",
+    "Type": "Event",
+    "GUID": "{345CB8E1-8B7A-4BEE-8BF7-8566C892D381}",
+    "Language": "SFX",
+    "Hash": "{C9F9781C-CCA1-9C95-DD70-705A79919B16}",
+    "ObjectPath": "Play_SFX_Ignis_Basico",
+    "ShortName": "Play_SFX_Ignis_Basico",
+    "Path": "Event/Play_SFX_Ignis_Basico.bnk",
+    "Media": [
+     {
+      "Id": "1846112104",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MenuCombate\\BasicoFuego.wav",
+      "Path": "Media/1846112104.wem",
+      "CachePath": "24/{241AB3D5-2C4D-2015-3481-F1809727F884}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "3661531062",
+      "Name": "Play_SFX_Ignis_Basico",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Ignis_Basico",
+      "GUID": "{345CB8E1-8B7A-4BEE-8BF7-8566C892D381}",
+      "MaxAttenuation": "30",
+      "DurationType": "OneShot",
+      "DurationMin": "1.9565079",
+      "DurationMax": "1.9565079",
+      "MediaRefs": [
+       {
+        "Id": "1846112104"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{13469AA8-7068-7927-351B-C31EE1971FEC}"
+ }
+}

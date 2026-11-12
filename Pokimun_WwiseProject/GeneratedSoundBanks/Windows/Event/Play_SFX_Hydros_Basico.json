@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "2448267779",
+    "Type": "Event",
+    "GUID": "{D4692872-A9C4-47E6-AA20-D52782ACF1BB}",
+    "Language": "SFX",
+    "Hash": "{34DE61B5-56EC-6111-2F35-49574C21799A}",
+    "ObjectPath": "Play_SFX_Hydros_Basico",
+    "ShortName": "Play_SFX_Hydros_Basico",
+    "Path": "Event/Play_SFX_Hydros_Basico.bnk",
+    "Media": [
+     {
+      "Id": "1846112102",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MenuCombate\\BasicoAgua.wav",
+      "Path": "Media/1846112102.wem",
+      "CachePath": "E8/{E8DB11C3-F535-C139-81CD-268DF3D09940}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "2448267779",
+      "Name": "Play_SFX_Hydros_Basico",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Hydros_Basico",
+      "GUID": "{D4692872-A9C4-47E6-AA20-D52782ACF1BB}",
+      "MaxAttenuation": "30",
+      "DurationType": "OneShot",
+      "DurationMin": "2.5",
+      "DurationMax": "2.5",
+      "MediaRefs": [
+       {
+        "Id": "1846112102"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{C133E2B2-4F81-BD04-EA95-B2555B2114BA}"
+ }
+}

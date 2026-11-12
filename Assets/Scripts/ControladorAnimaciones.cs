@@ -1,3 +1,4 @@
+using Pokimun.Audio;
 using UnityEngine;
 using System.Collections; // Necesario para las Corrutinas
 using System.Collections.Generic;
@@ -33,18 +34,14 @@ public class ControladorAnimaciones : MonoBehaviour
 
     [Header("Sonidos de Ataque")]
     [Tooltip("Audio que suena al lanzar el ataque básico")]
-    public AudioClip audioAtaqueNormal;
+    public string eventoAtaqueNormal;
     [Tooltip("Retraso del audio del ataque básico (puede ser menor al del VFX)")]
     public float retrasoAudioNormal = 0.3f;
-    [Tooltip("Velocidad/Tono del audio básico")]
-    [Range(0.5f, 2f)] public float pitchAudioNormal = 1f;
 
     [Tooltip("Audio que suena al lanzar el ataque crítico")]
-    public AudioClip audioAtaqueCritico;
+    public string eventoAtaqueCritico;
     [Tooltip("Retraso del audio del ataque crítico")]
     public float retrasoAudioCritico = 0.8f;
-    [Tooltip("Velocidad/Tono del audio crítico")]
-    [Range(0.5f, 2f)] public float pitchAudioCritico = 1f;
     
     [Tooltip("Tiempo en segundos para destruir el ataque y liberar memoria")]
     public float tiempoVidaVFX = 10.0f;
@@ -85,7 +82,7 @@ public class ControladorAnimaciones : MonoBehaviour
         
         if (prefabAtaqueAgua != null)
         {
-            StartCoroutine(ManejarAtaqueVFX(retrasoAtaqueNormal, prefabAtaqueAgua, retrasoAudioNormal, audioAtaqueNormal, pitchAudioNormal)); 
+            StartCoroutine(ManejarAtaqueVFX(retrasoAtaqueNormal, prefabAtaqueAgua, retrasoAudioNormal, eventoAtaqueNormal));
         }
     }
 
@@ -97,11 +94,11 @@ public class ControladorAnimaciones : MonoBehaviour
         GameObject prefabAEmitir = prefabAtaqueCritico != null ? prefabAtaqueCritico : prefabAtaqueAgua;
         if (prefabAEmitir != null)
         {
-            StartCoroutine(ManejarAtaqueVFX(retrasoAtaqueCritico, prefabAEmitir, retrasoAudioCritico, audioAtaqueCritico, pitchAudioCritico));
+            StartCoroutine(ManejarAtaqueVFX(retrasoAtaqueCritico, prefabAEmitir, retrasoAudioCritico, eventoAtaqueCritico));
         }
     }
 
-    private IEnumerator ManejarAtaqueVFX(float retrasoVfx, GameObject prefab, float retrasoAudio, AudioClip clip, float pitch)
+    private IEnumerator ManejarAtaqueVFX(float retrasoVfx, GameObject prefab, float retrasoAudio, string evento)
     {
         GameObject vfxInstancia = null;
         GameObject audioObj = null;
@@ -114,7 +111,7 @@ public class ControladorAnimaciones : MonoBehaviour
 
         float tiempo = 0;
         bool vfxSpawned = false;
-        bool audioSpawned = clip == null;
+        bool audioSpawned = string.IsNullOrEmpty(evento);
 
         while (!vfxSpawned || !audioSpawned)
         {
@@ -135,18 +132,14 @@ public class ControladorAnimaciones : MonoBehaviour
 
             if (!audioSpawned && tiempo >= retrasoAudio)
             {
-                audioObj = new GameObject("AudioAtaque_" + clip.name);
+                audioObj = new GameObject(evento);
                 if (vfxInstancia != null) audioObj.transform.SetParent(vfxInstancia.transform);
                 else audioObj.transform.SetParent(emisorInicial);
                 
                 audioObj.transform.localPosition = Vector3.zero;
-                AudioSource src = audioObj.AddComponent<AudioSource>();
-                src.clip = clip;
-                src.spatialBlend = 1f; // Sonido 3D
-                src.pitch = pitch;
-                src.volume = PlayerPrefs.GetFloat("VolumenEfectos", 0.85f);
-                src.Play();
-                Destroy(audioObj, (clip.length / Mathf.Max(0.1f, pitch)) + 3.0f); // 3s extra de cola para ecos
+                AudioTP.Post(evento, audioObj);
+                efectosActivos.Add(audioObj);
+                Destroy(audioObj, tiempoVidaVFX);
                 audioSpawned = true;
             }
 

@@ -177,6 +177,7 @@ public class GestorNivel : MonoBehaviour
     private void PrepararPartida(bool online)
     {
         StopAllCoroutines();
+        feedback.IniciarMusicaBatalla();
         enLinea = online;
         turnoPendiente = null;
         pausado = false;

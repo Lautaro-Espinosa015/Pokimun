@@ -1,0 +1,3 @@
+Event	ID	Name			Wwise Object Path	Notes
+	2448267779	Play_SFX_Hydros_Basico			\SFX_TP\Play_SFX_Hydros_Basico	
+

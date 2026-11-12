@@ -1,0 +1,49 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "2981783141",
+    "Type": "Event",
+    "GUID": "{57A0FA57-F0D4-43B7-8681-6CCA8CE7FC7E}",
+    "Language": "SFX",
+    "Hash": "{7EC97CBF-A515-C795-B9AB-B42EFFAB19AB}",
+    "ObjectPath": "Play_SFX_Investigar_Ruinas",
+    "ShortName": "Play_SFX_Investigar_Ruinas",
+    "Path": "Event/Play_SFX_Investigar_Ruinas.bnk",
+    "Media": [
+     {
+      "Id": "1846112111",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\SFX_Investigar_Ruinas.wav",
+      "Path": "Media/1846112111.wem",
+      "CachePath": "D4/{D4F059E8-B452-40C9-CA8B-AB935BC9C54B}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "2981783141",
+      "Name": "Play_SFX_Investigar_Ruinas",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Investigar_Ruinas",
+      "GUID": "{57A0FA57-F0D4-43B7-8681-6CCA8CE7FC7E}",
+      "MaxAttenuation": "30",
+      "DurationType": "OneShot",
+      "DurationMin": "0.46",
+      "DurationMax": "0.46",
+      "MediaRefs": [
+       {
+        "Id": "1846112111"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{99E96784-6962-82F7-3A84-2FCA61C9F050}"
+ }
+}

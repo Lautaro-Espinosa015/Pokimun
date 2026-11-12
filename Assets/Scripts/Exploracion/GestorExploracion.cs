@@ -21,6 +21,7 @@ namespace Pokimun.Exploracion
         public event Action PistaDisponible;
         public event Action CambioEscondite;
         public event Action Hallazgo;
+        public event Action<DestinoExploracion> DestinoInvestigado;
         private GestorVozMultiplataforma voz;
         private readonly Dictionary<string, Action> comandos = new Dictionary<string, Action>();
         private DestinoExploracion objetivo;
@@ -162,7 +163,11 @@ namespace Pokimun.Exploracion
             else if (objetivo != null)
             {
                 if (!string.IsNullOrEmpty(objetivo.escenaDestino)) Cargar(objetivo.escenaDestino);
-                else interfaz.Notificar(objetivo.descripcion);
+                else
+                {
+                    interfaz.Notificar(objetivo.descripcion);
+                    DestinoInvestigado?.Invoke(objetivo);
+                }
             }
         }
         public void EstablecerPausa(bool valor)

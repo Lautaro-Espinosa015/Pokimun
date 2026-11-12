@@ -1,0 +1,48 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Linux",
+  "BasePlatform": "Linux",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "2880806792",
+    "Type": "Event",
+    "GUID": "{1F6C86F3-2702-4BD7-8AB0-E02C506E01B1}",
+    "Language": "SFX",
+    "Hash": "{5F87A6AF-32EB-AA86-ED92-706CCF3C5239}",
+    "ObjectPath": "Play_VO_Bienvenida_Lobby",
+    "ShortName": "Play_VO_Bienvenida_Lobby",
+    "Path": "Event/Play_VO_Bienvenida_Lobby.bnk",
+    "Media": [
+     {
+      "Id": "1846112112",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\VO_Bienvenida_Lobby.wav",
+      "Path": "Media/1846112112.wem",
+      "CachePath": "36/{368F0F0B-0369-18A9-995F-41CB8F5A27FE}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "2880806792",
+      "Name": "Play_VO_Bienvenida_Lobby",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_VO_Bienvenida_Lobby",
+      "GUID": "{1F6C86F3-2702-4BD7-8AB0-E02C506E01B1}",
+      "DurationType": "OneShot",
+      "DurationMin": "6.020167",
+      "DurationMax": "6.020167",
+      "MediaRefs": [
+       {
+        "Id": "1846112112"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{CF585EA7-E047-33F3-BCC3-EE0D889F0E6C}"
+ }
+}

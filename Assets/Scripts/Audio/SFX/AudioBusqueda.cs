@@ -133,6 +133,7 @@ namespace Pokimun.Audio
                 gestor.Hallazgo += AlEncontrar;
                 gestor.PistaDisponible += AlPista;
                 gestor.CambioEscondite += AlCambiarEscondite;
+                gestor.DestinoInvestigado += AlInvestigar;
             }
             proximaBusqueda = Time.time + Random.Range(intervaloBuscando.x, intervaloBuscando.y);
             if (!narrarUnaVez || !yaNarrado) Invoke(nameof(Narrar), retrasoNarracion);
@@ -149,6 +150,18 @@ namespace Pokimun.Audio
         {
             if (gestor == null) return;
             gestor.Hallazgo -= AlEncontrar; gestor.PistaDisponible -= AlPista; gestor.CambioEscondite -= AlCambiarEscondite;
+            gestor.DestinoInvestigado -= AlInvestigar;
+        }
+
+        private static void AlInvestigar(DestinoExploracion destino)
+        {
+            string evento = destino.nombreVoz switch
+            {
+                "tronco caido" or "tocon" => "Play_SFX_Investigar_Tronco",
+                "ruinas" => "Play_SFX_Investigar_Ruinas",
+                _ => null
+            };
+            AudioTP.Post(evento, destino.gameObject);
         }
 
         private void Update()
@@ -172,8 +185,12 @@ namespace Pokimun.Audio
                     Vector3 hacia = c.position - cam.transform.position;
                     if (hacia.magnitude < 3f && Vector3.Angle(cam.transform.forward, hacia) < 30f)
                     {
-                        ultimaCaja = Time.time; AudioTP.Post(eventoCaja, c.gameObject);
-                        var cofre = c.GetComponent<AparienciaCofre>(); if (cofre != null) cofre.Abrir();
+                        var cofre = c.GetComponent<AparienciaCofre>();
+                        if (cofre == null || cofre.Abrir())
+                        {
+                            ultimaCaja = Time.time;
+                            AudioTP.Post(eventoCaja, c.gameObject);
+                        }
                         break;
                     }
                 }

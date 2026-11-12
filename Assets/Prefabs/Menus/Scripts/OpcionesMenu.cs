@@ -18,7 +18,6 @@ public class OpcionesMenu : MonoBehaviour
     void Start()
     {
         #region Start Volumen
-        AudioListener.volume = 1f; // Forzar maestro al 100%
         valueMusica = Mathf.Clamp01(PlayerPrefs.GetFloat("VolumenMusica", 0.35f));
         valueEfectos = Mathf.Clamp01(PlayerPrefs.GetFloat("VolumenEfectos", 0.85f));
         
@@ -42,8 +41,6 @@ public class OpcionesMenu : MonoBehaviour
         if (volumenMusica != null) volumenMusica.SetValueWithoutNotify(valueMusica);
         PlayerPrefs.SetFloat("VolumenMusica", valueMusica);
         checkMute();
-        MenuManager menuManager = FindFirstObjectByType<MenuManager>();
-        if (menuManager != null) menuManager.ActualizarVolumenMusica();
     }
 
     public void changeVolumenEfectos(float valor)

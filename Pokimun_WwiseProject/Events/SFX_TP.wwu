@@ -58,6 +58,17 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_SFX_Paso_Tierra_Lobby" ID="{79972582-BD93-4D31-9603-810A6AD5ED29}">
+					<ChildrenList>
+						<Action Name="" ID="{5CAD4372-CD3F-4E01-A8A2-389649B33BDC}" ShortID="1846112213">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Paso_Tierra_Lobby" ID="{3A07E357-1CF2-4225-B76A-96C6743CD441}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 				<Event Name="Play_SFX_Paso_Madera" ID="{C3F6E933-A0EB-414A-988E-C6931C37C699}">
 					<ChildrenList>
 						<Action Name="" ID="{AAAA4DEC-880C-4145-AACF-B6D875625FE1}" ShortID="745704344">
@@ -86,6 +97,17 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="SFX_Caja_Madera" ID="{760DAC0B-91C6-4B55-AF99-58CFE4651F13}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Cofre_Cerrando" ID="{9F248FA2-2559-4328-AE4C-A3976B0B9856}">
+					<ChildrenList>
+						<Action Name="" ID="{69D9B813-8495-4254-A6B6-4125C907BD30}" ShortID="1846112214">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Cofre_Cerrando" ID="{B78CE89A-6D86-45B3-9F28-869F8726E9E4}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -152,6 +174,17 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="VO_Narracion_Hydros" ID="{04A8A9AF-A3CF-4545-8B23-5CA11E77E890}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_Bienvenida_Lobby" ID="{1F6C86F3-2702-4BD7-8AB0-E02C506E01B1}">
+					<ChildrenList>
+						<Action Name="" ID="{9BFF1517-1D31-4BDD-B9C9-5B439B092FA5}" ShortID="1846112212">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_Bienvenida_Lobby" ID="{0D8A3FB3-8A45-44EA-A8A6-8647E35CC6A7}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -284,6 +317,138 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="SFX_Amb_Pajaritos" ID="{EEE54770-177C-49F5-85ED-B401CD688A7F}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Musica_Menu" ID="{7CBCADFB-F94C-4AEA-8B28-E7ABBF3723CA}">
+					<ChildrenList>
+						<Action Name="" ID="{7C6AAA13-CFE9-4A64-8A7E-561DD6BEDA93}" ShortID="1846112200">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Musica_Menu" ID="{B2F6ACC6-BE2F-463E-A5CD-710FFAFC8520}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Musica_Combate" ID="{1CC97BF9-DD39-4635-867C-088615B5753F}">
+					<ChildrenList>
+						<Action Name="" ID="{19806862-5576-4134-80FE-2F67412C711B}" ShortID="1846112201">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Musica_Combate" ID="{6E5F0F33-CD84-4A5E-B939-CB481F4AEC25}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Hydros_Basico" ID="{D4692872-A9C4-47E6-AA20-D52782ACF1BB}">
+					<ChildrenList>
+						<Action Name="" ID="{0CC76C19-CA47-4D5F-AE8D-24347B61DFDD}" ShortID="1846112202">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Hydros_Basico" ID="{A390C72D-CCBA-45A5-BBEF-086BB7FF2295}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Hydros_Critico" ID="{C7ADA777-8E11-4721-B47E-B8429F0AD2AC}">
+					<ChildrenList>
+						<Action Name="" ID="{26C77D6C-D94E-42F7-B358-D958638A6CAF}" ShortID="1846112203">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Hydros_Critico" ID="{0244B1F2-0E4B-48B7-9F95-02EC41335B33}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Ignis_Basico" ID="{345CB8E1-8B7A-4BEE-8BF7-8566C892D381}">
+					<ChildrenList>
+						<Action Name="" ID="{385E8D58-CA9B-4538-87A7-911A28284234}" ShortID="1846112204">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Ignis_Basico" ID="{E53D3676-1B87-44BE-8A47-5B5646CAB8BD}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Ignis_Critico" ID="{B62CF3DB-E9BB-4E10-9E51-BF9BE510D3C2}">
+					<ChildrenList>
+						<Action Name="" ID="{995ACCC8-F1BB-47A7-A615-C037C1900DE1}" ShortID="1846112205">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Ignis_Critico" ID="{B51BCFC9-991C-4168-B970-F3F6BDD1CCE4}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Victoria" ID="{835016E1-FD99-4A56-A76A-9D8B1AFF1069}">
+					<ChildrenList>
+						<Action Name="" ID="{CE9B4E06-585B-4E84-9E5D-3A446802A334}" ShortID="1846112206">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Victoria" ID="{868CD22D-35F7-4149-B6FA-EF800A5C4C91}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Derrota" ID="{00C7C59F-093B-4AC1-B652-57AB95DF3A25}">
+					<ChildrenList>
+						<Action Name="" ID="{CBA8F6B9-A287-43F0-9204-235CE5836FD6}" ShortID="1846112207">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Derrota" ID="{CD7A4309-4E14-4766-B67E-A1B06E69CDB9}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Menu_Hover" ID="{46F0EC4C-AFA0-4D47-A567-AEAA91D2D4CD}">
+					<ChildrenList>
+						<Action Name="" ID="{854B07EB-CCF0-40DB-9E18-B83835FB8B85}" ShortID="1846112208">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Menu_Hover" ID="{97E454F3-19B9-4262-A71D-499B3001507A}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Menu_Click" ID="{B3D518F3-CA20-4D23-87A3-F8ACF860D9F8}">
+					<ChildrenList>
+						<Action Name="" ID="{F6E96C1E-4A7C-4264-8ABC-4E10CC16DD98}" ShortID="1846112209">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Menu_Click" ID="{F13DDF3D-3AE0-41A5-A447-4E6874E2ADD4}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Investigar_Tronco" ID="{94DF503D-E3BC-44CF-9B55-5DE0DD2F4CD7}">
+					<ChildrenList>
+						<Action Name="" ID="{91AC1FAA-A1CC-4ECB-ADE7-B359B2419462}" ShortID="1846112210">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Investigar_Tronco" ID="{4B5892AA-0006-4966-803C-1836EC0ACAAA}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Investigar_Ruinas" ID="{57A0FA57-F0D4-43B7-8681-6CCA8CE7FC7E}">
+					<ChildrenList>
+						<Action Name="" ID="{67DDFF7C-57D1-476B-B0B0-9B8C2694AF3A}" ShortID="1846112211">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Investigar_Ruinas" ID="{7FB7C57A-7D53-4A8F-AC4A-9E43A63431CD}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

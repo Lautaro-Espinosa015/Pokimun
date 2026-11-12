@@ -5,7 +5,7 @@ namespace Pokimun.Audio
 {
     /// <summary>
     /// SFX de la escena Lobby. Se agrega un solo componente y configura todo por nombre de objeto:
-    /// emisores 3D en loop (lava, estanque, portales), pasos sobre piedra, roce con las flores, abejas en el jardín azul y (cuando se grabe) la bienvenida.
+    /// emisores 3D en loop, pasos, roce con las flores, abejas y locución de bienvenida.
     /// </summary>
     public sealed class AudioLobby : MonoBehaviour
     {
@@ -27,6 +27,7 @@ namespace Pokimun.Audio
 
         [Header("Pasos")]
         public string pasoPorDefecto = "Play_SFX_Paso_Piedra";
+        public string pasoTierra = "Play_SFX_Paso_Tierra_Lobby";
 
         [Header("Jardines")]
         [Tooltip("Roce suave al pasar junto a las flores de las jardineras")]
@@ -37,10 +38,10 @@ namespace Pokimun.Audio
         [Tooltip("Zumbido de abejas (3D, loop) sobre el jardín azul")]
         public Vector3[] posicionesAbejas = { new Vector3(-11.8f, 0.7f, -3f) };
 
-        [Header("Bienvenida del Lobby (pendiente de grabar)")]
+        [Header("Bienvenida del Lobby")]
         [Tooltip("Evento de Wwise de la locución de bienvenida. Vacío = no suena nada.")]
-        public string bienvenida = "";
-        public float duracionBienvenida = 10f;
+        public string bienvenida = "Play_VO_Bienvenida_Lobby";
+        public float duracionBienvenida = 6.02f;
         [Tooltip("Segundos de espera al entrar, para no pisar la transición ni el fade-in de la música")]
         public float retrasoBienvenida = 3.5f;
         [Tooltip("Solo la primera vez que se entra al Lobby en la sesión")]
@@ -60,6 +61,14 @@ namespace Pokimun.Audio
             if (jugador != null && jugador.GetComponent<PasosJugador>() == null)
                 jugador.gameObject.AddComponent<PasosJugador>().eventoPorDefecto = pasoPorDefecto;
 
+            var pasoTrasero = GameObject.Find("Paso de tierra trasero");
+            if (pasoTrasero != null && pasoTrasero.TryGetComponent<Renderer>(out var superficie))
+            {
+                var zona = pasoTrasero.AddComponent<ZonaSuperficie>();
+                zona.superficie = superficie;
+                zona.eventoPaso = pasoTierra;
+            }
+
             var roce = gameObject.AddComponent<RoceVegetacion>();
             roce.jugador = jugador != null ? jugador.transform : null;
             roce.grupos = new[] { new RoceVegetacion.Grupo { nombre = "Flores", prefijos = nombresFlor, evento = eventoFlores, radio = radioFlor, intervaloMinimo = 0.6f } };
@@ -72,8 +81,8 @@ namespace Pokimun.Audio
 
         private void DarBienvenida()
         {
-            yaBienvenida = true;
-            AudioTP.Voz(bienvenida, AudioGlobal.Asegurar().gameObject, duracionBienvenida, forzar: true);
+            if (AudioTP.Voz(bienvenida, AudioGlobal.Asegurar().gameObject, duracionBienvenida, forzar: true))
+                yaBienvenida = true;
         }
     }
 }

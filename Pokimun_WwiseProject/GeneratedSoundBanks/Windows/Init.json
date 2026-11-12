@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}",
     "Language": "SFX",
-    "Hash": "{EC89636C-E3C7-599C-1AEF-8856B9AB6A32}",
+    "Hash": "{460E8DE1-484E-6B26-A12C-753BE6D8C072}",
     "ObjectPath": "Init",
     "ShortName": "Init",
     "Path": "Init.bnk",
@@ -56,6 +56,12 @@
       "Name": "Musica",
       "ObjectPath": "\\Busses\\Default Work Unit\\Main Audio Bus\\Musica",
       "GUID": "{B0EC0272-FB00-4CFE-9421-076DE9A081B0}"
+     },
+     {
+      "Id": "2118900976",
+      "Name": "UI_Hover",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Main Audio Bus\\SFX\\UI_Hover",
+      "GUID": "{B3AA35DD-8B22-444B-854E-3A212F90BAB0}"
      },
      {
       "Id": "2246998526",
@@ -113,6 +119,12 @@
       "Name": "Cercania_Portal",
       "ObjectPath": "\\Game Parameters\\Default Work Unit\\Cercania_Portal",
       "GUID": "{D9733650-5372-43FA-8B23-B850BCB6C6FC}"
+     },
+     {
+      "Id": "3164412753",
+      "Name": "Tension_Combate",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Tension_Combate",
+      "GUID": "{F26F39A0-795A-4116-9EA1-6F5D5F6A552B}"
      }
     ],
     "StateGroups": [
@@ -151,6 +163,6 @@
     ]
    }
   ],
-  "FileHash": "{133C89CE-54CF-7B0B-5C0A-EFE8804A3760}"
+  "FileHash": "{92365436-2A9C-B4A7-F04B-7743AA939F21}"
  }
 }

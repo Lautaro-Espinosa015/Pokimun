@@ -1,0 +1,54 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Android",
+  "BasePlatform": "Android",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "2724899152",
+    "Type": "Event",
+    "GUID": "{1CC97BF9-DD39-4635-867C-088615B5753F}",
+    "Language": "SFX",
+    "Hash": "{2BF59791-4BDF-884F-C382-406DD4324D65}",
+    "ObjectPath": "Play_Musica_Combate",
+    "ShortName": "Play_Musica_Combate",
+    "Path": "Event/Play_Musica_Combate.bnk",
+    "Media": [
+     {
+      "Id": "1846112101",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MenuCombate\\Escenario.wav",
+      "Path": "Media/1846112101.wem",
+      "CachePath": "67/{67C1403D-F18C-D72F-5A90-5B8F933C6BB9}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "2724899152",
+      "Name": "Play_Musica_Combate",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_Musica_Combate",
+      "GUID": "{1CC97BF9-DD39-4635-867C-088615B5753F}",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "1846112101"
+       }
+      ]
+     }
+    ],
+    "GameParameters": [
+     {
+      "Id": "3164412753",
+      "Name": "Tension_Combate",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\Tension_Combate",
+      "GUID": "{F26F39A0-795A-4116-9EA1-6F5D5F6A552B}"
+     }
+    ]
+   }
+  ],
+  "FileHash": "{693E6B50-B58E-ADC2-7D24-0920DA49AF61}"
+ }
+}

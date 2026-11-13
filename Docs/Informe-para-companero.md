@@ -38,6 +38,8 @@ La base de esta sección son los tres informes compartidos, `Informe_SFX_Pokimun
 
 ## Qué verificar al retomar
 
+- **Capas nuevas de música.** Se guardaron los MIDI definitivos en [Docs/Audio](Audio/). Se renderizaron las pistas adicionales con síntesis y se integraron como cuatro WAV separados en el proyecto Wwise. Santuario suma una percusión grave de fondo en su segmento de ocho compases a 72 BPM. Búsqueda añade percusión suave en Exploración, un fondo grave sostenido en Tensión y un sostén grave en Hallazgo, a 96 BPM. Se conservaron los scripts, los parámetros de proximidad y los cambios de estado de las escenas. Los bancos generados para Windows, Linux y Android incluyen las cuatro pistas. Para el informe final, capturar el segmento de Santuario con sus cinco pistas y los tres segmentos de Búsqueda con sus capas adicionales. Queda escuchar el balance y comprobar los empalmes en Unity.
+
 - **Cierre de los cofres.** La grabación del compañero `Cofre_Cerrando.wav` se incorporó al proyecto Wwise como `Play_SFX_Cofre_Cerrando`. Suena en 3D desde cada cofre al empezar el cierre automático. La parte más fuerte de la toma coincide aproximadamente con el final del movimiento de la tapa. Queda probar la sincronización en ambos cofres y reunir la sesión o captura de las cuatro capas si se incluye como quinto SFX de la consigna.
 
 - **Vegetación.** Se bajaron los roces en Wwise 10 dB para arbustos y 13 dB para flores. Comprobar la diferencia al pasar junto a ambos en el mismo recorrido.

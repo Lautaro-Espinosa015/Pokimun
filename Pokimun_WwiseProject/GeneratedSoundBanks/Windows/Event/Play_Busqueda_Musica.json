@@ -10,7 +10,7 @@
     "Type": "Event",
     "GUID": "{0A4EF816-FCD9-4847-B5DE-13D94648F38B}",
     "Language": "SFX",
-    "Hash": "{85841DF7-E994-0022-1E10-05D34B3A0541}",
+    "Hash": "{B0B23A9B-EE79-0F51-EAE4-864C73261A01}",
     "ObjectPath": "Play_Busqueda_Musica",
     "ShortName": "Play_Busqueda_Musica",
     "Path": "Event/Play_Busqueda_Musica.bnk",
@@ -41,6 +41,33 @@
       "ShortName": "MUS_Busqueda_Tension.wav",
       "Path": "Media/799157270.wem",
       "CachePath": "C6/{C691CE7B-DD3C-5A76-4E05-80DAA952D9C0}.wem"
+     },
+     {
+      "Id": "1846120003",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MUS_Busqueda_Exploracion_Percusion.wav",
+      "Path": "Media/1846120003.wem",
+      "CachePath": "88/{887976F9-DD06-19FA-5D84-22625BA5CEA2}.wem"
+     },
+     {
+      "Id": "1846120005",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MUS_Busqueda_Tension_Drone.wav",
+      "Path": "Media/1846120005.wem",
+      "CachePath": "54/{54F26B72-10F6-7BFF-F97E-0F151E4CC528}.wem"
+     },
+     {
+      "Id": "1846120007",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MUS_Busqueda_Hallazgo_Sosten.wav",
+      "Path": "Media/1846120007.wem",
+      "CachePath": "F6/{F610FE8A-2450-99A5-94C5-D9A8E61D778A}.wem"
      }
     ],
     "Events": [
@@ -61,6 +88,9 @@
         "MediaRefs": [
          {
           "Id": "323876694"
+         },
+         {
+          "Id": "1846120003"
          }
         ]
        },
@@ -74,6 +104,9 @@
         "MediaRefs": [
          {
           "Id": "350880768"
+         },
+         {
+          "Id": "1846120007"
          }
         ]
        },
@@ -87,6 +120,9 @@
         "MediaRefs": [
          {
           "Id": "799157270"
+         },
+         {
+          "Id": "1846120005"
          }
         ]
        },
@@ -100,6 +136,9 @@
         "MediaRefs": [
          {
           "Id": "323876694"
+         },
+         {
+          "Id": "1846120003"
          }
         ]
        }
@@ -142,6 +181,6 @@
     ]
    }
   ],
-  "FileHash": "{79C1257B-E611-4B7A-FF27-1AED8EB8937A}"
+  "FileHash": "{40D65AF1-CF4E-649A-EACD-43BCEA9CA984}"
  }
 }

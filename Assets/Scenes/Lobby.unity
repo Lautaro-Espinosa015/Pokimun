@@ -10285,7 +10285,8 @@ MonoBehaviour:
   nombreVoz: rosal rojo
   llegada: {fileID: 1214356045}
   mirada: {fileID: 1430750558}
-  aliasVoz: []
+  aliasVoz:
+  - jardin rojo
   escenaDestino: 
   descripcion: jardin derecho
 --- !u!1 &852820268

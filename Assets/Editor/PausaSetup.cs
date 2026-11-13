@@ -139,8 +139,9 @@ public class PausaSetup : EditorWindow
 
         // Crear botones
         CrearBotonEstetico(rtPanel, "Reanudar", new Vector2(0, 30), botonSprite, fontAsset, pauseManager, "Reanudar");
-        CrearBotonEstetico(rtPanel, "Menú Principal", new Vector2(0, -70), botonSprite, fontAsset, pauseManager, "Menu");
-        CrearBotonEstetico(rtPanel, "Salir del Juego", new Vector2(0, -170), botonSprite, fontAsset, pauseManager, "SalirJuego");
+        CrearBotonEstetico(rtPanel, "Volver al lobby", new Vector2(0, -65), botonSprite, fontAsset, pauseManager, "Lobby");
+        CrearBotonEstetico(rtPanel, "Menú Principal", new Vector2(0, -150), botonSprite, fontAsset, pauseManager, "Menu");
+        CrearBotonEstetico(rtPanel, "Salir del Juego", new Vector2(0, -235), botonSprite, fontAsset, pauseManager, "SalirJuego");
 
         // Asignar al manager y desactivar
         pauseManager.pauseMenu = veloObj;

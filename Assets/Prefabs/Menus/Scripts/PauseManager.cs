@@ -146,9 +146,9 @@ public class PauseManager : MonoBehaviour
         PanelVolumenPausa.Crear(rtPanel, new Vector2(0, 120));
 
         CrearBoton(rtPanel, "Reanudar", new Vector2(0, -20), new Vector2(400, 55), Reanudar);
-        CrearBoton(rtPanel, "Volver al Menú", new Vector2(0, -85), new Vector2(400, 55), Menu);
-        CrearBoton(rtPanel, "Salir del Juego", new Vector2(0, -150), new Vector2(400, 55), SalirJuego);
-        CrearBoton(rtPanel, "Volver al lobby", new Vector2(0, -215), new Vector2(400, 55), Lobby);
+        CrearBoton(rtPanel, "Volver al lobby", new Vector2(0, -85), new Vector2(400, 55), Lobby);
+        CrearBoton(rtPanel, "Volver al Menú", new Vector2(0, -150), new Vector2(400, 55), Menu);
+        CrearBoton(rtPanel, "Salir del Juego", new Vector2(0, -215), new Vector2(400, 55), SalirJuego);
 
         velo.SetActive(false);
     }

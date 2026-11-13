@@ -139,7 +139,7 @@ public class GestorNivel : MonoBehaviour
         estadoActual = EstadoJuego.EsperandoInicio;
         selectorOcupado = false;
         InicioPanelVozUtc = DateTime.UtcNow;
-        feedback.MostrarSala(IniciarPartida, CrearSala, UnirseSala, CancelarSala, VolverAlMenu);
+        feedback.MostrarSala(IniciarPartida, CrearSala, UnirseSala, CancelarSala, VolverAlLobby, VolverAlMenu);
     }
 
     public void CrearSala()

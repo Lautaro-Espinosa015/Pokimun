@@ -178,6 +178,8 @@ public class DetectorCommandControl : MonoBehaviour
             comandosMenu["volver al lobby"] = gestorNivel.VolverAlLobby;
             comandosMenu["menú principal"] = gestorNivel.VolverAlMenu;
             comandosMenu["menu principal"] = gestorNivel.VolverAlMenu;
+            comandosMenu["volver al menú principal"] = gestorNivel.VolverAlMenu;
+            comandosMenu["volver al menu principal"] = gestorNivel.VolverAlMenu;
             comandosMenu["cancelar conexión"] = gestorNivel.CancelarSala;
             comandosMenu["cancelar conexion"] = gestorNivel.CancelarSala;
         }
@@ -287,9 +289,9 @@ public class DetectorCommandControl : MonoBehaviour
     {
         if (frase is "pausa" or "pausar" or "pos" or "pause")
             return gestorNivel.EnBatalla && !gestorNivel.Pausado;
-        if (accion == (Action)gestorNivel.SalirDelJuego || accion == (Action)gestorNivel.VolverAlLobby)
+        if (accion == (Action)gestorNivel.SalirDelJuego)
             return gestorNivel.Pausado || gestorNivel.EnResultados;
-        if (accion == (Action)gestorNivel.VolverAlMenu)
+        if (accion == (Action)gestorNivel.VolverAlMenu || accion == (Action)gestorNivel.VolverAlLobby)
             return gestorNivel.Pausado || gestorNivel.EnResultados || gestorNivel.EnSelector;
         if (accion == (Action)gestorNivel.IniciarPartida)
         {

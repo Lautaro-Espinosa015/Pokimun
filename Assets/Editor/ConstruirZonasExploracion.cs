@@ -132,6 +132,7 @@ public static class ConstruirZonasExploracion
             if(anterior=="estanque de agua") d.aliasVoz=new[]{"agua"}; if(anterior=="estanque de lava") d.aliasVoz=new[]{"lava"};
             if(anterior=="jardin izquierdo") { d.nombreVoz="jardin azul"; d.transform.position=new Vector3(-10.2f,0,-3); }
             if(anterior=="jardin derecho") { d.nombreVoz="rosal rojo"; d.transform.position=new Vector3(10.2f,0,-3); }
+            if(d.nombreVoz=="rosal rojo") d.aliasVoz=new[]{"jardin rojo"};
             Vector3 mirar=d.transform.position+Vector3.up*.85f;
             if(d.nombreVoz=="jardin azul"||d.nombreVoz=="rosal rojo") mirar=new Vector3(d.nombreVoz=="jardin azul"?-11.8f:11.8f,.9f,-3);
             d.mirada=Punto("Mirada "+d.nombreVoz,mirar,raiz);

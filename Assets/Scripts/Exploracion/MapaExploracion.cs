@@ -75,7 +75,7 @@ namespace Pokimun.Exploracion
         {
             if (!Abierto || elegido == null || !ir.interactable) return;
             var destino = elegido; gestor.EstablecerMapa(false);
-            if (!gestor.jugador.IrA(destino)) gestor.interfaz.Notificar(gestor.jugador.Aviso);
+            if (!gestor.IrADestino(destino)) gestor.interfaz.Notificar(gestor.jugador.Aviso);
         }
         public void Cerrar()
         {

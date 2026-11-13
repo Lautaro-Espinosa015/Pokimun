@@ -61,6 +61,9 @@ namespace Pokimun.Exploracion
             comandos["reanudar"] = () => EstablecerPausa(false);
             if (busqueda)
             {
+                comandos["encontrar a ignis"] = EncontrarIgnisPorVoz;
+                comandos["encontrar ignis"] = EncontrarIgnisPorVoz;
+                comandos["salir del juego"] = InterfazExploracion.Salir;
                 comandos["mapa"] = AlternarMapa;
                 comandos["cerrar mapa"] = () => EstablecerMapa(false);
             }
@@ -71,7 +74,7 @@ namespace Pokimun.Exploracion
             {
                 var local = destino;
                 Action ir = () => {
-                    if (!jugador.Bloqueado && !Cargando) jugador.IrA(local);
+                    if (!jugador.Bloqueado && !Cargando) IrADestino(local);
                 };
                 comandos["ir a " + destino.nombreVoz] = ir;
                 comandos["ir al " + destino.nombreVoz] = ir;
@@ -92,7 +95,8 @@ namespace Pokimun.Exploracion
                 if (!Application.isFocused || Cargando || resultado.inicioUtc < ventanaEntrada) return;
                 string frase = resultado.texto;
                 bool permitida = !jugador.Bloqueado || frase == "reanudar" || frase == "volver al lobby" ||
-                    frase == "menu principal" || frase == "repetir" || frase == "mapa" || frase == "cerrar mapa" || frase == "ayuda" || frase == "cerrar ayuda";
+                    frase == "menu principal" || frase == "salir del juego" || frase == "repetir" || frase == "mapa" ||
+                    frase == "cerrar mapa" || frase == "ayuda" || frase == "cerrar ayuda";
                 if (permitida && comandos.TryGetValue(frase, out var accion)) accion();
             });
         }
@@ -131,6 +135,41 @@ namespace Pokimun.Exploracion
         {
             ignis.SetPositionAndRotation(escondites[Partida.Actual].position, escondites[Partida.Actual].rotation);
         }
+        public bool IrADestino(DestinoExploracion destino)
+        {
+            return jugador.IrA(destino, () => MiradaAlLlegar(destino));
+        }
+
+        private Vector3 MiradaAlLlegar(DestinoExploracion destino)
+        {
+            Vector3 mirada = destino.mirada != null ? destino.mirada.position : destino.transform.position + Vector3.up;
+            if (!busqueda || Partida == null || !Partida.Iniciada || Partida.Finalizada ||
+                escondites[Partida.Actual].name != "Escondite " + destino.nombreVoz ||
+                !ignis.TryGetComponent<Collider>(out var collider))
+                return mirada;
+
+            Vector3 ojo = jugador.transform.position + Vector3.up * 1.65f;
+            Vector3 centroIgnis = collider.bounds.center;
+            Vector3 horizontal = Vector3.ProjectOnPlane(centroIgnis - ojo, Vector3.up);
+            ojo += horizontal.normalized * .24f;
+            Vector3 haciaIgnis = centroIgnis - ojo;
+            if (Physics.Raycast(ojo, haciaIgnis.normalized, out var hit, haciaIgnis.magnitude,
+                ~(1 << 2), QueryTriggerInteraction.Ignore) && EsIgnis(hit.transform) &&
+                Vector3.Distance(jugador.transform.position, hit.point) <= 3.3f)
+                return centroIgnis;
+
+            return mirada;
+        }
+
+        private bool EsIgnis(Transform objeto) => objeto == ignis || objeto.IsChildOf(ignis);
+
+        private void EncontrarIgnisPorVoz()
+        {
+            if (jugador.Bloqueado || Cargando) return;
+            ActualizarObjetivo();
+            if (mirandoIgnis) ConfirmarHallazgo();
+            else interfaz.Notificar("Acercate a Ignis y miralo para encontrarlo.");
+        }
         private void ActualizarObjetivo()
         {
             objetivo = null; mirandoIgnis = false;
@@ -138,14 +177,14 @@ namespace Pokimun.Exploracion
             if (!Physics.Raycast(rayo, out var hit, 6.5f, ~(1 << 2), QueryTriggerInteraction.Ignore))
             { interfaz.PistaInteraccion = ""; return; }
             float distancia = Vector3.Distance(jugador.transform.position, hit.point);
-            mirandoIgnis = busqueda && Partida.Iniciada && hit.transform.IsChildOf(ignis);
+            mirandoIgnis = busqueda && Partida.Iniciada && !Partida.Finalizada && EsIgnis(hit.transform);
             objetivo = hit.collider.GetComponentInParent<DestinoExploracion>();
             if (distancia > 3.3f)
             {
                 interfaz.PistaInteraccion = mirandoIgnis || objetivo != null ? "Acercate para interactuar" : "";
                 mirandoIgnis = false; objetivo = null; return;
             }
-            interfaz.PistaInteraccion = mirandoIgnis ? "Encontrar a Ignis · E / Interactuar" :
+            interfaz.PistaInteraccion = mirandoIgnis ? "Encontrar a Ignis · E / Voz" :
                 objetivo != null ? objetivo.descripcion + " · E / Interactuar" : "";
         }
         public void Interactuar()
@@ -154,11 +193,7 @@ namespace Pokimun.Exploracion
             ActualizarObjetivo(); // Nunca reutilizar una selección antigua después de mover la cámara.
             if (mirandoIgnis)
             {
-                Partida.Finalizar(); jugador.Detener(); jugador.Bloqueado = true; jugador.SoltarCursor();
-                float anterior = PlayerPrefs.GetFloat("BusquedaIgnis.MejorTiempo", float.MaxValue);
-                if (Partida.Tiempo < anterior)
-                { PlayerPrefs.SetFloat("BusquedaIgnis.MejorTiempo", (float)Partida.Tiempo); PlayerPrefs.Save(); }
-                ventanaEntrada = DateTime.UtcNow; Hallazgo?.Invoke(); interfaz.MostrarResultado();
+                ConfirmarHallazgo();
             }
             else if (objetivo != null)
             {
@@ -169,6 +204,14 @@ namespace Pokimun.Exploracion
                     DestinoInvestigado?.Invoke(objetivo);
                 }
             }
+        }
+        private void ConfirmarHallazgo()
+        {
+            Partida.Finalizar(); jugador.Detener(); jugador.Bloqueado = true; jugador.SoltarCursor();
+            float anterior = PlayerPrefs.GetFloat("BusquedaIgnis.MejorTiempo", float.MaxValue);
+            if (Partida.Tiempo < anterior)
+            { PlayerPrefs.SetFloat("BusquedaIgnis.MejorTiempo", (float)Partida.Tiempo); PlayerPrefs.Save(); }
+            ventanaEntrada = DateTime.UtcNow; Hallazgo?.Invoke(); interfaz.MostrarResultado();
         }
         public void EstablecerPausa(bool valor)
         {

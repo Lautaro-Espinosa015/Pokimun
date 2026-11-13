@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
@@ -43,6 +44,7 @@ namespace Pokimun.Exploracion
         private bool correr;
         private float movimientoVoz;
         private Vector3? mirarAlLlegar;
+        private Func<Vector3> resolverMiradaAlLlegar;
         private bool orientando;
         private float mezclaAnimacion, tiempoAire;
         public bool Corriendo => correr;
@@ -61,13 +63,14 @@ namespace Pokimun.Exploracion
             animador = cuerpo != null ? cuerpo.GetComponentInChildren<Animator>() : null;
             if (animador != null && animador.isHuman && !terceraPersona) cabeza = animador.GetBoneTransform(HumanBodyBones.Head);
         }
-        public void Detener() { ruta = null; orientando = false; mirarAlLlegar = null; movimientoVoz = 0; tiempoAtascado = 0; Aviso = ""; if (entradaOficial != null) entradaOficial.move = Vector2.zero; }
+        public void Detener() { ruta = null; orientando = false; mirarAlLlegar = null; resolverMiradaAlLlegar = null; movimientoVoz = 0; tiempoAtascado = 0; Aviso = ""; if (entradaOficial != null) entradaOficial.move = Vector2.zero; }
         public void MoverPorVoz(float direccion) { if (Bloqueado) return; Detener(); movimientoVoz = Mathf.Sign(direccion); Aviso = "En marcha. Decí «detener» cuando quieras parar."; }
         public void Girar(float grados) { Detener(); yaw += grados; }
-        public bool IrA(DestinoExploracion destino)
+        public bool IrA(DestinoExploracion destino, Func<Vector3> resolverMirada = null)
         {
             if (!IrA(destino.PuntoLlegada)) return false;
             mirarAlLlegar = destino.mirada != null ? destino.mirada.position : destino.transform.position + Vector3.up;
+            resolverMiradaAlLlegar = resolverMirada;
             Aviso = "Vamos a " + destino.nombreVoz + ".";
             return true;
         }
@@ -118,6 +121,11 @@ namespace Pokimun.Exploracion
                     new Vector2(puntos[esquina].x, puntos[esquina].z)) < .4f) esquina++;
                 if (esquina >= puntos.Length)
                 {
+                    if (resolverMiradaAlLlegar != null)
+                    {
+                        mirarAlLlegar = resolverMiradaAlLlegar();
+                        resolverMiradaAlLlegar = null;
+                    }
                     ruta = null; orientando = mirarAlLlegar.HasValue; movimiento = Vector3.zero;
                     Aviso = "Llegamos. Explorá el lugar o decí «interactuar».";
                 }
@@ -129,12 +137,16 @@ namespace Pokimun.Exploracion
             }
             if (orientando && mirarAlLlegar.HasValue)
             {
-                Vector3 hacia = mirarAlLlegar.Value - (transform.position + Vector3.up * 1.5f);
+                Vector3 hacia = mirarAlLlegar.Value - (transform.position + Vector3.up * (terceraPersona ? 1.5f : 1.65f));
                 float destinoYaw = Mathf.Atan2(hacia.x, hacia.z) * Mathf.Rad2Deg;
+                float distanciaHorizontal = new Vector2(hacia.x, hacia.z).magnitude;
+                if (!terceraPersona) distanciaHorizontal = Mathf.Max(.01f, distanciaHorizontal - .24f);
+                float destinoPitch = Mathf.Clamp(-Mathf.Atan2(hacia.y, distanciaHorizontal) * Mathf.Rad2Deg, -20, 55);
                 yaw = Mathf.MoveTowardsAngle(yaw, destinoYaw, 180 * Time.deltaTime);
-                pitch = Mathf.MoveTowards(pitch, Mathf.Clamp(-Mathf.Atan2(hacia.y, new Vector2(hacia.x, hacia.z).magnitude) * Mathf.Rad2Deg, -20, 55), 90 * Time.deltaTime);
+                pitch = Mathf.MoveTowards(pitch, destinoPitch, 90 * Time.deltaTime);
                 if (terceraPersona) transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, destinoYaw, 0), 180 * Time.deltaTime);
-                if (Mathf.Abs(Mathf.DeltaAngle(yaw, destinoYaw)) < 1 && (!terceraPersona || Quaternion.Angle(transform.rotation, Quaternion.Euler(0, destinoYaw, 0)) < 1)) orientando = false;
+                if (Mathf.Abs(Mathf.DeltaAngle(yaw, destinoYaw)) < 1 && Mathf.Abs(pitch - destinoPitch) < 1 &&
+                    (!terceraPersona || Quaternion.Angle(transform.rotation, Quaternion.Euler(0, destinoYaw, 0)) < 1)) orientando = false;
             }
             // Tercera persona conserva la rotación y aceleración del controlador original.
             Vector3 local = Quaternion.Inverse(Quaternion.Euler(0, terceraPersona ? camara.transform.eulerAngles.y : yaw, 0)) * Vector3.ClampMagnitude(movimiento, 1);

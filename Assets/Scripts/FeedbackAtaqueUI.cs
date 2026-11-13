@@ -123,7 +123,8 @@ public class FeedbackAtaqueUI : MonoBehaviour
         rutina = StartCoroutine(MostrarDurante(Mathf.Max(.1f, duracion), critico));
     }
 
-    public void MostrarSala(Action jugarSolo, Action crearSala, Action<string> unirse, Action cancelarSala, Action menu)
+    public void MostrarSala(Action jugarSolo, Action crearSala, Action<string> unirse, Action cancelarSala,
+        Action volverAlLobby, Action volverAlMenu)
     {
         PrepararInterfaz();
         OcultarAviso();
@@ -143,7 +144,8 @@ public class FeedbackAtaqueUI : MonoBehaviour
         tmpEstado.richText = false;
         cancelar = Boton(panel, "Cancelar conexión", new Vector2(0, -204), new Vector2(530, 48), cancelarSala);
         cancelar.gameObject.SetActive(false);
-        Boton(panel, "Volver al menú", new Vector2(0, -266), new Vector2(530, 48), menu);
+        Boton(panel, "Volver al lobby", new Vector2(-139, -266), new Vector2(252, 48), volverAlLobby);
+        Boton(panel, "Volver al menú principal", new Vector2(129, -266), new Vector2(272, 48), volverAlMenu, 21);
     }
 
     public void ActualizarSala(string mensaje, bool ocupada, bool permitirCancelar = true)
@@ -337,7 +339,7 @@ public class FeedbackAtaqueUI : MonoBehaviour
         return texto;
     }
 
-    private Button Boton(Transform padre, string texto, Vector2 posicion, Vector2 tamano, Action accion)
+    private Button Boton(Transform padre, string texto, Vector2 posicion, Vector2 tamano, Action accion, int tamanoTexto = 25)
     {
         var rect = Panel(padre, texto, posicion, tamano);
         var img = rect.GetComponent<Image>();
@@ -359,7 +361,7 @@ public class FeedbackAtaqueUI : MonoBehaviour
         boton.navigation = new Navigation { mode = Navigation.Mode.None };
         boton.onClick.AddListener(() => accion?.Invoke());
         rect.gameObject.AddComponent<BotonAnimado>();
-        Texto(rect, texto, Vector2.zero, tamano - new Vector2(16, 8), 25);
+        Texto(rect, texto, Vector2.zero, tamano - new Vector2(16, 8), tamanoTexto);
         return boton;
     }
 

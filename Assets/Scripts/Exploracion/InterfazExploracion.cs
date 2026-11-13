@@ -53,12 +53,12 @@ namespace Pokimun.Exploracion
                 gestor.jugador.giroTactil = ZonaTactil(true);
                 CrearBoton(controles.transform, "Interactuar", new Vector2(1, 0), new Vector2(-125, 72), new Vector2(205, 70), gestor.Interactuar);
                 CrearBoton(controles.transform, "Correr / andar", new Vector2(0, 0), new Vector2(115, 215), new Vector2(195, 55), gestor.jugador.AlternarCarrera);
+                // Los botones se crean después de las zonas táctiles para capturar sus propios toques.
+                CrearBoton(controles.transform, "Pausa", new Vector2(1, 1), new Vector2(-75, -35), new Vector2(130, 48), () => gestor.EstablecerPausa(true));
+                CrearBoton(controles.transform, "Ayuda", new Vector2(0, 1), new Vector2(100, -35), new Vector2(160, 48), gestor.AlternarAyuda);
+                if (gestor.busqueda)
+                    CrearBoton(controles.transform, "Mapa", new Vector2(1, 1), new Vector2(-225, -35), new Vector2(140, 48), gestor.AlternarMapa);
             }
-            // Los botones se crean después de las zonas táctiles para que capturen sus propios toques.
-            CrearBoton(seguro, "Pausa", new Vector2(1, 1), new Vector2(-75, -35), new Vector2(130, 48), () => gestor.EstablecerPausa(true));
-            CrearBoton(controles.transform, TemaExploracion.EsAndroid ? "Ayuda" : "Ayuda · H", new Vector2(0,1), new Vector2(100,-35), new Vector2(160,48), gestor.AlternarAyuda);
-            if (gestor.busqueda)
-                CrearBoton(controles.transform, TemaExploracion.EsAndroid ? "Mapa" : "Mapa · M", new Vector2(1, 1), new Vector2(-225, -35), new Vector2(140, 48), gestor.AlternarMapa);
             Notificar(gestor.busqueda ? "La aventura empieza al salir del cobertizo. Abrí el mapa para orientarte." : "Bienvenido al santuario. Explorá sus jardines o elegí un portal.");
         }
         private EntradaTactilExploracion ZonaTactil(bool giro)
@@ -125,7 +125,7 @@ namespace Pokimun.Exploracion
                 "MOVIMIENTO\nWASD: caminar · Shift: correr · E: interactuar\nH: ayuda · Esc: pausa"+(gestor.busqueda?" · M: mapa":"");
             Texto(panel,movimiento,new Vector2(.5f,.5f),new Vector2(0,105),new Vector2(710,125),24);
             Texto(panel,"TU VOZ TAMBIÉN GUÍA LA AVENTURA\n«Avanzar», «retroceder», «detener», «caminar» o «correr».\n«Mirar izquierda», «mirar derecha» o «mirar atrás».\n«Ir a [zona]» te lleva hasta allí y te orienta al llegar.",new Vector2(.5f,.5f),new Vector2(0,-50),new Vector2(710,165),23);
-            Texto(panel,gestor.busqueda?"Consultá los nombres de las zonas en el mapa.\nAl llegar, decí «interactuar» para investigar.":"Probá: «ir al jardín azul», «ir al rosal rojo»,\n«ir al agua» o «ir a la lava».",new Vector2(.5f,.5f),new Vector2(0,-165),new Vector2(710,65),21);
+            Texto(panel,gestor.busqueda?"Decí «interactuar» para investigar.\nSi ves a Ignis de cerca, decí «encontrar a Ignis».":"Probá: «ir al jardín azul», «ir al jardín rojo»,\n«ir al agua» o «ir a la lava».",new Vector2(.5f,.5f),new Vector2(0,-165),new Vector2(710,65),21);
             CrearBoton(panel,"Volver a la aventura",new Vector2(.5f,.5f),new Vector2(0,-240),new Vector2(420,55),()=>gestor.EstablecerAyuda(false));
         }
         public void MostrarPausa(bool visible)
@@ -155,7 +155,7 @@ namespace Pokimun.Exploracion
             CrearBoton(panel, "Menú principal", new Vector2(.5f, .5f), new Vector2(0, -130), new Vector2(390, 55), () => gestor.Cargar("Menus"));
             CrearBoton(panel, "Salir del juego", new Vector2(.5f, .5f), new Vector2(0, -195), new Vector2(390, 55), Salir);
         }
-        private static void Salir()
+        internal static void Salir()
         {
             Application.Quit();
 #if UNITY_EDITOR

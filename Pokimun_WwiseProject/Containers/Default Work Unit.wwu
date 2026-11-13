@@ -108,6 +108,57 @@
 										</ObjectList>
 									</ObjectLists>
 								</MusicTrack>
+								<MusicTrack Name="MUS_Santuario_Capa5_Percusion" ID="{31F674E7-78A1-40EA-8DC4-13E055DDC174}" ShortID="1846120000">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>15</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{8A59E7FC-37EE-44E2-9127-ED1D3426ADA3}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="MUS_Santuario_Capa5_Percusion" ID="{0862A0DA-6E78-4F8F-BD0D-543F3B2A6838}">
+											<Language>SFX</Language>
+											<AudioFile>MUS_Santuario_Capa5_Percusion.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1846120001"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<MusicTrackSequence Name="" ID="{CA737F7D-5066-41E7-AFED-ACCE0493D576}">
+												<ObjectLists>
+													<ObjectList Name="Clips">
+														<MusicClip Name="MUS_Santuario_Capa5_Percusion" ID="{36EF6DC0-543E-40DB-9DB9-182D974B00B7}">
+															<PropertyList>
+																<Property Name="EndTrimOffset" Type="Real64" Value="26666.6666666667"/>
+																<Property Name="FadeInMode" Type="int16" Value="0"/>
+																<Property Name="FadeOutMode" Type="int16" Value="0"/>
+															</PropertyList>
+															<AudioSourceRef Name="MUS_Santuario_Capa5_Percusion" ID="{0862A0DA-6E78-4F8F-BD0D-543F3B2A6838}"/>
+														</MusicClip>
+													</ObjectList>
+												</ObjectLists>
+											</MusicTrackSequence>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
 								<MusicTrack Name="MUS_Santuario_Capa2_Ignis" ID="{3C269C29-4D02-488B-9028-067B4F3EB20B}" ShortID="902093647">
 									<ReferenceList>
 										<Reference Name="OutputBus">
@@ -488,6 +539,50 @@
 												</ObjectList>
 											</ObjectLists>
 										</MusicTrack>
+										<MusicTrack Name="MUS_Busqueda_Exploracion_Percusion" ID="{F7071D0B-088D-457B-A4E2-F3CB4F811B56}" ShortID="1846120002">
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{68F8E94C-EE24-4C6E-BA3D-14554B4B9270}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="MUS_Busqueda_Exploracion_Percusion" ID="{565C0110-E5AC-44CA-8E27-5F9D6913F9C0}">
+													<Language>SFX</Language>
+													<AudioFile>MUS_Busqueda_Exploracion_Percusion.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="1846120003"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<MusicTrackSequence Name="" ID="{4B1CBA45-B4B8-4619-BA1F-40696F5BC02F}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<MusicClip Name="MUS_Busqueda_Exploracion_Percusion" ID="{6343720C-2E4D-4CA8-BE33-AB0B0738BBFB}">
+																	<PropertyList>
+																		<Property Name="EndTrimOffset" Type="Real64" Value="20000"/>
+																		<Property Name="FadeInMode" Type="int16" Value="0"/>
+																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																	</PropertyList>
+																	<AudioSourceRef Name="MUS_Busqueda_Exploracion_Percusion" ID="{565C0110-E5AC-44CA-8E27-5F9D6913F9C0}"/>
+																</MusicClip>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
 									</ChildrenList>
 									<ObjectLists>
 										<ObjectList Name="Cues">
@@ -606,6 +701,50 @@
 												</ObjectList>
 											</ObjectLists>
 										</MusicTrack>
+										<MusicTrack Name="MUS_Busqueda_Tension_Drone" ID="{D726E14A-0387-4A52-AD24-3217FD6C2883}" ShortID="1846120004">
+											<ReferenceList>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{9387D97B-0783-47D9-AE98-223FC880E514}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="MUS_Busqueda_Tension_Drone" ID="{140574A3-4CE2-4013-9E58-EAC11330E63D}">
+													<Language>SFX</Language>
+													<AudioFile>MUS_Busqueda_Tension_Drone.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="1846120005"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Sequences">
+													<MusicTrackSequence Name="" ID="{77FEA221-8FBD-4D51-9304-548377A4925D}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<MusicClip Name="MUS_Busqueda_Tension_Drone" ID="{864865A6-09E6-417C-B6AA-13297F5FB0E8}">
+																	<PropertyList>
+																		<Property Name="EndTrimOffset" Type="Real64" Value="10000"/>
+																		<Property Name="FadeInMode" Type="int16" Value="0"/>
+																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																	</PropertyList>
+																	<AudioSourceRef Name="MUS_Busqueda_Tension_Drone" ID="{140574A3-4CE2-4013-9E58-EAC11330E63D}"/>
+																</MusicClip>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</ObjectList>
+											</ObjectLists>
+										</MusicTrack>
 									</ChildrenList>
 									<ObjectLists>
 										<ObjectList Name="Cues">
@@ -671,6 +810,50 @@
 																<Property Name="FadeOutMode" Type="int16" Value="0"/>
 															</PropertyList>
 															<AudioSourceRef Name="MUS_Busqueda_Hallazgo" ID="{83F785B4-81CB-46CF-A9DD-0DFF70354F7C}"/>
+														</MusicClip>
+													</ObjectList>
+												</ObjectLists>
+											</MusicTrackSequence>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+								<MusicTrack Name="MUS_Busqueda_Hallazgo_Sosten" ID="{66B79C4B-6097-4E74-91A7-E5301D3230D2}" ShortID="1846120006">
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{39D66194-7FC5-44E9-B16A-736526A986C9}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="MUS_Busqueda_Hallazgo_Sosten" ID="{0FC7350F-76D9-47D6-B21B-3AC7C82B873C}">
+											<Language>SFX</Language>
+											<AudioFile>MUS_Busqueda_Hallazgo_Sosten.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1846120007"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<MusicTrackSequence Name="" ID="{41B33E5F-E24C-4914-B41D-224652B0A6F6}">
+												<ObjectLists>
+													<ObjectList Name="Clips">
+														<MusicClip Name="MUS_Busqueda_Hallazgo_Sosten" ID="{5C3F5B93-06DA-48A0-9B66-B9EC7C6D2C57}">
+															<PropertyList>
+																<Property Name="EndTrimOffset" Type="Real64" Value="7500"/>
+																<Property Name="FadeInMode" Type="int16" Value="0"/>
+																<Property Name="FadeOutMode" Type="int16" Value="0"/>
+															</PropertyList>
+															<AudioSourceRef Name="MUS_Busqueda_Hallazgo_Sosten" ID="{0FC7350F-76D9-47D6-B21B-3AC7C82B873C}"/>
 														</MusicClip>
 													</ObjectList>
 												</ObjectLists>

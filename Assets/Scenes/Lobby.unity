@@ -13021,6 +13021,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pokimun.Exploracion.SuperficieEstanque
   lava: 0
+  piedraFuente: {fileID: 2100000, guid: 4240420a244d17848a0d5bd235399a68, type: 2}
+  gotasFuente: {fileID: 2100000, guid: d020d6edc3659ad4bb4fee067275101a, type: 2}
 --- !u!23 &1099531343
 MeshRenderer:
   m_ObjectHideFlags: 0

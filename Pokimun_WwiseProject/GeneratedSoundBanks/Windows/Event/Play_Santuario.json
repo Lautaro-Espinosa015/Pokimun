@@ -10,7 +10,7 @@
     "Type": "Event",
     "GUID": "{94199E15-ADC7-42D0-908B-8E567D7D26EB}",
     "Language": "SFX",
-    "Hash": "{23BF20A5-9E0B-4B6B-2310-7346C7F57857}",
+    "Hash": "{D74430D5-3C8E-FFF2-4EE7-69719E1C6E41}",
     "ObjectPath": "Play_Santuario",
     "ShortName": "Play_Santuario",
     "Path": "Event/Play_Santuario.bnk",
@@ -50,6 +50,15 @@
       "ShortName": "MUS_Santuario_Capa3_Hydros.wav",
       "Path": "Media/781127160.wem",
       "CachePath": "0A/{0A953932-CF94-5E9D-D668-A83B813D83FC}.wem"
+     },
+     {
+      "Id": "1846120001",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "MUS_Santuario_Capa5_Percusion.wav",
+      "Path": "Media/1846120001.wem",
+      "CachePath": "3E/{3EEB767A-D8A7-D82A-6135-BF189CB5C4CC}.wem"
      }
     ],
     "Events": [
@@ -71,6 +80,9 @@
        },
        {
         "Id": "781127160"
+       },
+       {
+        "Id": "1846120001"
        }
       ]
      }
@@ -97,6 +109,6 @@
     ]
    }
   ],
-  "FileHash": "{074383B0-F43F-DCC6-9A48-74283F7F2DBE}"
+  "FileHash": "{0CA13D53-20D8-84B1-0A9B-7C96405B4712}"
  }
 }

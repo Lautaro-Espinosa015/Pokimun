@@ -9652,7 +9652,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'FPS: 120'
+  m_text: 'FPS: 60'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cdef4ec58892ceb4393109d50a013655, type: 2}
   m_sharedMaterial: {fileID: -2284444521043979690, guid: cdef4ec58892ceb4393109d50a013655, type: 2}

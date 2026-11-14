@@ -28,8 +28,7 @@ public class OpcionesMenu : MonoBehaviour
         #endregion
         #region Start PC
         if (fullscreen != null) fullscreen.SetIsOnWithoutNotify(Screen.fullScreen);
-        int currentFPS = PlayerPrefs.GetInt("LimiteFPS", 120);
-        Application.targetFrameRate = currentFPS;
+        int currentFPS = LimiteFPS.Leer();
         if (fpsText != null) fpsText.text = $"FPS: {currentFPS}";
         #endregion
     }
@@ -67,18 +66,19 @@ public class OpcionesMenu : MonoBehaviour
     #region FPS
     public void CycleFPS()
     {
-        int currentFPS = PlayerPrefs.GetInt("LimiteFPS", 120);
-        if (currentFPS == 120) currentFPS = 60;
-        else if (currentFPS == 60) currentFPS = 90;
-        else currentFPS = 120;
-        
-        SetFPS(currentFPS);
+        int currentFPS = LimiteFPS.Leer();
+        SetFPS(currentFPS switch
+        {
+            30 => 60,
+            60 when !LimiteFPS.EsAndroid => 90,
+            90 => 120,
+            _ => 30
+        });
     }
     
     public void SetFPS(int currentFPS)
     {
-        PlayerPrefs.SetInt("LimiteFPS", currentFPS);
-        Application.targetFrameRate = currentFPS;
+        currentFPS = LimiteFPS.GuardarYAplicar(currentFPS);
         
         // Actualizar texto del botón si existe
         if (fpsText != null) fpsText.text = $"FPS: {currentFPS}";

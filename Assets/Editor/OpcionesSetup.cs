@@ -96,7 +96,7 @@ public class OpcionesSetup : MonoBehaviour
         rtTxtFps.sizeDelta = Vector2.zero;
 
         TextMeshProUGUI txtFps = txtFpsObj.GetComponent<TextMeshProUGUI>();
-        txtFps.text = $"FPS: {PlayerPrefs.GetInt("LimiteFPS", 120)}";
+        txtFps.text = $"FPS: {LimiteFPS.Leer()}";
         txtFps.fontSize = 28;
         if (fontAsset != null) txtFps.font = fontAsset;
         txtFps.alignment = TextAlignmentOptions.Center;

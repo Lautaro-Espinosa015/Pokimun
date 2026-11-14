@@ -116,16 +116,22 @@ public class ControladorVozMenu : MonoBehaviour
         }
 
         // Comandos de FPS
+        Action setFps30 = () => FindFirstObjectByType<OpcionesMenu>(FindObjectsInactive.Exclude)?.SetFPS(30);
         Action setFps60 = () => { var o = FindFirstObjectByType<OpcionesMenu>(FindObjectsInactive.Exclude); if (o != null) o.SetFPS(60); else Debug.Log("[Voz Menu] Ignorado."); };
         Action setFps90 = () => { var o = FindFirstObjectByType<OpcionesMenu>(FindObjectsInactive.Exclude); if (o != null) o.SetFPS(90); else Debug.Log("[Voz Menu] Ignorado."); };
         Action setFps120 = () => { var o = FindFirstObjectByType<OpcionesMenu>(FindObjectsInactive.Exclude); if (o != null) o.SetFPS(120); else Debug.Log("[Voz Menu] Ignorado."); };
 
+        comandosMenu.Add("efe pe ese treinta", setFps30);
+        comandosMenu.Add("fotogramas treinta", setFps30);
         comandosMenu.Add("efe pe ese sesenta", setFps60);
         comandosMenu.Add("fotogramas sesenta", setFps60);
-        comandosMenu.Add("efe pe ese noventa", setFps90);
-        comandosMenu.Add("fotogramas noventa", setFps90);
-        comandosMenu.Add("efe pe ese ciento veinte", setFps120);
-        comandosMenu.Add("fotogramas ciento veinte", setFps120);
+        if (!LimiteFPS.EsAndroid)
+        {
+            comandosMenu.Add("efe pe ese noventa", setFps90);
+            comandosMenu.Add("fotogramas noventa", setFps90);
+            comandosMenu.Add("efe pe ese ciento veinte", setFps120);
+            comandosMenu.Add("fotogramas ciento veinte", setFps120);
+        }
     }
 
     private void IniciarReconocedor()

@@ -20,11 +20,19 @@ namespace Pokimun.Audio
         public float anguloApertura = 65f;
         public float tiempoAbierto = 2.5f;
 
+        [Header("Sonido sincronizado con la tapa")]
+        public string eventoCerrar = "Play_SFX_Cofre_Cerrando";
+        [Tooltip("Dura lo mismo que el crujido de SFX_10_Abrir_Caja_Madera: la tapa se mueve mientras cruje y llega al tope con el golpe (1,20 s)")]
+        public float duracionApertura = 1.20f;
+        [Tooltip("En Cofre_Cerrando el golpe de la tapa está a 0,53 s: la tapa termina de cerrar justo ahí")]
+        public float duracionCierre = 0.53f;
+
         private GameObject raiz;
         private Transform bisagra;
         private Renderer rendererOriginal;
         private readonly System.Collections.Generic.List<Renderer> listones = new System.Collections.Generic.List<Renderer>();
         private Coroutine animacion;
+        private string eventoAbrirActual;
 
         private void OnEnable() => Construir();
         private void OnDisable()
@@ -33,6 +41,9 @@ namespace Pokimun.Audio
             {
                 StopCoroutine(animacion);
                 animacion = null;
+                // Si la tapa deja de moverse a mitad de camino, el sonido también se corta
+                AudioTP.Detener(eventoAbrirActual, gameObject, 100);
+                AudioTP.Detener(eventoCerrar, gameObject, 100);
             }
             Destruir();
         }
@@ -77,10 +88,17 @@ namespace Pokimun.Audio
             listones.Clear();
         }
 
-        /// <summary>Levanta la tapa, la deja abierta un momento y la vuelve a cerrar.</summary>
-        public bool Abrir()
+        /// <summary>
+        /// Levanta la tapa, la deja abierta un momento y la vuelve a cerrar.
+        /// Cada sonido se dispara en el mismo frame en que empieza su movimiento y dura lo mismo
+        /// que él, así no suena nada mientras la tapa está quieta.
+        /// </summary>
+        public bool Abrir() => Abrir("Play_SFX_Caja_Madera");
+
+        public bool Abrir(string eventoAbrir)
         {
             if (bisagra == null || !Application.isPlaying || animacion != null) return false;
+            eventoAbrirActual = eventoAbrir;
             animacion = StartCoroutine(AnimarTapa());
             return true;
         }
@@ -88,10 +106,11 @@ namespace Pokimun.Audio
         private IEnumerator AnimarTapa()
         {
             float signo = frenteHaciaMasZ ? -1f : 1f;
-            yield return Rotar(0f, anguloApertura * signo, 0.45f);
-            yield return new WaitForSeconds(tiempoAbierto);
-            AudioTP.Post("Play_SFX_Cofre_Cerrando", gameObject);
-            yield return Rotar(anguloApertura * signo, 0f, 0.6f);
+            AudioTP.Post(eventoAbrirActual, gameObject);                       // crujido mientras sube
+            yield return Rotar(0f, anguloApertura * signo, duracionApertura);   // tope con el golpe final
+            yield return new WaitForSeconds(tiempoAbierto);                     // abierta y quieta: silencio
+            AudioTP.Post(eventoCerrar, gameObject);                             // roce mientras baja
+            yield return Rotar(anguloApertura * signo, 0f, duracionCierre);     // cierra con el golpe
             animacion = null;
         }
 

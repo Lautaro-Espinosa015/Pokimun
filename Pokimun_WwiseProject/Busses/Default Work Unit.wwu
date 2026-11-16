@@ -153,6 +153,19 @@
 										</DuckItem>
 									</DuckingList>
 								</Bus>
+								<Bus Name="Avisos_Cronometro" ID="{70B2AA8C-16D7-4AFE-8B33-2E8F492F925C}">
+									<DuckingList>
+										<DuckItem>
+											<BusRef Name="Musica" ID="{B0EC0272-FB00-4CFE-9421-076DE9A081B0}"/>
+											<DuckingParam>
+												<Volume>-2</Volume>
+												<FadeInTime>0.5</FadeInTime>
+												<FadeOutTime>0.06</FadeOutTime>
+												<FadeCurve>FadeLinear</FadeCurve>
+											</DuckingParam>
+										</DuckItem>
+									</DuckingList>
+								</Bus>
 							</ChildrenList>
 							<ObjectLists>
 								<ObjectList Name="RTPC">

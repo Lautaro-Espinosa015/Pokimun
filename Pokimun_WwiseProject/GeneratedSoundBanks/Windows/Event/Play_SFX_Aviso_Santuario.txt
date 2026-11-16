@@ -1,0 +1,3 @@
+Event	ID	Name			Wwise Object Path	Notes
+	2386140413	Play_SFX_Aviso_Santuario			\SFX_TP\Play_SFX_Aviso_Santuario	
+

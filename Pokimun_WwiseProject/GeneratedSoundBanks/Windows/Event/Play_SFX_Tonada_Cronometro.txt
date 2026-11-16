@@ -1,0 +1,3 @@
+Event	ID	Name			Wwise Object Path	Notes
+	2623033960	Play_SFX_Tonada_Cronometro			\SFX_TP\Play_SFX_Tonada_Cronometro	
+

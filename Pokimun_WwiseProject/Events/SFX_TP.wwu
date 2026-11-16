@@ -190,6 +190,39 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_SFX_Aviso_Santuario" ID="{E43447EB-0B47-4EA8-AFFE-ECAF218A1674}">
+					<ChildrenList>
+						<Action Name="" ID="{0A1737F3-3BED-4E9F-AE0E-2E6D6E4B24D0}" ShortID="1986112220">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Aviso_Santuario" ID="{2D5227CB-4243-44B3-834E-8759200D9CF4}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Aviso_Busqueda" ID="{3D7967F6-64D7-4598-AA35-09614A602E8E}">
+					<ChildrenList>
+						<Action Name="" ID="{0B2097C1-527D-49CD-83A0-42C2CC021BD6}" ShortID="1986112221">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Aviso_Busqueda" ID="{1A96C59E-1EE8-48D7-A773-D52A7294E373}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SFX_Tonada_Cronometro" ID="{0DFABC5A-F983-4338-8124-4402A82F6817}">
+					<ChildrenList>
+						<Action Name="" ID="{0891E231-D5D9-4E15-A534-2D944276D994}" ShortID="1986112222">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Tonada_Cronometro" ID="{3DCA3AD0-8844-4E84-9A0B-98A40A36A7B7}" WorkUnitID="{E4E3DA59-B30C-4796-B6B6-C5F3613FCA31}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 				<Event Name="Play_VO_Ignis_QueFueEso_01" ID="{B5346662-18BB-4FEF-9259-8EA7019D277E}">
 					<ChildrenList>
 						<Action Name="" ID="{BBF37885-9B3B-4303-8221-1A48B728B3E6}" ShortID="874508088">

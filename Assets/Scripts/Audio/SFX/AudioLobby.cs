@@ -81,8 +81,20 @@ namespace Pokimun.Audio
 
         private void DarBienvenida()
         {
-            if (AudioTP.Voz(bienvenida, AudioGlobal.Asegurar().gameObject, duracionBienvenida, forzar: true))
+            var gestor = FindFirstObjectByType<GestorExploracion>();
+            void MostrarCartel()
+            {
+                if (this == null || gestor == null || gestor.interfaz == null) return;
+                gestor.interfaz.MostrarIntroduccion("Elegí tu aventura",
+                    "Tomate un momento para recorrer los jardines, cuando quieras seguir, cruzá el portal azul para buscar a Ignis o el naranja para entrar en combate.",
+                    () => AudioTP.Post("Play_SFX_Aviso_Santuario", gameObject));
+            }
+
+            if (AudioTP.Voz(bienvenida, AudioGlobal.Asegurar().gameObject, duracionBienvenida,
+                forzar: true, alTerminar: MostrarCartel))
                 yaBienvenida = true;
+            else
+                MostrarCartel();
         }
     }
 }

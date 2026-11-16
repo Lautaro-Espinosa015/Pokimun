@@ -186,7 +186,12 @@ namespace Pokimun.Audio
                     if (hacia.magnitude < 3f && Vector3.Angle(cam.transform.forward, hacia) < 30f)
                     {
                         var cofre = c.GetComponent<AparienciaCofre>();
-                        if (cofre == null || cofre.Abrir())
+                        if (cofre != null)
+                        {
+                            // El cofre dispara el sonido junto con el movimiento de la tapa
+                            if (cofre.Abrir(eventoCaja)) ultimaCaja = Time.time;
+                        }
+                        else
                         {
                             ultimaCaja = Time.time;
                             AudioTP.Post(eventoCaja, c.gameObject);

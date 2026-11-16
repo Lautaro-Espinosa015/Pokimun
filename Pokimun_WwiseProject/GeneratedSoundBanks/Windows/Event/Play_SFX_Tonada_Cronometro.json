@@ -1,0 +1,48 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "2623033960",
+    "Type": "Event",
+    "GUID": "{0DFABC5A-F983-4338-8124-4402A82F6817}",
+    "Language": "SFX",
+    "Hash": "{3AB66706-408D-D216-390B-C59834FC1642}",
+    "ObjectPath": "Play_SFX_Tonada_Cronometro",
+    "ShortName": "Play_SFX_Tonada_Cronometro",
+    "Path": "Event/Play_SFX_Tonada_Cronometro.bnk",
+    "Media": [
+     {
+      "Id": "1986112212",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\SFX_Tonada_Cronometro.wav",
+      "Path": "Media/1986112212.wem",
+      "CachePath": "BF/{BFEA6FD9-C474-BE59-EB55-BF891CDA29A7}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "2623033960",
+      "Name": "Play_SFX_Tonada_Cronometro",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Tonada_Cronometro",
+      "GUID": "{0DFABC5A-F983-4338-8124-4402A82F6817}",
+      "DurationType": "OneShot",
+      "DurationMin": "1",
+      "DurationMax": "1",
+      "MediaRefs": [
+       {
+        "Id": "1986112212"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{0BB8D7F4-C8AB-B2DE-94D1-EC87B20B3D2B}"
+ }
+}

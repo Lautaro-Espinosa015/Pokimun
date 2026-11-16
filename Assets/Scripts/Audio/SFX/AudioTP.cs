@@ -24,11 +24,14 @@ namespace Pokimun.Audio
             cargados.Add(evento);
         }
 
-        public static uint Post(string evento, GameObject emisor)
+        public static uint Post(string evento, GameObject emisor, System.Action alTerminar = null)
         {
             if (string.IsNullOrEmpty(evento) || emisor == null || !AkUnitySoundEngine.IsInitialized()) return 0;
             Cargar(evento);
             if (emisor.GetComponent<AkGameObj>() == null) emisor.AddComponent<AkGameObj>();
+            if (alTerminar != null)
+                return AkUnitySoundEngine.PostEvent(evento, emisor, (uint)AkCallbackType.AK_EndOfEvent,
+                    (_, _, _) => alTerminar(), null);
             return AkUnitySoundEngine.PostEvent(evento, emisor);
         }
 
@@ -44,10 +47,10 @@ namespace Pokimun.Audio
         public static bool VozLibre => Time.unscaledTime >= vozOcupadaHasta;
 
         /// <summary>Reproduce una voz si no hay otra sonando (o si se fuerza).</summary>
-        public static bool Voz(string evento, GameObject emisor, float duracion, bool forzar = false)
+        public static bool Voz(string evento, GameObject emisor, float duracion, bool forzar = false, System.Action alTerminar = null)
         {
             if (!forzar && !VozLibre) return false;
-            if (Post(evento, emisor) == 0) return false;
+            if (Post(evento, emisor, alTerminar) == 0) return false;
             vozOcupadaHasta = Time.unscaledTime + duracion + 0.6f;
             return true;
         }

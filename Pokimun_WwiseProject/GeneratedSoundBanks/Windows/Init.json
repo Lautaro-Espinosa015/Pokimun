@@ -10,7 +10,7 @@
     "Type": "User",
     "GUID": "{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}",
     "Language": "SFX",
-    "Hash": "{460E8DE1-484E-6B26-A12C-753BE6D8C072}",
+    "Hash": "{2A62C08D-BB81-A15F-EA7A-FAE88256DE73}",
     "ObjectPath": "Init",
     "ShortName": "Init",
     "Path": "Init.bnk",
@@ -56,6 +56,12 @@
       "Name": "Musica",
       "ObjectPath": "\\Busses\\Default Work Unit\\Main Audio Bus\\Musica",
       "GUID": "{B0EC0272-FB00-4CFE-9421-076DE9A081B0}"
+     },
+     {
+      "Id": "1775036707",
+      "Name": "Avisos_Cronometro",
+      "ObjectPath": "\\Busses\\Default Work Unit\\Main Audio Bus\\SFX\\Avisos_Cronometro",
+      "GUID": "{70B2AA8C-16D7-4AFE-8B33-2E8F492F925C}"
      },
      {
       "Id": "2118900976",
@@ -163,6 +169,6 @@
     ]
    }
   ],
-  "FileHash": "{92365436-2A9C-B4A7-F04B-7743AA939F21}"
+  "FileHash": "{1CFF39AE-92F0-CC21-F5B5-C8A28A3861A2}"
  }
 }

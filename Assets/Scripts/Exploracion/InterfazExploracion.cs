@@ -15,6 +15,11 @@ namespace Pokimun.Exploracion
         private RectTransform seguro;
         private GameObject modal, controles, panelPista, panelMensaje;
         private TextMeshProUGUI estado, pista, mensaje;
+        private GameObject panelIntroduccion;
+        private TextMeshProUGUI introduccion;
+        private Action alMostrarIntroduccion;
+        private bool introduccionPendiente;
+        private float hastaIntroduccion;
         private float hastaMensaje;
         private string ultimoAviso;
         public bool AyudaAbierta { get; private set; }
@@ -45,6 +50,21 @@ namespace Pokimun.Exploracion
             var tarjeta = Rect("Mensaje de aventura", seguro, new Vector2(.5f,0), new Vector2(.5f,0), new Vector2(0,90), new Vector2(760,65));
             TemaExploracion.Panel(tarjeta.gameObject.AddComponent<Image>());tarjeta.GetComponent<Image>().raycastTarget=false;panelMensaje=tarjeta.gameObject;
             mensaje = Texto(tarjeta, "", new Vector2(.5f,.5f), Vector2.zero, new Vector2(720,55), 21);
+            var avisoInicial = Rect("Introducción de escena", seguro, new Vector2(.15f, 1), new Vector2(.85f, 1),
+                new Vector2(0, -132), new Vector2(0, 72));
+            var fondoIntroduccion = avisoInicial.gameObject.AddComponent<Image>();
+            TemaExploracion.Panel(fondoIntroduccion);
+            fondoIntroduccion.raycastTarget = false;
+            introduccion = Texto(avisoInicial, "", new Vector2(.5f, .5f), Vector2.zero, Vector2.zero, 21);
+            introduccion.rectTransform.anchorMin = Vector2.zero;
+            introduccion.rectTransform.anchorMax = Vector2.one;
+            introduccion.rectTransform.offsetMin = new Vector2(12, 4);
+            introduccion.rectTransform.offsetMax = new Vector2(-12, -4);
+            introduccion.enableAutoSizing = true;
+            introduccion.fontSizeMin = 14;
+            introduccion.fontSizeMax = 21;
+            panelIntroduccion = avisoInicial.gameObject;
+            panelIntroduccion.SetActive(false);
             controles = new GameObject("Controles", typeof(RectTransform)); controles.transform.SetParent(seguro, false);
             var rc = (RectTransform)controles.transform; rc.anchorMin = Vector2.zero; rc.anchorMax = Vector2.one; rc.offsetMin = rc.offsetMax = Vector2.zero;
             if (TemaExploracion.EsAndroid)
@@ -90,6 +110,29 @@ namespace Pokimun.Exploracion
             string aviso = gestor.jugador.Aviso;
             if(aviso != ultimoAviso) { ultimoAviso=aviso;if(!string.IsNullOrEmpty(aviso))Notificar(aviso); }
             panelMensaje.SetActive(!gestor.Pausado && (Time.unscaledTime < hastaMensaje || gestor.jugador.Navegando) && !string.IsNullOrEmpty(mensaje.text));
+        }
+
+        private void LateUpdate()
+        {
+            if (panelIntroduccion == null) return;
+            bool puedeMostrar = !gestor.Pausado && !gestor.Cargando && gestor.Partida?.Finalizada != true;
+            if (puedeMostrar && introduccionPendiente)
+            {
+                introduccionPendiente = false;
+                hastaIntroduccion = Time.unscaledTime + 15f;
+                panelIntroduccion.SetActive(true);
+                alMostrarIntroduccion?.Invoke();
+                alMostrarIntroduccion = null;
+            }
+            panelIntroduccion.SetActive(puedeMostrar && Time.unscaledTime < hastaIntroduccion);
+        }
+
+        public void MostrarIntroduccion(string titulo, string texto, Action alMostrar)
+        {
+            if (introduccion == null) return;
+            introduccion.text = $"<b>{titulo}</b>\n{texto}";
+            alMostrarIntroduccion = alMostrar;
+            introduccionPendiente = true;
         }
         public static string Tiempo(double segundos) => TimeSpan.FromSeconds(segundos).ToString(@"mm\:ss\.ff");
         public void MostrarMapa(bool visible)

@@ -656,6 +656,81 @@
 								<ActiveSource Name="VO_Bienvenida_Lobby" ID="{41ED6BA9-E55B-4358-A4A3-65E6C0DAEA26}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="SFX_Aviso_Santuario" ID="{2D5227CB-4243-44B3-834E-8759200D9CF4}" ShortID="1986112200">
+							<PropertyList>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_Aviso_Santuario" ID="{5FEB366C-D641-4200-B897-0A1FEC5CA974}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\SFX_Aviso_Santuario.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1986112210"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_Aviso_Santuario" ID="{5FEB366C-D641-4200-B897-0A1FEC5CA974}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Aviso_Busqueda" ID="{1A96C59E-1EE8-48D7-A773-D52A7294E373}" ShortID="1986112201">
+							<PropertyList>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F8A4C978-29E7-4592-9592-CBB0860C1160}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_Aviso_Busqueda" ID="{3CC6CEEE-6657-44D6-AF8B-0241C058DFCF}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\SFX_Aviso_Busqueda.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1986112211"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_Aviso_Busqueda" ID="{3CC6CEEE-6657-44D6-AF8B-0241C058DFCF}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SFX_Tonada_Cronometro" ID="{3DCA3AD0-8844-4E84-9A0B-98A40A36A7B7}" ShortID="1986112202">
+							<PropertyList>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{8130EB71-3B95-43B6-9522-00A92E2B9C5B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Avisos_Cronometro" ID="{70B2AA8C-16D7-4AFE-8B33-2E8F492F925C}" WorkUnitID="{EFEFD7F3-2A11-4683-A889-30488491F87E}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="SFX_Tonada_Cronometro" ID="{C91C439B-6303-4F69-A7F9-DEBD124CEEE2}">
+									<Language>SFX</Language>
+									<AudioFile>TP_SFX\SFX_Tonada_Cronometro.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1986112212"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SFX_Tonada_Cronometro" ID="{C91C439B-6303-4F69-A7F9-DEBD124CEEE2}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Voces_Ignis_3D" ID="{A17535ED-709D-4BA6-91BE-E0FC1294C92F}" ShortID="816407983">

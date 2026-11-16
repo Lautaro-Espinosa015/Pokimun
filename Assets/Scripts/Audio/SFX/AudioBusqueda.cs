@@ -76,6 +76,9 @@ namespace Pokimun.Audio
         private PuertaCobertizo puertaVisual;
         private bool estabaIniciada, cerca, avisoCerca;
         private float proximaRespiracion, proximaBusqueda, ultimaCaja, ultimoQueFue, ultimoSeFue;
+        private ReglasEscondite partidaCronometro;
+        private const int IntervaloTonada = 45;
+        private int siguienteTonada;
 
         private void Start()
         {
@@ -141,9 +144,20 @@ namespace Pokimun.Audio
 
         private void Narrar()
         {
-            yaNarrado = true;
-            AudioTP.Voz(narracion, AudioGlobal.Asegurar().gameObject, duracionNarracion, forzar: true);
+            if (AudioTP.Voz(narracion, AudioGlobal.Asegurar().gameObject, duracionNarracion,
+                forzar: true, alTerminar: MostrarCartel))
+                yaNarrado = true;
+            else
+                MostrarCartel();
             proximaBusqueda = Mathf.Max(proximaBusqueda, Time.time + duracionNarracion + 5f);
+        }
+
+        private void MostrarCartel()
+        {
+            if (this == null || gestor == null || gestor.interfaz == null || gestor.Partida?.Finalizada == true) return;
+            gestor.interfaz.MostrarIntroduccion("Encontrá a Ignis",
+                "Ignis se escondió en el bosque, sal del cobertizo para buscarlo, revisá los escondites y prestá atención a los sonidos que puedan delatarlo.",
+                () => AudioTP.Post("Play_SFX_Aviso_Busqueda", gameObject));
         }
 
         private void OnDestroy()
@@ -202,6 +216,17 @@ namespace Pokimun.Audio
             }
 
             if (partida == null || !partida.Iniciada || partida.Finalizada || gestor.ignis == null || gestor.Pausado) return;
+
+            if (partidaCronometro != partida)
+            {
+                partidaCronometro = partida;
+                siguienteTonada = IntervaloTonada;
+            }
+            if (partida.Tiempo >= siguienteTonada)
+            {
+                siguienteTonada = ((int)(partida.Tiempo / IntervaloTonada) + 1) * IntervaloTonada;
+                AudioTP.Post("Play_SFX_Tonada_Cronometro", gameObject);
+            }
 
             // Voces según la distancia a Ignis
             GameObject ignis = gestor.ignis.gameObject;

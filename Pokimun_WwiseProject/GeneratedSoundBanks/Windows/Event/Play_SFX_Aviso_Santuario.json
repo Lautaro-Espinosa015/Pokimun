@@ -1,0 +1,48 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "172",
+  "SoundBanks": [
+   {
+    "Id": "2386140413",
+    "Type": "Event",
+    "GUID": "{E43447EB-0B47-4EA8-AFFE-ECAF218A1674}",
+    "Language": "SFX",
+    "Hash": "{6576C68D-D5D2-FEB0-DDBB-847C1092AAB7}",
+    "ObjectPath": "Play_SFX_Aviso_Santuario",
+    "ShortName": "Play_SFX_Aviso_Santuario",
+    "Path": "Event/Play_SFX_Aviso_Santuario.bnk",
+    "Media": [
+     {
+      "Id": "1986112210",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Loose",
+      "ShortName": "TP_SFX\\SFX_Aviso_Santuario.wav",
+      "Path": "Media/1986112210.wem",
+      "CachePath": "A6/{A69C2DAC-EEDC-E8AE-3790-3DC2EE107A56}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "2386140413",
+      "Name": "Play_SFX_Aviso_Santuario",
+      "ObjectPath": "\\Events\\SFX_TP\\Play_SFX_Aviso_Santuario",
+      "GUID": "{E43447EB-0B47-4EA8-AFFE-ECAF218A1674}",
+      "DurationType": "OneShot",
+      "DurationMin": "1.62",
+      "DurationMax": "1.62",
+      "MediaRefs": [
+       {
+        "Id": "1986112210"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{7E8F2564-8416-7390-1C39-9687E27EA5CC}"
+ }
+}

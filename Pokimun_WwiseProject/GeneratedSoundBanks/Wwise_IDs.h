@@ -23,6 +23,8 @@ namespace AK
         static const AkUniqueID PLAY_SFX_AMB_PAJARITOS = 1653395690U;
         static const AkUniqueID PLAY_SFX_AMB_PORTAL = 3662618071U;
         static const AkUniqueID PLAY_SFX_ARBUSTO = 360461692U;
+        static const AkUniqueID PLAY_SFX_AVISO_BUSQUEDA = 3426239401U;
+        static const AkUniqueID PLAY_SFX_AVISO_SANTUARIO = 2386140413U;
         static const AkUniqueID PLAY_SFX_CAJA_MADERA = 3166420804U;
         static const AkUniqueID PLAY_SFX_COFRE_CERRANDO = 353404058U;
         static const AkUniqueID PLAY_SFX_CRUZAR_PORTAL = 1855160254U;
@@ -43,6 +45,7 @@ namespace AK
         static const AkUniqueID PLAY_SFX_PASO_TIERRA = 1222254363U;
         static const AkUniqueID PLAY_SFX_PASO_TIERRA_LOBBY = 1957232046U;
         static const AkUniqueID PLAY_SFX_PUERTA_COBERTIZO = 1074601027U;
+        static const AkUniqueID PLAY_SFX_TONADA_CRONOMETRO = 2623033960U;
         static const AkUniqueID PLAY_SFX_TRANSICION_ESCENA = 2096821206U;
         static const AkUniqueID PLAY_SFX_VICTORIA = 912481021U;
         static const AkUniqueID PLAY_VO_BIENVENIDA_LOBBY = 2880806792U;
@@ -88,6 +91,7 @@ namespace AK
     namespace BUSSES
     {
         static const AkUniqueID AMBIENTE = 4095160060U;
+        static const AkUniqueID AVISOS_CRONOMETRO = 1775036707U;
         static const AkUniqueID MAIN_AUDIO_BUS = 2246998526U;
         static const AkUniqueID MUSICA = 1730564739U;
         static const AkUniqueID SFX = 393239870U;
